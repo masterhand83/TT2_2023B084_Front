@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import Root from './routes/root.tsx'
 import ErrorPage from './error-page.tsx'
-import Productos from './routes/productos.tsx'
+import { Inventario } from './routes/inventario.tsx'
 
 
 const router = createBrowserRouter([
@@ -14,8 +14,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage/>,
     children:[
       {
-        path: "/productos",
-        element: <Productos/>,
+        path: "/inventario",
+        element: <Inventario/>,
       }
     ]
   },
