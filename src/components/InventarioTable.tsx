@@ -1,8 +1,5 @@
 import {
   ConfigProvider,
-  Form,
-  Input,
-  Modal,
   Table,
   TableColumnType,
   TablePaginationConfig,
@@ -44,7 +41,6 @@ const tableProps: TableProps<Producto> = {
   size: 'middle',
 };
 
-const addProduct = () => {};
 
 export function InventarioTable() {
   const [tableData, setTabledata] = useState(dataSource);

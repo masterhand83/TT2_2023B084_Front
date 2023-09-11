@@ -1,4 +1,4 @@
-import { Form, Input, InputNumber, Modal, Select, Space } from 'antd';
+import { Form, Input, InputNumber, Modal, Select } from 'antd';
 import { Marca, Producto } from '../../types';
 import { useState } from 'react';
 
