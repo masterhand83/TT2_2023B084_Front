@@ -5,6 +5,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import Root from './routes/root.tsx'
 import ErrorPage from './error-page.tsx'
 import { Inventario } from './routes/inventario.tsx'
+import { Vender } from './routes/vender.tsx'
 
 
 const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: "/inventario",
         element: <Inventario/>,
+      },
+      {
+        path: "/vender",
+        element: <Vender />
       }
     ]
   },

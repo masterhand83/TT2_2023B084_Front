@@ -8,7 +8,7 @@ export default {
     extend: {
       colors: {
         "blue": "#07b8ff",
-        "blue-focus": "#66afcc",
+        "gray": "#eeeeee",
         "danger": "#ff0000",
         "warning": "#ffd400",
         "success": "#14e81b",
