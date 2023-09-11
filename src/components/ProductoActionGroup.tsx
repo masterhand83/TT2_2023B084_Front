@@ -1,47 +1,53 @@
 import { Producto } from '../types';
 import { AgregarIcono, EditarIcono, MinusIcono, BasuraIcono } from './Iconos';
+type ActionButtonProps = {
+  onAction: (_action: "delete"|"add"|"remove"|"edit") => void;
+}
+type AgregarMermaButtonProps = ActionButtonProps & {
+  stock: number;
+}
+type ProductoActionGroupProps = {
+  producto: Producto;
+  onAction: (_action: "delete"|"add"|"remove"|"edit") => void;
+};
 
-const AgregarStockButton = () => {
+const AgregarStockButton = ({onAction}:ActionButtonProps) => {
   return (
-    <button className="bg-success text-white rounded p-1 ">
+    <button onClick={() => onAction("add")} className="bg-success text-white rounded p-1 ">
       <AgregarIcono />
     </button>
   );
 };
-
-const EditarProductoButton = () => {
+const EditarProductoButton = ({onAction}: ActionButtonProps) => {
   return (
-    <button className="bg-warning text-white rounded p-1">
+    <button onClick={() => onAction("edit")} className="bg-warning text-white rounded p-1">
       <EditarIcono />
     </button>
   );
 };
-
-const AgregarMermaButton = (props: { stock: number }) => {
-  if (props.stock > 0) {
+const AgregarMermaButton = ({stock,onAction}:AgregarMermaButtonProps) => {
+  if (stock > 0) {
     return (
-      <button className="bg-danger text-white rounded p-1">
+      <button onClick={() => onAction("remove")} className="bg-danger text-white rounded p-1">
         <MinusIcono />
       </button>
     );
   }
   return (
-    <button className="bg-danger text-white rounded p-1">
+    <button onClick={() => onAction("delete")} className="bg-danger text-white rounded p-1">
       <BasuraIcono />
     </button>
   );
 };
-
-export default function ProductoActionGroup(
-  _value: undefined,
-  { stock }: Producto,
-  _index: number
-) {
+export default function ProductoActionGroup({
+  producto,
+  onAction
+}: ProductoActionGroupProps) {
   return (
     <div className="flex space-x-4">
-      <AgregarStockButton />
-      <EditarProductoButton />
-      <AgregarMermaButton stock={stock}/>
+      <AgregarStockButton onAction={onAction} />
+      <EditarProductoButton onAction={onAction}/>
+      <AgregarMermaButton onAction={onAction} stock={producto.stock} />
     </div>
   );
 }
