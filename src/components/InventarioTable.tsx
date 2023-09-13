@@ -1,11 +1,4 @@
 import {
-  ConfigProvider,
-  // Table,
-  TableColumnType,
-  TablePaginationConfig,
-  TableProps,
-} from 'antd';
-import {
   Paper,
   Table,
   TableBody,
@@ -27,14 +20,8 @@ import EditProductoModal from './InventarioTable/EditProductoModal';
 import AddMermaModal from './InventarioTable/AddMermaModal';
 import DeleteProductoModal from './InventarioTable/DeleteProductoModal';
 import productosData from '../test_data/productos.json';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 const dataSource: readonly Producto[] = productosData;
-const paginationConfig: TablePaginationConfig = {
-  defaultPageSize: 6,
-};
-const tableProps: TableProps<Producto> = {
-  bordered: true,
-  size: 'middle',
-};
 
 export function InventarioTable() {
   const [tableData, setTabledata] = useState(dataSource);
@@ -67,6 +54,21 @@ export function InventarioTable() {
   ) => {
     setPage(newPage);
   };
+  const openModal = (action: string, producto: Producto) => {
+    setSelectedProducto(producto);
+    if (action === 'add') {
+      setAddStockOpen(true);
+    }
+    if (action === 'edit') {
+      setEditProductoOpen(true);
+    }
+    if (action === 'remove') {
+      setAddMermaOpen(true);
+    }
+    if (action === 'delete') {
+      setDeleteProductoOpen(true);
+    }
+  };
   return (
     <div className="w-[75%] space-y-2">
       <div className="flex space-x-2 items-center">
@@ -77,8 +79,8 @@ export function InventarioTable() {
         />
         <button
           onClick={() => setAddProductoModalOpen(true)}
-          className="bg-success text-white p-2 rounded">
-          <CrearIcono />
+          className="bg-success text-white py-2 px-2 rounded">
+          <AddBusinessIcon />
         </button>
       </div>
       <TableContainer component={Paper}>
@@ -107,21 +109,7 @@ export function InventarioTable() {
                     <TableCell>
                       <ProductoActionGroup
                         producto={producto}
-                        onAction={(action) => {
-                          setSelectedProducto(producto);
-                          if (action === 'add') {
-                            setAddStockOpen(true);
-                          }
-                          if (action === 'edit') {
-                            setEditProductoOpen(true);
-                          }
-                          if (action === 'remove') {
-                            setAddMermaOpen(true);
-                          }
-                          if (action === 'delete') {
-                            setDeleteProductoOpen(true);
-                          }
-                        }}
+                        onAction={(action) => openModal(action, producto)}
                       />
                     </TableCell>
                   </TableRow>

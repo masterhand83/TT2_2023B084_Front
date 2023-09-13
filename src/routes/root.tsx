@@ -5,7 +5,7 @@ const changeIfActive = (props: { isActive: boolean; isPending: boolean }) =>
 export default function Root() {
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex px-8 bg-blue h-[4rem] items-center space-x-[2rem]">
+      <div className="flex px-8 bg-blue-500 h-[4rem] items-center space-x-[2rem]">
         <div>
           <Link to={'/'}>
             <img src="/vite.svg" />
