@@ -1,0 +1,82 @@
+[
+    {
+        "codigo": "112233445566",
+        "key": "112233445566",
+        "marca": "Bimbo",
+        "nombre": "pluma negra",
+        "precio": 100.2,
+        "stock": 300
+    },
+    {
+        "codigo": "223344556677",
+        "key": "223344556677",
+        "marca": "Mazeca",
+        "nombre": "libreta grande",
+        "precio": 599.99,
+        "stock": 125
+    },
+    {
+        "codigo": "334455667788",
+        "key": "334455667788",
+        "marca": "Danone",
+        "nombre": "calculadora científica",
+        "precio": 49.99,
+        "stock": 450
+    },
+    {
+        "codigo": "445566778899",
+        "key": "445566778899",
+        "marca": "Mattel",
+        "nombre": "silla ergonómica",
+        "precio": 299.95,
+        "stock": 750
+    },
+    {
+        "codigo": "556677889900",
+        "key": "556677889900",
+        "marca": "Apple",
+        "nombre": "pizarra blanca",
+        "precio": 249.99,
+        "stock": 320
+    },
+    {
+        "codigo": "667788990011",
+        "key": "667788990011",
+        "marca": "Bimbo",
+        "nombre": "archivador de documentos",
+        "precio": 18.75,
+        "stock": 85
+    },
+    {
+        "codigo": "778899001122",
+        "key": "778899001122",
+        "marca": "Mazeca",
+        "nombre": "ratón inalámbrico",
+        "precio": 29.99,
+        "stock": 220
+    },
+    {
+        "codigo": "889900112233",
+        "key": "889900112233",
+        "marca": "Danone",
+        "nombre": "teclado mecánico",
+        "precio": 79.99,
+        "stock": 410
+    },
+    {
+        "codigo": "990011223344",
+        "key": "990011223344",
+        "marca": "Mattel",
+        "nombre": "lámpara de escritorio",
+        "precio": 39.95,
+        "stock": 180
+    },
+    {
+        "codigo": "001122334455",
+        "key": "001122334455",
+        "marca": "Apple",
+        "nombre": "carpeta de anillas",
+        "precio": 12.5,
+        "stock": 600
+    }
+]
