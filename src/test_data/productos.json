@@ -5,7 +5,7 @@
         "marca": "Bimbo",
         "nombre": "pluma negra",
         "precio": 100.2,
-        "stock": 0
+        "stock": 300
     },
     {
         "codigo": "223344556677",
@@ -13,7 +13,7 @@
         "marca": "Mazeca",
         "nombre": "libreta grande",
         "precio": 599.99,
-        "stock": 125
+        "stock": 0
     },
     {
         "codigo": "334455667788",
@@ -69,7 +69,7 @@
         "marca": "Mattel",
         "nombre": "lámpara de escritorio",
         "precio": 39.95,
-        "stock": 180
+        "stock": 0
     },
     {
         "codigo": "001122334455",
@@ -78,5 +78,165 @@
         "nombre": "carpeta de anillas",
         "precio": 12.5,
         "stock": 600
+    },
+    {
+        "codigo": "112233445577",
+        "key": "112233445577",
+        "marca": "Bimbo",
+        "nombre": "calculadora de bolsillo",
+        "precio": 9.99,
+        "stock": 120
+    },
+    {
+        "codigo": "223344556688",
+        "key": "223344556688",
+        "marca": "Mazeca",
+        "nombre": "bolígrafo azul",
+        "precio": 1.49,
+        "stock": 800
+    },
+    {
+        "codigo": "334455667799",
+        "key": "334455667799",
+        "marca": "Danone",
+        "nombre": "sacapuntas",
+        "precio": 2.99,
+        "stock": 400
+    },
+    {
+        "codigo": "445566778800",
+        "key": "445566778800",
+        "marca": "Mattel",
+        "nombre": "calculadora de escritorio",
+        "precio": 19.95,
+        "stock": 250
+    },
+    {
+        "codigo": "556677889911",
+        "key": "556677889911",
+        "marca": "Apple",
+        "nombre": "papelera de escritorio",
+        "precio": 14.99,
+        "stock": 150
+    },
+    {
+        "codigo": "667788990022",
+        "key": "667788990022",
+        "marca": "Bimbo",
+        "nombre": "carpetas de colores",
+        "precio": 5.99,
+        "stock": 600
+    },
+    {
+        "codigo": "778899001133",
+        "key": "778899001133",
+        "marca": "Mazeca",
+        "nombre": "goma de borrar",
+        "precio": 0.99,
+        "stock": 1000
+    },
+    {
+        "codigo": "889900112244",
+        "key": "889900112244",
+        "marca": "Danone",
+        "nombre": "cuaderno rayado",
+        "precio": 3.49,
+        "stock": 350
+    },
+    {
+        "codigo": "990011223355",
+        "key": "990011223355",
+        "marca": "Mattel",
+        "nombre": "lápices de colores",
+        "precio": 7.99,
+        "stock": 800
+    },
+    {
+        "codigo": "001122334466",
+        "key": "001122334466",
+        "marca": "Apple",
+        "nombre": "tijeras de oficina",
+        "precio": 4.99,
+        "stock": 200
+    },
+    {
+        "codigo": "112233445588",
+        "key": "112233445588",
+        "marca": "Bimbo",
+        "nombre": "resaltador amarillo",
+        "precio": 1.99,
+        "stock": 450
+    },
+    {
+        "codigo": "223344556699",
+        "key": "223344556699",
+        "marca": "Mazeca",
+        "nombre": "grapadora",
+        "precio": 8.49,
+        "stock": 300
+    },
+    {
+        "codigo": "334455667700",
+        "key": "334455667700",
+        "marca": "Danone",
+        "nombre": "clip metálico",
+        "precio": 0.49,
+        "stock": 1200
+    },
+    {
+        "codigo": "445566778811",
+        "key": "445566778811",
+        "marca": "Mattel",
+        "nombre": "rotulador negro",
+        "precio": 1.79,
+        "stock": 700
+    },
+    {
+        "codigo": "556677889922",
+        "key": "556677889922",
+        "marca": "Apple",
+        "nombre": "papel bond",
+        "precio": 5.29,
+        "stock": 500
+    },
+    {
+        "codigo": "667788990033",
+        "key": "667788990033",
+        "marca": "Bimbo",
+        "nombre": "carpeta de plástico",
+        "precio": 3.99,
+        "stock": 450
+    },
+    {
+        "codigo": "778899001144",
+        "key": "778899001144",
+        "marca": "Mazeca",
+        "nombre": "cinta adhesiva",
+        "precio": 1.29,
+        "stock": 800
+    },
+    {
+        "codigo": "889900112255",
+        "key": "889900112255",
+        "marca": "Danone",
+        "nombre": "regla de 30 cm",
+        "precio": 2.99,
+        "stock": 350
+    },
+    {
+        "codigo": "990011223366",
+        "key": "990011223366",
+        "marca": "Mattel",
+        "nombre": "borrador de pizarra",
+        "precio": 2.49,
+        "stock": 600
+    },
+    {
+        "codigo": "001122334477",
+        "key": "001122334477",
+        "marca": "Apple",
+        "nombre": "carpeta de anillas",
+        "precio": 7.49,
+        "stock": 250
     }
 ]

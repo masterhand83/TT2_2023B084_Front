@@ -4,8 +4,8 @@ const changeIfActive = (props: { isActive: boolean; isPending: boolean }) =>
   props.isActive ? activeRouteClasses : 'hover:text-white';
 export default function Root() {
   return (
-    <div className="flex flex-col bg-red-500 h-screen w-screen">
-      <div className="flex px-8 bg-blue-500 h-[8%] items-center space-x-[2rem]">
+    <div className="flex flex-col h-screen w-screen">
+      <div className="flex px-8 bg-blue-500 h-[8%] items-center space-x-[2rem] shadow-lg">
         <div>
           <Link to={'/'}>
             <img src="/vite.svg" />
@@ -29,7 +29,7 @@ export default function Root() {
           </NavLink>
         </div>
       </div>
-      <div className="w-full h-[92%] bg-yellow-300">
+      <div className="w-full h-[92%] ">
         <Outlet />
       </div>
     </div>

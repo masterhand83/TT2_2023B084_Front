@@ -72,6 +72,7 @@ export function VenderTable({ onProductoSelected }: VenderTableProps) {
           <TableBody>
             {tableData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .filter((producto) => producto.stock != 0)
               .map((producto: Producto) => {
                 return (
                   <TableRow

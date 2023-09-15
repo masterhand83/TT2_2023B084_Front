@@ -1,6 +1,9 @@
-import { Divider } from '@mui/material';
+import { Divider} from '@mui/material';
+import { Modal } from 'antd';
 import { Producto, VentaItem } from '../../types';
 import SelectedProductoItem from './SelectedProductoItem';
+import HacerVentaModal from './HacerVentaModal';
+import { useState } from 'react';
 type VentaListProps = {
   selectedList: VentaItem[];
   onListItemCantidadChange: (item: VentaItem, value: number) => void;
@@ -11,6 +14,7 @@ export default function VentaList({
   onListItemCantidadChange,
   onListItemDeleted,
 }: VentaListProps) {
+  const [openModal, setOpenModal] = useState(false);
   const total = selectedList
     .map((item) => item.producto.precio * item.cantidad)
     .reduce((prev, current) => {
@@ -40,7 +44,7 @@ export default function VentaList({
       />
     ));
   const VentaResumen = () => (
-    <div className="flex p-8">
+    <div className="flex p-8 hover:cursor-pointer" onClick={() => setOpenModal(true)}>
       <div className="font-bold">
         <h1 className="text-3xl">Precio</h1>
         <h1 className="text-green-300">productos: {cantidadTotal}</h1>
@@ -62,6 +66,7 @@ export default function VentaList({
       <div className="items-center mt-auto bg-green-600  text-white flex-none">
         <VentaResumen />
       </div>
+      <HacerVentaModal listaVentas={selectedList} isOpen={openModal} setIsOpen={setOpenModal} />
     </div>
   );
 }

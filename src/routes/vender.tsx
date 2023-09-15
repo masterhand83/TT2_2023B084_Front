@@ -40,11 +40,11 @@ export function Vender() {
     );
   };
   return (
-    <div className="grid grid-cols-3 grid-rows-1 bg-black items-right h-full">
+    <div className="grid grid-cols-3 grid-rows-1 items-right h-full">
       <div className="mr-9 ml-10 mt-[3rem] col-span-2">
         <VenderTable onProductoSelected={addProductoToList} />
       </div>
-      <div className="bg-slate-200">
+      <div className="bg-slate-50">
         <VentaList
           selectedList={selectedList}
           onListItemCantidadChange={changeCantidad}
