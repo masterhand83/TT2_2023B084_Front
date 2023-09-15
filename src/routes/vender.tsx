@@ -1,38 +1,56 @@
-import { ConfigProvider, Layout, theme } from 'antd';
 import { VenderTable } from '../components/VenderTable';
 import { useState } from 'react';
-import { Producto } from '../types';
-import SelectedProductoItem from '../components/Vender/SelectedProductoItem';
+import { Producto, VentaItem } from '../types';
+import VentaList from '../components/Vender/VentaList';
 
-const { Header, Sider, Footer, Content } = Layout;
 export function Vender() {
-  const [selectedList, setSelectedList] = useState([] as Producto[]);
-  const [venderMenuClosed, setVenderMenuClosed] = useState(false);
+  const [selectedList, setSelectedList] = useState([] as VentaItem[]);
+  const addProductoToList = (producto: Producto) => {
+    if (selectedList.some((item) => item.key === producto.codigo)) {
+      return;
+    }
+    const newItem: VentaItem = {
+      cantidad: 1,
+      key: producto.key,
+      producto: producto,
+    };
+    const newList: VentaItem[] = [...selectedList, newItem];
+    setSelectedList(newList);
+  };
+  const changeCantidad = (item: VentaItem, value: number) => {
+    const newItem: VentaItem = {
+      cantidad: value,
+      key: item.key,
+      producto: item.producto,
+    };
+    setSelectedList(
+      selectedList.map((listitem) => {
+        if (item.key == listitem.key) {
+          return newItem;
+        }
+        return listitem;
+      })
+    );
+  };
+  const removeItemFromList = (item: VentaItem) => {
+    setSelectedList(
+      selectedList.filter((listitem) => {
+        return listitem.key != item.key;
+      })
+    );
+  };
   return (
-    <div className="flex flex-col items-center space-y-4 ">
-      <Layout style={{ width: '100%' }}>
-        <Header style={{ backgroundColor: 'white' }}>
-          <h1 className="text-5xl">Vender</h1>
-        </Header>
-        <Layout hasSider>
-        <Content style={{ backgroundColor: 'red' }}>
-          <VenderTable
-            onProductoSelected={(producto) => {
-              console.log(producto);
-            }}
-          />
-        </Content>
-          <Sider
-            collapsible
-            collapsed={venderMenuClosed}
-            collapsedWidth={0}
-            width={500}
-            trigger={null}
-            style={{ backgroundColor: 'green',  }}>
-              <SelectedProductoItem/>
-          </Sider>
-        </Layout>
-      </Layout>
+    <div className="grid grid-cols-3 grid-rows-1 bg-black items-right h-full">
+      <div className="mr-9 ml-10 mt-[3rem] col-span-2">
+        <VenderTable onProductoSelected={addProductoToList} />
+      </div>
+      <div className="bg-slate-200">
+        <VentaList
+          selectedList={selectedList}
+          onListItemCantidadChange={changeCantidad}
+          onListItemDeleted={removeItemFromList}
+        />
+      </div>
     </div>
   );
 }

@@ -1,45 +1,31 @@
 import {
-  ConfigProvider,
+  Paper,
   Table,
-  TableColumnType,
-  TablePaginationConfig,
-  TableProps,
-} from 'antd';
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from '@mui/material';
 import Search from 'antd/es/input/Search';
 import { ChangeEvent, ChangeEventHandler, useState } from 'react';
 import { Producto } from '../types';
-const dataSource: readonly Producto[] = [
-  {
-    key: 'abc',
-    codigo: '112233445566',
-    marca: 'Bimbo',
-    nombre: 'pluma negra',
-    precio: 100.2,
-    stock: 300,
-  },
-  {
-    key: 'abcd',
-    codigo: '112233445567',
-    marca: 'Bimbo',
-    nombre: 'pluma azul',
-    precio: 100.2,
-    stock: 0,
-  },
-];
-const paginationConfig: TablePaginationConfig = {
-  defaultPageSize: 6,
-};
-const tableProps: TableProps<Producto> = {
-  bordered: true,
-  size: 'middle',
-};
+import productosData from '../test_data/productos.json';
+const dataSource: readonly Producto[] = productosData;
 type VenderTableProps = {
-  onProductoSelected: (producto:Producto) => void
-}
+  onProductoSelected: (_producto: Producto) => void;
+};
 
-
-export function VenderTable({onProductoSelected}:VenderTableProps) {
+export function VenderTable({ onProductoSelected }: VenderTableProps) {
   const [tableData, setTabledata] = useState(dataSource);
+  const [isAddProductoModalOpen, setAddProductoModalOpen] = useState(false);
+  const [isAddStockOpen, setAddStockOpen] = useState(false);
+  const [isAddMermaOpen, setAddMermaOpen] = useState(false);
+  const [isEditProductoOpen, setEditProductoOpen] = useState(false);
+  const [selectedProducto, setSelectedProducto] = useState({} as Producto);
+  const [isdeleteProductoOpen, setDeleteProductoOpen] = useState(false);
 
   const onProductoSearch: ChangeEventHandler = (
     event: ChangeEvent<HTMLInputElement>
@@ -55,63 +41,65 @@ export function VenderTable({onProductoSelected}:VenderTableProps) {
     setTabledata(dataSource.filter(includesSearchData));
   };
 
-  const columns: TableColumnType<Producto>[] = [
-    {
-      title: 'Codigo',
-      dataIndex: 'codigo',
-      key: 'codigo',
-    },
-    {
-      title: 'Producto',
-      dataIndex: 'nombre',
-      key: 'nombre',
-    },
-    {
-      title: 'Marca',
-      dataIndex: 'marca',
-      key: 'marca',
-    },
-    {
-      title: 'Stock',
-      dataIndex: 'stock',
-      key: 'stock',
-    },
-    {
-      title: 'Precio',
-      dataIndex: 'precio',
-      key: 'precio',
-    },
-  ];
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 8;
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
   return (
-    <ConfigProvider
-      theme={{
-        components: {
-          Table: {},
-          Modal: {},
-        },
-      }}>
-      <div className=" space-y-2 bg-blue">
-        <div className="flex space-x-2 items-center">
-          <Search
-            placeholder="Codigo de barras, marca o nombre del producto"
-            onChange={onProductoSearch}
-            size="large"
-          />
-        </div>
-        <Table
-          onRow={(record, index) =>{
-            return {
-              onClick: (_event) => {
-                onProductoSelected(record)
-              }
-            }
-          }}
-          {...tableProps}
-          dataSource={tableData}
-          columns={columns}
-          pagination={paginationConfig}
+    <div className="w-[100%] space-y-2">
+      <div className="flex space-x-2 items-center">
+        <Search
+          placeholder="Codigo de barras, marca o nombre del producto"
+          onChange={onProductoSearch}
+          size="large"
         />
       </div>
-    </ConfigProvider>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Código</TableCell>
+              <TableCell>Producto</TableCell>
+              <TableCell>Marca</TableCell>
+              <TableCell>Existencia</TableCell>
+              <TableCell>Precio</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableData
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((producto: Producto) => {
+                return (
+                  <TableRow
+                    className="hover:bg-blue-50"
+                    key={producto.codigo}
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => onProductoSelected(producto)}>
+                    <TableCell>{producto.codigo}</TableCell>
+                    <TableCell>{producto.nombre}</TableCell>
+                    <TableCell>{producto.marca}</TableCell>
+                    <TableCell>{producto.stock}</TableCell>
+                    <TableCell>{producto.precio}</TableCell>
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPage={rowsPerPage}
+                count={tableData.length}
+                page={page}
+                onPageChange={handleChangePage}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }
