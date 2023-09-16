@@ -4,7 +4,10 @@ import VentaList from '../components/Vender/VentaList';
 export function Vender() {
   const [selectedList, setSelectedList] = useState([] as VentaItem[]);
   const addProductoToList = (producto: Producto) => {
-    if (selectedList.some((item) => item.key === producto.codigo)) {
+    const productoALreadyExists = selectedList.some(
+      (item) => item.key === producto.codigo
+    );
+    if (productoALreadyExists) {
       return;
     }
     const newItem: VentaItem = {
@@ -12,8 +15,8 @@ export function Vender() {
       key: producto.key,
       producto: producto,
     };
-    const newList: VentaItem[] = [...selectedList, newItem];
-    setSelectedList(newList);
+    const updatedList: VentaItem[] = selectedList.concat(newItem);
+    setSelectedList(updatedList);
   };
   const changeCantidad = (item: VentaItem, value: number) => {
     const newItem: VentaItem = {

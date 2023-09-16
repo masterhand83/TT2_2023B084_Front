@@ -1,11 +1,12 @@
-import { Divider} from '@mui/material';
+import { Divider } from '@mui/material';
 import SelectedProductoItem from './SelectedProductoItem';
 import HacerVentaModal from './HacerVentaModal';
 import { useState } from 'react';
+import { pipe, map, sum } from 'ramda';
 type VentaListProps = {
   selectedList: VentaItem[];
-  onListItemCantidadChange: (item: VentaItem, value: number) => void;
-  onListItemDeleted: (item: VentaItem) => void;
+  onListItemCantidadChange: (_item: VentaItem, _value: number) => void;
+  onListItemDeleted: (_item: VentaItem) => void;
 };
 export default function VentaList({
   selectedList,
@@ -13,25 +14,23 @@ export default function VentaList({
   onListItemDeleted,
 }: VentaListProps) {
   const [openModal, setOpenModal] = useState(false);
-  const total = selectedList
-    .map((item) => item.producto.precio * item.cantidad)
-    .reduce((prev, current) => {
-      return prev + current;
-    }, 0);
-  const cantidadTotal = selectedList
-    .map((item) => item.cantidad)
-    .reduce((accum, current) => {
-      return accum + current;
-    }, 0);
-  const ListHeader = () => {
-    return (
-      <div className='px-6 py-4'>
-        <Divider />
-        <h1 className="text-2xl font-bold my-4">Nueva venta</h1>
-        <Divider />
-      </div>
-    );
-  };
+  const obtenerPrecioTotal = pipe(
+    map((item: VentaItem) => item.producto.precio * item.cantidad),
+    sum
+  );
+  const obtenerCantidadTotal = pipe(
+    map((item: VentaItem) => item.cantidad),
+    sum
+  );
+  const cantidadTotal = obtenerCantidadTotal(selectedList);
+  const precioTotal = obtenerPrecioTotal(selectedList).toFixed(2);
+  const ListHeader = () => (
+    <div className="px-6 py-4">
+      <Divider />
+      <h1 className="text-2xl font-bold my-4">Nueva venta</h1>
+      <Divider />
+    </div>
+  );
   const ListOfProducts = () =>
     selectedList.map((item, index) => (
       <SelectedProductoItem
@@ -42,13 +41,15 @@ export default function VentaList({
       />
     ));
   const VentaResumen = () => (
-    <div className="flex p-8 hover:cursor-pointer" onClick={() => setOpenModal(true)}>
+    <div
+      className="flex p-8 hover:cursor-pointer"
+      onClick={() => setOpenModal(true)}>
       <div className="font-bold">
         <h1 className="text-3xl">Precio</h1>
         <h1 className="text-green-300">productos: {cantidadTotal}</h1>
       </div>
       <div className="mx-auto">
-        <h1 className="text-5xl">$ {total.toFixed(2)}</h1>
+        <h1 className="text-5xl">$ {precioTotal}</h1>
       </div>
     </div>
   );
@@ -64,7 +65,11 @@ export default function VentaList({
       <div className="items-center mt-auto bg-green-600  text-white flex-none">
         <VentaResumen />
       </div>
-      <HacerVentaModal listaVentas={selectedList} isOpen={openModal} setIsOpen={setOpenModal} />
+      <HacerVentaModal
+        listaVentas={selectedList}
+        isOpen={openModal}
+        setIsOpen={setOpenModal}
+      />
     </div>
   );
 }
