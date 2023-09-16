@@ -1,4 +1,3 @@
-import { Producto } from '../types';
 import { Add, Edit, Remove, DeleteForever } from '@mui/icons-material';
 type ActionButtonProps = {
   onAction: (_action: 'delete' | 'add' | 'remove' | 'edit') => void;

@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import Search from 'antd/es/input/Search';
 import { ChangeEvent, ChangeEventHandler, useState } from 'react';
-import { Producto } from '../types';
 import productosData from '../test_data/productos.json';
 const dataSource: readonly Producto[] = productosData;
 type VenderTableProps = {

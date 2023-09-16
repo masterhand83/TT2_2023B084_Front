@@ -1,6 +1,4 @@
 import { Divider} from '@mui/material';
-import { Modal } from 'antd';
-import { Producto, VentaItem } from '../../types';
 import SelectedProductoItem from './SelectedProductoItem';
 import HacerVentaModal from './HacerVentaModal';
 import { useState } from 'react';

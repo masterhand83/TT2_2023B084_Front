@@ -1,5 +1,4 @@
 import { Modal, Input, Form, Select, InputNumber } from 'antd';
-import { Marca } from '../../types';
 import { useState } from 'react';
 const { Option } = Select;
 type addProductFormType = {

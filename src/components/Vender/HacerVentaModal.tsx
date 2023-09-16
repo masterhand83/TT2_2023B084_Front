@@ -1,6 +1,5 @@
 
 import { Modal } from 'antd';
-import { Producto, VentaItem } from '../../types';
 import { useState } from 'react';
 
 type HacerVentaModalProps = {

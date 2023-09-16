@@ -1,5 +1,4 @@
 import { Form, Input, InputNumber, Modal, Select } from 'antd';
-import { Marca, Producto } from '../../types';
 import { useState } from 'react';
 
 type EditProductoModalProps = {

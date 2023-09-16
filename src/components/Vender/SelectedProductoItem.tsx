@@ -1,4 +1,3 @@
-import { VentaItem } from '../../types';
 import { InputNumber } from 'antd';
 import { RemoveCircle } from '@mui/icons-material';
 const style = "flex bg-white my-3 p-3 space-x-4 items-center border rounded border-stone-200 shadow"

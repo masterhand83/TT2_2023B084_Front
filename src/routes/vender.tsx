@@ -1,8 +1,6 @@
 import { VenderTable } from '../components/VenderTable';
 import { useState } from 'react';
-import { Producto, VentaItem } from '../types';
 import VentaList from '../components/Vender/VentaList';
-
 export function Vender() {
   const [selectedList, setSelectedList] = useState([] as VentaItem[]);
   const addProductoToList = (producto: Producto) => {
@@ -39,6 +37,7 @@ export function Vender() {
       })
     );
   };
+
   return (
     <div className="grid grid-cols-3 grid-rows-1 items-right h-full">
       <div className="mr-9 ml-10 mt-[3rem] col-span-2">

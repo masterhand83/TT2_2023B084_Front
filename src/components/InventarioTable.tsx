@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import Search from 'antd/es/input/Search';
 import { ChangeEvent, ChangeEventHandler, useState } from 'react';
-import { Producto } from '../types';
 import ProductoActionGroup from './ProductoActionGroup';
 import AddProductoModal from './InventarioTable/AddProductoModal';
 import AddStockModal from './InventarioTable/AddStockModal';

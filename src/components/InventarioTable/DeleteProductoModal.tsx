@@ -1,5 +1,4 @@
 import { Modal } from 'antd';
-import { Producto } from '../../types';
 import { useState } from 'react';
 
 type DeleteProductoModalProps = {
