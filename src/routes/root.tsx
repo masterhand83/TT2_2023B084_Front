@@ -18,13 +18,13 @@ export default function Root() {
           <NavLink to={'/inventario'} className={changeIfActive}>
             Inventario
           </NavLink>
-          <NavLink to={'/'} className={changeIfActive}>
+          <NavLink to={'/ventas'} className={changeIfActive}>
             Ventas
           </NavLink>
-          <NavLink to={'/'} className={changeIfActive}>
+          <NavLink to={'/perdidas'} className={changeIfActive}>
             Perdidas
           </NavLink>
-          <NavLink to={'/'} className={changeIfActive}>
+          <NavLink to={'/pronostico'} className={changeIfActive}>
             Pronóstico
           </NavLink>
         </div>

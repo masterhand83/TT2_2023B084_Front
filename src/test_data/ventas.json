@@ -1,0 +1,604 @@
+[
+  {
+    "id": 1,
+    "fecha": "2023-01-15T10:30:00Z",
+    "items": [
+      {
+        "key": "001",
+        "cantidad": 3,
+        "producto": {
+          "key": "001",
+          "codigo": "ABC123",
+          "nombre": "Cuaderno",
+          "marca": "Staedtler",
+          "stock": 100,
+          "precio": 3.99
+        },
+        "total": 11.97
+      },
+      {
+        "key": "002",
+        "cantidad": 2,
+        "producto": {
+          "key": "002",
+          "codigo": "DEF456",
+          "nombre": "Bolígrafo",
+          "marca": "Bic",
+          "stock": 50,
+          "precio": 1.25
+        },
+        "total": 2.50
+      }
+    ],
+    "cantidad": 5,
+    "total": 14.47
+  },
+  {
+    "id": 2,
+    "fecha": "2023-02-20T14:45:00Z",
+    "items": [
+      {
+        "key": "003",
+        "cantidad": 4,
+        "producto": {
+          "key": "003",
+          "codigo": "GHI789",
+          "nombre": "Calculadora",
+          "marca": "Casio",
+          "stock": 20,
+          "precio": 12.99
+        },
+        "total": 51.96
+      },
+      {
+        "key": "004",
+        "cantidad": 3,
+        "producto": {
+          "key": "004",
+          "codigo": "JKL101",
+          "nombre": "Papel",
+          "marca": "HP",
+          "stock": 200,
+          "precio": 4.49
+        },
+        "total": 13.47
+      }
+    ],
+    "cantidad": 7,
+    "total": 65.43
+  },
+  {
+    "id": 3,
+    "fecha": "2023-03-25T11:15:00Z",
+    "items": [
+      {
+        "key": "005",
+        "cantidad": 5,
+        "producto": {
+          "key": "005",
+          "codigo": "MNO202",
+          "nombre": "Tijeras",
+          "marca": "Fiskars",
+          "stock": 30,
+          "precio": 5.99
+        },
+        "total": 29.95
+      },
+      {
+        "key": "006",
+        "cantidad": 4,
+        "producto": {
+          "key": "006",
+          "codigo": "PQR303",
+          "nombre": "Grapadora",
+          "marca": "Swingline",
+          "stock": 40,
+          "precio": 7.99
+        },
+        "total": 31.96
+      }
+    ],
+    "cantidad": 9,
+    "total": 61.91
+  },
+  {
+    "id": 4,
+    "fecha": "2023-04-10T09:00:00Z",
+    "items": [
+      {
+        "key": "007",
+        "cantidad": 3,
+        "producto": {
+          "key": "007",
+          "codigo": "STU404",
+          "nombre": "Lápiz",
+          "marca": "Faber-Castell",
+          "stock": 60,
+          "precio": 0.99
+        },
+        "total": 2.97
+      },
+      {
+        "key": "008",
+        "cantidad": 2,
+        "producto": {
+          "key": "008",
+          "codigo": "VWX505",
+          "nombre": "Libreta",
+          "marca": "Moleskine",
+          "stock": 80,
+          "precio": 9.99
+        },
+        "total": 19.98
+      }
+    ],
+    "cantidad": 5,
+    "total": 22.95
+  },
+  {
+    "id": 5,
+    "fecha": "2023-05-05T16:30:00Z",
+    "items": [
+      {
+        "key": "009",
+        "cantidad": 2,
+        "producto": {
+          "key": "009",
+          "codigo": "YZA606",
+          "nombre": "Goma de borrar",
+          "marca": "Pentel",
+          "stock": 25,
+          "precio": 1.49
+        },
+        "total": 2.98
+      },
+      {
+        "key": "010",
+        "cantidad": 3,
+        "producto": {
+          "key": "010",
+          "codigo": "BCD707",
+          "nombre": "Marcadores",
+          "marca": "Sharpie",
+          "stock": 35,
+          "precio": 2.79
+        },
+        "total": 8.37
+      }
+    ],
+    "cantidad": 5,
+    "total": 11.35
+  },
+  {
+    "id": 6,
+    "fecha": "2023-06-20T12:45:00Z",
+    "items": [
+      {
+        "key": "011",
+        "cantidad": 2,
+        "producto": {
+          "key": "011",
+          "codigo": "EFG808",
+          "nombre": "Cinta adhesiva",
+          "marca": "Scotch",
+          "stock": 15,
+          "precio": 1.99
+        },
+        "total": 3.98
+      }
+    ],
+    "cantidad": 2,
+    "total": 3.98
+  },
+  {
+    "id": 7,
+    "fecha": "2023-07-15T13:00:00Z",
+    "items": [
+      {
+        "key": "012",
+        "cantidad": 4,
+        "producto": {
+          "key": "012",
+          "codigo": "HIJ909",
+          "nombre": "Pegamento",
+          "marca": "Elmer's",
+          "stock": 10,
+          "precio": 3.49
+        },
+        "total": 13.96
+      }
+    ],
+    "cantidad": 4,
+    "total": 13.96
+  },
+  {
+    "id": 8,
+    "fecha": "2023-08-30T15:20:00Z",
+    "items": [
+      {
+        "key": "013",
+        "cantidad": 5,
+        "producto": {
+          "key": "013",
+          "codigo": "KLM1010",
+          "nombre": "Tinta",
+          "marca": "Parker",
+          "stock": 8,
+          "precio": 6.99
+        },
+        "total": 34.95
+      },
+      {
+        "key": "014",
+        "cantidad": 3,
+        "producto": {
+          "key": "014",
+          "codigo": "NOP1111",
+          "nombre": "Carpeta",
+          "marca": "Avery",
+          "stock": 25,
+          "precio": 4.75
+        },
+        "total": 14.25
+      }
+    ],
+    "cantidad": 8,
+    "total": 49.20
+  },
+  {
+    "id": 9,
+    "fecha": "2023-09-03T10:10:00Z",
+    "items": [
+      {
+        "key": "015",
+        "cantidad": 3,
+        "producto": {
+          "key": "015",
+          "codigo": "QRS1212",
+          "nombre": "Clips",
+          "marca": "Acco",
+          "stock": 15,
+          "precio": 1.29
+        },
+        "total": 3.87
+      },
+      {
+        "key": "016",
+        "cantidad": 2,
+        "producto": {
+          "key": "016",
+          "codigo": "TUV1313",
+          "nombre": "Borrador",
+          "marca": "Mistral",
+          "stock": 20,
+          "precio": 1.99
+        },
+        "total": 3.98
+      }
+    ],
+    "cantidad": 5,
+    "total": 7.85
+  },
+  {
+    "id": 10,
+    "fecha": "2023-10-19T16:50:00Z",
+    "items": [
+      {
+        "key": "017",
+        "cantidad": 5,
+        "producto": {
+          "key": "017",
+          "codigo": "UVW1414",
+          "nombre": "Pizarra",
+          "marca": "Quartet",
+          "stock": 10,
+          "precio": 14.99
+        },
+        "total": 74.95
+      },
+      {
+        "key": "018",
+        "cantidad": 3,
+        "producto": {
+          "key": "018",
+          "codigo": "XYZ1515",
+          "nombre": "Lápices de colores",
+          "marca": "Crayola",
+          "stock": 30,
+          "precio": 3.49
+        },
+        "total": 10.47
+      }
+    ],
+    "cantidad": 8,
+    "total": 85.42
+  },
+  {
+    "id": 11,
+    "fecha": "2023-11-08T14:55:00Z",
+    "items": [
+      {
+        "key": "019",
+        "cantidad": 4,
+        "producto": {
+          "key": "019",
+          "codigo": "LMN1616",
+          "nombre": "Regla",
+          "marca": "Westcott",
+          "stock": 12,
+          "precio": 2.25
+        },
+        "total": 9.00
+      }
+    ],
+    "cantidad": 4,
+    "total": 9.00
+  },
+  {
+    "id": 12,
+    "fecha": "2023-12-12T11:40:00Z",
+    "items": [
+      {
+        "key": "020",
+        "cantidad": 3,
+        "producto": {
+          "key": "020",
+          "codigo": "OPQ1717",
+          "nombre": "Cinta métrica",
+          "marca": "Stanley",
+          "stock": 8,
+          "precio": 5.49
+        },
+        "total": 16.47
+      }
+    ],
+    "cantidad": 3,
+    "total": 16.47
+  },
+  {
+    "id": 13,
+    "fecha": "2023-01-15T09:20:00Z",
+    "items": [
+      {
+        "key": "001",
+        "cantidad": 2,
+        "producto": {
+          "key": "001",
+          "codigo": "ABC123",
+          "nombre": "Cuaderno",
+          "marca": "Staedtler",
+          "stock": 100,
+          "precio": 3.99
+        },
+        "total": 7.98
+      },
+      {
+        "key": "002",
+        "cantidad": 1,
+        "producto": {
+          "key": "002",
+          "codigo": "DEF456",
+          "nombre": "Bolígrafo",
+          "marca": "Bic",
+          "stock": 50,
+          "precio": 1.25
+        },
+        "total": 1.25
+      }
+    ],
+    "cantidad": 3,
+    "total": 9.23
+  },
+  {
+    "id": 14,
+    "fecha": "2023-02-20T13:25:00Z",
+    "items": [
+      {
+        "key": "003",
+        "cantidad": 4,
+        "producto": {
+          "key": "003",
+          "codigo": "GHI789",
+          "nombre": "Calculadora",
+          "marca": "Casio",
+          "stock": 20,
+          "precio": 12.99
+        },
+        "total": 51.96
+      },
+      {
+        "key": "004",
+        "cantidad": 3,
+        "producto": {
+          "key": "004",
+          "codigo": "JKL101",
+          "nombre": "Papel",
+          "marca": "HP",
+          "stock": 200,
+          "precio": 4.49
+        },
+        "total": 13.47
+      }
+    ],
+    "cantidad": 7,
+    "total": 65.43
+  },
+  {
+    "id": 15,
+    "fecha": "2023-03-25T10:50:00Z",
+    "items": [
+      {
+        "key": "005",
+        "cantidad": 5,
+        "producto": {
+          "key": "005",
+          "codigo": "MNO202",
+          "nombre": "Tijeras",
+          "marca": "Fiskars",
+          "stock": 30,
+          "precio": 5.99
+        },
+        "total": 29.95
+      },
+      {
+        "key": "006",
+        "cantidad": 4,
+        "producto": {
+          "key": "006",
+          "codigo": "PQR303",
+          "nombre": "Grapadora",
+          "marca": "Swingline",
+          "stock": 40,
+          "precio": 7.99
+        },
+        "total": 31.96
+      }
+    ],
+    "cantidad": 9,
+    "total": 61.91
+  },
+  {
+    "id": 16,
+    "fecha": "2023-04-10T16:15:00Z",
+    "items": [
+      {
+        "key": "007",
+        "cantidad": 3,
+        "producto": {
+          "key": "007",
+          "codigo": "STU404",
+          "nombre": "Lápiz",
+          "marca": "Faber-Castell",
+          "stock": 60,
+          "precio": 0.99
+        },
+        "total": 2.97
+      },
+      {
+        "key": "008",
+        "cantidad": 2,
+        "producto": {
+          "key": "008",
+          "codigo": "VWX505",
+          "nombre": "Libreta",
+          "marca": "Moleskine",
+          "stock": 80,
+          "precio": 9.99
+        },
+        "total": 19.98
+      }
+    ],
+    "cantidad": 5,
+    "total": 22.95
+  },
+  {
+    "id": 17,
+    "fecha": "2023-05-05T14:40:00Z",
+    "items": [
+      {
+        "key": "009",
+        "cantidad": 2,
+        "producto": {
+          "key": "009",
+          "codigo": "YZA606",
+          "nombre": "Goma de borrar",
+          "marca": "Pentel",
+          "stock": 25,
+          "precio": 1.49
+        },
+        "total": 2.98
+      },
+      {
+        "key": "010",
+        "cantidad": 3,
+        "producto": {
+          "key": "010",
+          "codigo": "BCD707",
+          "nombre": "Marcadores",
+          "marca": "Sharpie",
+          "stock": 35,
+          "precio": 2.79
+        },
+        "total": 8.37
+      }
+    ],
+    "cantidad": 5,
+    "total": 11.35
+  },
+  {
+    "id": 18,
+    "fecha": "2023-06-20T15:55:00Z",
+    "items": [
+      {
+        "key": "011",
+        "cantidad": 2,
+        "producto": {
+          "key": "011",
+          "codigo": "EFG808",
+          "nombre": "Cinta adhesiva",
+          "marca": "Scotch",
+          "stock": 15,
+          "precio": 1.99
+        },
+        "total": 3.98
+      }
+    ],
+    "cantidad": 2,
+    "total": 3.98
+  },
+  {
+    "id": 19,
+    "fecha": "2023-07-15T12:10:00Z",
+    "items": [
+      {
+        "key": "012",
+        "cantidad": 4,
+        "producto": {
+          "key": "012",
+          "codigo": "HIJ909",
+          "nombre": "Pegamento",
+          "marca": "Elmer's",
+          "stock": 10,
+          "precio": 3.49
+        },
+        "total": 13.96
+      }
+    ],
+    "cantidad": 4,
+    "total": 13.96
+  },
+  {
+    "id": 20,
+    "fecha": "2023-08-30T11:30:00Z",
+    "items": [
+      {
+        "key": "013",
+        "cantidad": 5,
+        "producto": {
+          "key": "013",
+          "codigo": "KLM1010",
+          "nombre": "Tinta",
+          "marca": "Parker",
+          "stock": 8,
+          "precio": 6.99
+        },
+        "total": 34.95
+      },
+      {
+        "key": "014",
+        "cantidad": 3,
+        "producto": {
+          "key": "014",
+          "codigo": "NOP1111",
+          "nombre": "Carpeta",
+          "marca": "Avery",
+          "stock": 25,
+          "precio": 4.75
+        },
+        "total": 14.25
+      }
+    ],
+    "cantidad": 8,
+    "total": 49.20
+  }
+]

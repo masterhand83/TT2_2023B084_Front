@@ -6,6 +6,7 @@ import Root from './routes/root.tsx'
 import ErrorPage from './error-page.tsx'
 import { Inventario } from './routes/inventario.tsx'
 import { Vender } from './routes/vender.tsx'
+import { Ventas } from './routes/ventas.tsx'
 
 
 const router = createBrowserRouter([
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/vender",
         element: <Vender />
+      },
+      {
+        path: "/ventas",
+        element: <Ventas />
       }
     ]
   },

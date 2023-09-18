@@ -12,6 +12,13 @@ declare type VentaItem = {
   cantidad: number;
   producto: Producto;
 }
+declare type Venta = {
+  id: number;
+  fecha: string;
+  items: VentaItem[];
+  cantidad: number;
+  total: number;
+}
 declare type  Marca = {
   id: number;
   marca: string
