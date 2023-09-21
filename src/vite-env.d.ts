@@ -19,6 +19,13 @@ declare type Venta = {
   cantidad: number;
   total: number;
 }
+declare type Perdida = {
+  id: number;
+  fecha: string;
+  producto: Producto;
+  cantidad: number;
+  total: number;
+}
 declare type  Marca = {
   id: number;
   marca: string

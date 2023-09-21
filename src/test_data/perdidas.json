@@ -1,0 +1,282 @@
+[
+  {
+    "id": 1,
+    "fecha": "2023-01-15T10:30:00.000Z",
+    "producto": {
+      "key": "key1",
+      "codigo": "BIC1234",
+      "nombre": "BIC Ballpoint Pen",
+      "marca": "BIC",
+      "stock": 245,
+      "precio": 1.25
+    },
+    "cantidad": 10,
+    "total": 12.50
+  },
+  {
+    "id": 2,
+    "fecha": "2023-02-18T14:15:00.000Z",
+    "producto": {
+      "key": "key2",
+      "codigo": "STAED456",
+      "nombre": "Staedtler Pencil",
+      "marca": "Staedtler",
+      "stock": 120,
+      "precio": 0.99
+    },
+    "cantidad": 20,
+    "total": 19.80
+  },
+  {
+    "id": 3,
+    "fecha": "2023-03-22T09:45:00.000Z",
+    "producto": {
+      "key": "key3",
+      "codigo": "HP7890",
+      "nombre": "HP Printer Paper",
+      "marca": "HP",
+      "stock": 500,
+      "precio": 5.99
+    },
+    "cantidad": 5,
+    "total": 29.95
+  },
+  {
+    "id": 4,
+    "fecha": "2023-04-30T16:00:00.000Z",
+    "producto": {
+      "key": "key4",
+      "codigo": "POSTIT789",
+      "nombre": "Post-it Notes",
+      "marca": "3M",
+      "stock": 300,
+      "precio": 2.49
+    },
+    "cantidad": 15,
+    "total": 37.35
+  },
+  {
+    "id": 5,
+    "fecha": "2023-05-05T11:20:00.000Z",
+    "producto": {
+      "key": "key5",
+      "codigo": "SHARP567",
+      "nombre": "Sharpie Permanent Marker",
+      "marca": "Sharpie",
+      "stock": 150,
+      "precio": 1.99
+    },
+    "cantidad": 8,
+    "total": 15.92
+  },
+  {
+    "id": 6,
+    "fecha": "2023-06-10T13:45:00.000Z",
+    "producto": {
+      "key": "key6",
+      "codigo": "PAPERCLIP123",
+      "nombre": "Paper Clips",
+      "marca": "Generic",
+      "stock": 750,
+      "precio": 0.25
+    },
+    "cantidad": 50,
+    "total": 12.50
+  },
+  {
+    "id": 7,
+    "fecha": "2023-07-14T08:10:00.000Z",
+    "producto": {
+      "key": "key7",
+      "codigo": "LEXMARK456",
+      "nombre": "Lexmark Printer Toner",
+      "marca": "Lexmark",
+      "stock": 50,
+      "precio": 49.99
+    },
+    "cantidad": 2,
+    "total": 99.98
+  },
+  {
+    "id": 8,
+    "fecha": "2023-08-20T15:55:00.000Z",
+    "producto": {
+      "key": "key8",
+      "codigo": "SCOTCH789",
+      "nombre": "Scotch Tape",
+      "marca": "3M",
+      "stock": 200,
+      "precio": 1.79
+    },
+    "cantidad": 10,
+    "total": 17.90
+  },
+  {
+    "id": 9,
+    "fecha": "2023-09-25T11:30:00.000Z",
+    "producto": {
+      "key": "key9",
+      "codigo": "ACME123",
+      "nombre": "ACME Whiteboard Eraser",
+      "marca": "ACME",
+      "stock": 30,
+      "precio": 4.99
+    },
+    "cantidad": 3,
+    "total": 14.97
+  },
+  {
+    "id": 10,
+    "fecha": "2023-10-03T09:00:00.000Z",
+    "producto": {
+      "key": "key10",
+      "codigo": "DELL456",
+      "nombre": "Dell Computer Mouse",
+      "marca": "Dell",
+      "stock": 100,
+      "precio": 12.99
+    },
+    "cantidad": 6,
+    "total": 77.94
+  },
+  {
+    "id": 11,
+    "fecha": "2023-11-10T14:40:00.000Z",
+    "producto": {
+      "key": "key11",
+      "codigo": "AVERY789",
+      "nombre": "Avery Shipping Labels",
+      "marca": "Avery",
+      "stock": 40,
+      "precio": 5.49
+    },
+    "cantidad": 4,
+    "total": 21.96
+  },
+  {
+    "id": 12,
+    "fecha": "2023-12-15T12:20:00.000Z",
+    "producto": {
+      "key": "key12",
+      "codigo": "PENTEL123",
+      "nombre": "Pentel Gel Pen",
+      "marca": "Pentel",
+      "stock": 90,
+      "precio": 2.79
+    },
+    "cantidad": 12,
+    "total": 33.48
+  },
+  {
+    "id": 13,
+    "fecha": "2023-02-08T08:05:00.000Z",
+    "producto": {
+      "key": "key13",
+      "codigo": "XEROX456",
+      "nombre": "Xerox Copy Paper",
+      "marca": "Xerox",
+      "stock": 400,
+      "precio": 3.99
+    },
+    "cantidad": 5,
+    "total": 19.95
+  },
+  {
+    "id": 14,
+    "fecha": "2023-03-18T16:30:00.000Z",
+    "producto": {
+      "key": "key14",
+      "codigo": "FELLOWES789",
+      "nombre": "Fellowes Shredder",
+      "marca": "Fellowes",
+      "stock": 20,
+      "precio": 149.99
+    },
+    "cantidad": 1,
+    "total": 149.99
+  },
+  {
+    "id": 15,
+    "fecha": "2023-04-23T13:55:00.000Z",
+    "producto": {
+      "key": "key15",
+      "codigo": "EPSON123",
+      "nombre": "Epson Ink Cartridge",
+      "marca": "Epson",
+      "stock": 60,
+      "precio": 29.99
+    },
+    "cantidad": 3,
+    "total": 89.97
+  },
+  {
+    "id": 16,
+    "fecha": "2023-05-28T10:10:00.000Z",
+    "producto": {
+      "key": "key16",
+      "codigo": "LOGITECH456",
+      "nombre": "Logitech Keyboard",
+      "marca": "Logitech",
+      "stock": 30,
+      "precio": 49.99
+    },
+    "cantidad": 2,
+    "total": 99.98
+  },
+  {
+    "id": 17,
+    "fecha": "2023-06-03T14:50:00.000Z",
+    "producto": {
+      "key": "key17",
+      "codigo": "CANON789",
+      "nombre": "Canon Printer Ink",
+      "marca": "Canon",
+      "stock": 80,
+      "precio": 19.99
+    },
+    "cantidad": 4,
+    "total": 79.96
+  },
+  {
+    "id": 18,
+    "fecha": "2023-07-09T12:25:00.000Z",
+    "producto": {
+      "key": "key18",
+      "codigo": "PHILIPS123",
+      "nombre": "Philips Monitor",
+      "marca": "Philips",
+      "stock": 10,
+      "precio": 199.99
+    },
+    "cantidad": 1,
+    "total": 199.99
+  },
+  {
+    "id": 19,
+    "fecha": "2023-08-15T09:15:00.000Z",
+    "producto": {
+      "key": "key19",
+      "codigo": "SAMSUNG456",
+      "nombre": "Samsung Laptop",
+      "marca": "Samsung",
+      "stock": 15,
+      "precio": 799.99
+    },
+    "cantidad": 1,
+    "total": 799.99
+  },
+  {
+    "id": 20,
+    "fecha": "2023-09-20T08:00:00.000Z",
+    "producto": {
+      "key": "key20",
+      "codigo": "LG789",
+      "nombre": "LG Monitor",
+      "marca": "LG",
+      "stock": 5,
+      "precio": 299.99
+    },
+    "cantidad": 1,
+    "total": 299.99
+  }
+]

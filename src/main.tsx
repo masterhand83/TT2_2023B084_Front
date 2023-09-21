@@ -7,6 +7,7 @@ import ErrorPage from './error-page.tsx'
 import { Inventario } from './routes/inventario.tsx'
 import { Vender } from './routes/vender.tsx'
 import { Ventas } from './routes/ventas.tsx'
+import { Perdidas } from './routes/perdidas.tsx'
 
 
 const router = createBrowserRouter([
@@ -26,6 +27,9 @@ const router = createBrowserRouter([
       {
         path: "/ventas",
         element: <Ventas />
+      },{
+        path: "/perdidas",
+        element: <Perdidas />
       }
     ]
   },
