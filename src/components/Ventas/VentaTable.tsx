@@ -118,7 +118,9 @@ export function VentaTable({ onVentaSelected }: VentaTableProps) {
                   <TableRow
                     className="hover:bg-blue-50"
                     key={venta.id}
-                    sx={{ cursor: 'pointer' }}>
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => onVentaSelected?.(venta)}
+                    >
                     <TableCell>{getFormatedFecha(venta.fecha)}</TableCell>
                     <TableCell>{getFechaHours(venta.fecha)}</TableCell>
                     <TableCell>{venta.cantidad}</TableCell>

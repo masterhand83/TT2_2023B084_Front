@@ -28,10 +28,114 @@
           "precio": 1.25
         },
         "total": 2.50
+      },
+      {
+        "key": "003",
+        "cantidad": 4,
+        "producto": {
+          "key": "003",
+          "codigo": "GHI789",
+          "nombre": "Calculadora",
+          "marca": "Casio",
+          "stock": 20,
+          "precio": 12.99
+        },
+        "total": 51.96
+      },
+      {
+        "key": "004",
+        "cantidad": 3,
+        "producto": {
+          "key": "004",
+          "codigo": "JKL101",
+          "nombre": "Papel",
+          "marca": "HP",
+          "stock": 200,
+          "precio": 4.49
+        },
+        "total": 13.47
+      },
+      {
+        "key": "005",
+        "cantidad": 5,
+        "producto": {
+          "key": "005",
+          "codigo": "MNO202",
+          "nombre": "Tijeras",
+          "marca": "Fiskars",
+          "stock": 30,
+          "precio": 5.99
+        },
+        "total": 29.95
+      },
+      {
+        "key": "006",
+        "cantidad": 2,
+        "producto": {
+          "key": "006",
+          "codigo": "PQR303",
+          "nombre": "Grapadora",
+          "marca": "Swingline",
+          "stock": 40,
+          "precio": 7.99
+        },
+        "total": 15.98
+      },
+      {
+        "key": "007",
+        "cantidad": 3,
+        "producto": {
+          "key": "007",
+          "codigo": "STU404",
+          "nombre": "Lápiz",
+          "marca": "Faber-Castell",
+          "stock": 60,
+          "precio": 0.99
+        },
+        "total": 2.97
+      },
+      {
+        "key": "008",
+        "cantidad": 2,
+        "producto": {
+          "key": "008",
+          "codigo": "VWX505",
+          "nombre": "Libreta",
+          "marca": "Moleskine",
+          "stock": 80,
+          "precio": 9.99
+        },
+        "total": 19.98
+      },
+      {
+        "key": "009",
+        "cantidad": 2,
+        "producto": {
+          "key": "009",
+          "codigo": "YZA606",
+          "nombre": "Goma de borrar",
+          "marca": "Pentel",
+          "stock": 25,
+          "precio": 1.49
+        },
+        "total": 2.98
+      },
+      {
+        "key": "010",
+        "cantidad": 4,
+        "producto": {
+          "key": "010",
+          "codigo": "BCD707",
+          "nombre": "Marcadores",
+          "marca": "Sharpie",
+          "stock": 35,
+          "precio": 2.79
+        },
+        "total": 11.16
       }
     ],
-    "cantidad": 5,
-    "total": 14.47
+    "cantidad": 28,
+    "total": 178.26
   },
   {
     "id": 2,
