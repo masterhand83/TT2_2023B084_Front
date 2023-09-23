@@ -8,6 +8,7 @@ import { Inventario } from './routes/inventario.tsx'
 import { Vender } from './routes/vender.tsx'
 import { Ventas } from './routes/ventas.tsx'
 import { Perdidas } from './routes/perdidas.tsx'
+import { Pronostico } from './routes/pronostico.tsx'
 
 
 const router = createBrowserRouter([
@@ -30,6 +31,9 @@ const router = createBrowserRouter([
       },{
         path: "/perdidas",
         element: <Perdidas />
+      },{
+        path: "/pronostico",
+        element: <Pronostico />
       }
     ]
   },
