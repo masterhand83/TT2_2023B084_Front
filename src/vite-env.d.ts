@@ -30,3 +30,9 @@ declare type  Marca = {
   id: number;
   marca: string
 }
+declare type PronosticoVentas =
+  {
+    periodoInicio: string;
+    periodoFin: string;
+    ventas: number;
+  }[]

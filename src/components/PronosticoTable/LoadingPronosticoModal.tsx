@@ -74,10 +74,13 @@ export default function LoadingPronosticoModal({
           setTimeout(() => {
             setLoadingStage(-1)
             setIsOpen(false);
-            navigate('/pagina-pronostico');
+            navigate('/pagina-pronostico', {
+              state: { currentProducto },
+            });
           }, 6000);
         }
       }}
+      footer={null}
       onCancel={handleCancel}>
       <div className="h-[25rem]">
         <motion.div className="flex flex-col items-left h-full pt-[6rem] pl-[6rem] space-y-4">
