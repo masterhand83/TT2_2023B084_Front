@@ -11,7 +11,7 @@ const VerHistorialButton = ({ onAction }: ActionButtonProps) => {
   return (
     <button
       onClick={() => onAction('history')}
-      className="bg-cyan-500 text-white rounded p-1 ">
+      className="bg-indigo-700 text-white rounded p-1 ">
       <History />
     </button>
   );
@@ -20,7 +20,7 @@ const VerPronosticoButton = ({ onAction }: ActionButtonProps) => {
   return (
     <button
       onClick={() => onAction('forecast')}
-      className="bg-blue-800 text-white rounded p-1 ">
+      className="bg-fuchsia-700 text-white rounded p-1 ">
       <AutoGraph />
     </button>
   );

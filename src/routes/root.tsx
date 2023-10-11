@@ -1,10 +1,15 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import{createTheme, ThemeProvider} from '@mui/material/styles';
+import { esES } from '@mui/material/locale'
+
+const theme = createTheme({
+}, esES);
 const activeRouteClasses = 'text-white';
 const changeIfActive = (props: { isActive: boolean; isPending: boolean }) =>
   props.isActive ? activeRouteClasses : 'hover:text-white';
 export default function Root() {
   return (
-    <div className="flex flex-col h-screen w-screen">
+    <div className="flex flex-col h-screen w-screen bg-slate-50">
       <div className="flex px-8 bg-blue-500 h-[8%] items-center space-x-[2rem] shadow-lg">
         <div>
           <Link to={'/'}>
@@ -30,7 +35,9 @@ export default function Root() {
         </div>
       </div>
       <div className="w-full h-[92%] ">
+        <ThemeProvider theme={theme}>
         <Outlet />
+        </ThemeProvider>
       </div>
     </div>
   );

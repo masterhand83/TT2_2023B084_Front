@@ -68,7 +68,7 @@ export function InventarioTable() {
     }
   };
   return (
-    <div className="w-[75%] space-y-2">
+    <div className="w-[75%] space-y-5">
       <div className="flex space-x-2 items-center">
         <Search
           placeholder="Codigo de barras, marca o nombre del producto"
@@ -77,7 +77,7 @@ export function InventarioTable() {
         />
         <button
           onClick={() => setAddProductoModalOpen(true)}
-          className="bg-success text-white py-2 px-2 rounded">
+          className="bg-green-500 text-white py-2 px-2 rounded">
           <AddBusinessIcon />
         </button>
       </div>

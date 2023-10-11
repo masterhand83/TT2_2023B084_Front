@@ -19,12 +19,6 @@ type VenderTableProps = {
 
 export function VenderTable({ onProductoSelected }: VenderTableProps) {
   const [tableData, setTabledata] = useState(dataSource);
-  const [isAddProductoModalOpen, setAddProductoModalOpen] = useState(false);
-  const [isAddStockOpen, setAddStockOpen] = useState(false);
-  const [isAddMermaOpen, setAddMermaOpen] = useState(false);
-  const [isEditProductoOpen, setEditProductoOpen] = useState(false);
-  const [selectedProducto, setSelectedProducto] = useState({} as Producto);
-  const [isdeleteProductoOpen, setDeleteProductoOpen] = useState(false);
 
   const onProductoSearch: ChangeEventHandler = (
     event: ChangeEvent<HTMLInputElement>
@@ -49,9 +43,10 @@ export function VenderTable({ onProductoSelected }: VenderTableProps) {
     setPage(newPage);
   };
   return (
-    <div className="w-[100%] space-y-2">
-      <div className="flex space-x-2 items-center">
+    <div className="w-[100%] space-y-5">
+      <div className="flex  items-center">
         <Search
+          className="border border-slate-400 border rounded-lg"
           placeholder="Codigo de barras, marca o nombre del producto"
           onChange={onProductoSearch}
           size="large"
@@ -61,11 +56,21 @@ export function VenderTable({ onProductoSelected }: VenderTableProps) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Código</TableCell>
-              <TableCell>Producto</TableCell>
-              <TableCell>Marca</TableCell>
-              <TableCell>Existencia</TableCell>
-              <TableCell>Precio</TableCell>
+              <TableCell>
+                <span className="font-bold">Código</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Producto</span>to
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Marca</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Existencia</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Precio</span>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
