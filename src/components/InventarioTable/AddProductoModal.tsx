@@ -1,5 +1,7 @@
 import { Modal, Input, Form, Select, InputNumber } from 'antd';
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { getAllMarcas } from '../../services';
 const { Option } = Select;
 type addProductFormType = {
   codigo: string;
@@ -11,46 +13,53 @@ type addProductFormType = {
 type AddProductoModalProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  reloader?: () => void;
 };
 
-const listaMarcas: Marca[] = [
-  {
-    id: 1,
-    marca: 'Bimbo',
-  },
-  {
-    id: 2,
-    marca: 'Nestle',
-  },
-  {
-    id: 3,
-    marca: 'Kellogs',
-  },
-  {
-    id: 4,
-    marca: 'UNSC',
-  },
-];
+// const listaMarcas: Marca[] = [
+//   {
+//     id: 1,
+//     marca: 'Bimbo',
+//   },
+//   {
+//     id: 2,
+//     marca: 'Nestle',
+//   },
+//   {
+//     id: 3,
+//     marca: 'Kellogs',
+//   },
+//   {
+//     id: 4,
+//     marca: 'UNSC',
+//   },
+// ];
 export default function AddProductoModal({
   isOpen,
   setIsOpen,
 }: AddProductoModalProps) {
+  const [listaMarcas, setListaMarcas] = useState<Marca[]>([]);
   const [confirmloading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
   const addProduct = (values: addProductFormType) => {
-    console.log(values);
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setIsOpen(false);
-      setConfirmLoading(false);
-      form.resetFields();
-      setIsOpen(false);
-    }, 2000);
+    // console.log(values);
+    // setConfirmLoading(true);
+    // setTimeout(() => {
+    //   setIsOpen(false);
+    //   setConfirmLoading(false);
+    //   form.resetFields();
+    //   setIsOpen(false);
+    // }, 2000);
   };
   const handleCancel = () => {
     form.resetFields();
     setIsOpen(false);
   };
+  useEffect(() => {
+    getAllMarcas().then((response) => {
+      setListaMarcas(response);
+    })
+  }, [isOpen]);
   return (
     <Modal
       confirmLoading={confirmloading}
@@ -59,7 +68,7 @@ export default function AddProductoModal({
       onOk={form.submit}
       okType="default"
       cancelText="Cancelar"
-      okText='Subir'
+      okText="Subir"
       onCancel={handleCancel}>
       <Form form={form} onFinish={addProduct}>
         <Form.Item<addProductFormType>

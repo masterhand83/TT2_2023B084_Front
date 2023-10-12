@@ -16,6 +16,7 @@
     "@mui/material": "^5.14.8",
     "@nivo/line": "^0.83.0",
     "antd": "^5.9.0",
+    "axios": "^1.5.1",
     "framer-motion": "^10.16.4",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",

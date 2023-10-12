@@ -4,8 +4,9 @@ declare type Producto = {
   codigo: string;
   nombre: string;
   marca: string;
-  stock: number;
-  precio: number;
+  existencias: number;
+  precio_unitario: number;
+  activo?: boolean = true;
 };
 declare type VentaItem = {
   key: string;

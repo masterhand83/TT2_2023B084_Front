@@ -11,8 +11,9 @@ import {
 } from '@mui/material';
 import datosVentas from '../../test_data/ventas.json';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DatePicker } from 'antd';
+import axios from 'axios';
 
 type VentaTableProps = {
   onVentaSelected?: (_venta: Venta) => void;
