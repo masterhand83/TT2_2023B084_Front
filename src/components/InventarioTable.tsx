@@ -17,9 +17,9 @@ import AddStockModal from './InventarioTable/AddStockModal';
 import EditProductoModal from './InventarioTable/EditProductoModal';
 import AddMermaModal from './InventarioTable/AddMermaModal';
 import DeleteProductoModal from './InventarioTable/DeleteProductoModal';
+import AddMarcaModal from './InventarioTable/AddMarcaModal';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import {getListaProductos} from '../services'
-import axios from 'axios';
 import { PlaylistAdd } from '@mui/icons-material';
 const dataSource: readonly Producto[] = [];
 
@@ -167,6 +167,10 @@ export function InventarioTable() {
         setIsOpen={setDeleteProductoOpen}
         currentProducto={selectedProducto}
       />
+      <AddMarcaModal
+        isOpen={isAddMarcaOpen}
+        setIsOpen={setAddMarcaOpen}
+       />
     </div>
   );
 }
