@@ -1,10 +1,13 @@
 import { Form, Input, InputNumber, Modal, Select } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { editarProducto, getAllMarcas } from '../../services';
+import { render } from 'react-dom';
 
 type EditProductoModalProps = {
   currentProducto: Producto;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  reloader?: () => void;
 };
 type EditProductoFormType = {
   codigo: string;
@@ -13,47 +16,53 @@ type EditProductoFormType = {
   stock: number;
   precio: number;
 };
-const listaMarcas: Marca[] = [
-  {
-    id: 1,
-    marca: 'Bimbo',
-  },
-  {
-    id: 2,
-    marca: 'Nestle',
-  },
-  {
-    id: 3,
-    marca: 'Kellogs',
-  },
-  {
-    id: 4,
-    marca: 'UNSC',
-  },
-];
 export default function EditProductoModal({
   isOpen,
   setIsOpen,
   currentProducto,
+  reloader
 }: EditProductoModalProps) {
   const [confirmloading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
+  const [listaMarcas, setListaMarcas] = useState<Marca[]>([] as Marca[]);
   const handleCancel = () => {
     form.resetFields();
     setIsOpen(false);
   };
-  const addStock = (values: EditProductoFormType) => {
-    console.log(values);
+  const editProducto = (values: EditProductoFormType) => {
+    console.log(values)
+    const input = {
+      codigo: currentProducto.codigo,
+      nombre: values.nombre,
+      marca: values.marca,
+      precio_unitario: values.precio,
+    }
     setConfirmLoading(true);
-    setTimeout(() => {
-      setIsOpen(false);
-      setConfirmLoading(false);
-      form.resetFields();
-      setIsOpen(false);
-    }, 2000);
+    editarProducto(input).then((response) => {
+      console.log(response)
+        setConfirmLoading(false);
+        setIsOpen(false);
+        if(reloader) {
+          reloader()
+        }
+
+    })
+
+    // setTimeout(() => {
+    //   setIsOpen(false);
+    //   setConfirmLoading(false);
+    //   form.resetFields();
+    //   setIsOpen(false);
+    // }, 2000);
   };
-  const { nombre, marca, precio } = currentProducto;
+  const { nombre, marca, precio_unitario } = currentProducto;
   const { Option } = Select;
+  useEffect(() => {
+    getAllMarcas().then((response) => {
+      setListaMarcas(response);
+      form.resetFields()
+    })
+  }, [isOpen])
   return (
     <Modal
       confirmLoading={confirmloading}
@@ -64,7 +73,7 @@ export default function EditProductoModal({
       cancelText="Cancelar"
       okText="Subir"
       onCancel={handleCancel}>
-      <Form form={form} onFinish={addStock}>
+      <Form form={form} onFinish={editProducto}>
         <Form.Item<EditProductoFormType>
           label="Nuevo nombre"
           name="nombre"
@@ -73,11 +82,14 @@ export default function EditProductoModal({
         </Form.Item>
         <Form.Item<EditProductoFormType>
           label={`Nueva Marca (original: ${marca})`}
-          name="marca">
+          name="marca"
+          initialValue={
+            listaMarcas.findIndex((item: Marca) => item.marca === marca) + 1
+          }>
           <Select placeholder="seleccione la marca relacionada al producto.">
             {listaMarcas.map((item: Marca) => {
               return (
-                <Option key={item.id} value={item.id}>
+                <Option  key={item.id} value={item.id}>
                   {item.marca}
                 </Option>
               );
@@ -93,11 +105,11 @@ export default function EditProductoModal({
               message: 'por favor ingresa el precio del producto.',
             },
           ]}
-          initialValue={precio}>
+          initialValue={precio_unitario}>
           <InputNumber
             prefix="$"
             placeholder="Precio del producto"
-            min={precio}
+            min={precio_unitario}
           />
         </Form.Item>
       </Form>

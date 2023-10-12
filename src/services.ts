@@ -20,3 +20,12 @@ export async function addProducto(producto: Producto) {
   const result = await axios.post(`${DIRECCION_API}add-producto`, producto)
   return result.data;
 }
+export async function editarProducto(producto: Partial<Producto>) {
+  const result = await axios.post(`${DIRECCION_API}edit-producto`, producto)
+  return result.data;
+}
+
+export async function addStockProduct(params: {newstock: number, codigo: string}) {
+  const result = await axios.post(`${DIRECCION_API}add-stock`, params)
+  return result.data;
+}

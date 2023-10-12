@@ -1,10 +1,12 @@
 import { Form, InputNumber, Modal } from 'antd';
 import { useState } from 'react';
+import { addStockProduct } from '../../services';
 
 type AddStockModalProps = {
   currentProducto: Producto;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  reloader?: () => void;
 };
 type addProductFormType = {
   codigo: string;
@@ -17,6 +19,7 @@ export default function AddStockModal({
   isOpen,
   setIsOpen,
   currentProducto,
+  reloader
 }: AddStockModalProps) {
   const [confirmloading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
@@ -25,20 +28,30 @@ export default function AddStockModal({
     setIsOpen(false);
   };
   const addStock = (values: addProductFormType) => {
-    console.log(values);
     setConfirmLoading(true);
-    setTimeout(() => {
-      setIsOpen(false);
+    addStockProduct({
+      codigo: currentProducto.codigo,
+      newstock: values.stock,
+    }).then((_response) => {
       setConfirmLoading(false);
       form.resetFields();
+      if (reloader) {
+        reloader();
+      }
       setIsOpen(false);
-    }, 2000);
+    })
+    // setTimeout(() => {
+    //   setIsOpen(false);
+    //   setConfirmLoading(false);
+    //   form.resetFields();
+    //   setIsOpen(false);
+    // }, 2000);
   };
-  const { stock } = currentProducto;
+  const { existencias } = currentProducto;
   return (
     <Modal
       confirmLoading={confirmloading}
-      title={`Agregar Cantidad (actual: ${stock})`}
+      title={`Agregar Cantidad (actual: ${existencias})`}
       open={isOpen}
       onOk={form.submit}
       okType="default"

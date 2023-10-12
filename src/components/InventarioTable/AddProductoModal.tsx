@@ -34,7 +34,7 @@ export default function AddProductoModal({
     }
     setConfirmLoading(true);
     addProducto(input)
-    .then((response) => {
+    .then((_response) => {
       setConfirmLoading(false)
       form.resetFields();
       setIsOpen(false);

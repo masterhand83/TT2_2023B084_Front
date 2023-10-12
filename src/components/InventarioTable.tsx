@@ -57,11 +57,11 @@ export function InventarioTable() {
   };
   const openModal = (action: string, producto: Producto) => {
     setSelectedProducto(producto);
-    if (action === 'add') {
-      setAddStockOpen(true);
-    }
     if (action === 'edit') {
       setEditProductoOpen(true);
+    }
+    if (action === 'add') {
+      setAddStockOpen(true);
     }
     if (action === 'remove') {
       setAddMermaOpen(true);
@@ -152,11 +152,13 @@ export function InventarioTable() {
         isOpen={isAddStockOpen}
         setIsOpen={setAddStockOpen}
         currentProducto={selectedProducto}
+        reloader={loadContent}
       />
       <EditProductoModal
         isOpen={isEditProductoOpen}
         setIsOpen={setEditProductoOpen}
         currentProducto={selectedProducto}
+        reloader={loadContent}
       />
       <AddMermaModal
         isOpen={isAddMermaOpen}
