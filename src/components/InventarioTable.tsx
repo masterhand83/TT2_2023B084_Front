@@ -146,6 +146,7 @@ export function InventarioTable() {
       <AddProductoModal
         isOpen={isAddProductoModalOpen}
         setIsOpen={setAddProductoModalOpen}
+        reloader={loadContent}
       />
       <AddStockModal
         isOpen={isAddStockOpen}

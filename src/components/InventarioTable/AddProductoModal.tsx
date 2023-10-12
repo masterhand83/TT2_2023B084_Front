@@ -1,7 +1,6 @@
 import { Modal, Input, Form, Select, InputNumber } from 'antd';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { getAllMarcas } from '../../services';
+import { getAllMarcas, addProducto } from '../../services';
 const { Option } = Select;
 type addProductFormType = {
   codigo: string;
@@ -16,32 +15,37 @@ type AddProductoModalProps = {
   reloader?: () => void;
 };
 
-// const listaMarcas: Marca[] = [
-//   {
-//     id: 1,
-//     marca: 'Bimbo',
-//   },
-//   {
-//     id: 2,
-//     marca: 'Nestle',
-//   },
-//   {
-//     id: 3,
-//     marca: 'Kellogs',
-//   },
-//   {
-//     id: 4,
-//     marca: 'UNSC',
-//   },
-// ];
 export default function AddProductoModal({
   isOpen,
   setIsOpen,
+  reloader
 }: AddProductoModalProps) {
   const [listaMarcas, setListaMarcas] = useState<Marca[]>([]);
   const [confirmloading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
   const addProduct = (values: addProductFormType) => {
+    const input: Producto = {
+      key: values.codigo,
+      codigo: values.codigo,
+      nombre: values.nombre,
+      marca: values.marca,
+      existencias: values.stock,
+      precio_unitario: values.precio,
+    }
+    setConfirmLoading(true);
+    addProducto(input)
+    .then((response) => {
+      setConfirmLoading(false)
+      form.resetFields();
+      setIsOpen(false);
+      if (reloader){
+        reloader()
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+      setConfirmLoading(false)
+    })
     // console.log(values);
     // setConfirmLoading(true);
     // setTimeout(() => {
