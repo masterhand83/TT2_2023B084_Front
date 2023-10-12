@@ -54,7 +54,7 @@ export default function ProductoActionGroup({
     <div className="flex space-x-4">
       <AgregarStockButton onAction={onAction} />
       <EditarProductoButton onAction={onAction} />
-      <AgregarMermaButton onAction={onAction} stock={producto.stock} />
+      <AgregarMermaButton onAction={onAction} stock={producto.existencias} />
     </div>
   );
 }

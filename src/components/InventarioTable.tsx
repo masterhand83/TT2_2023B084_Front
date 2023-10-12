@@ -32,19 +32,19 @@ export function InventarioTable() {
   const [isEditProductoOpen, setEditProductoOpen] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState({} as Producto);
   const [isdeleteProductoOpen, setDeleteProductoOpen] = useState(false);
+  const [searchData, setSearchData] = useState('');
 
+  const includesSearchData = (producto: Producto) => {
+    return (
+      producto.codigo.includes(searchData) ||
+      producto.marca.includes(searchData) ||
+      producto.nombre.includes(searchData)
+    );
+  };
   const onProductoSearch: ChangeEventHandler = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    const searchData: string = event.currentTarget.value;
-    const includesSearchData = (producto: Producto) => {
-      return (
-        producto.codigo.includes(searchData) ||
-        producto.marca.includes(searchData) ||
-        producto.nombre.includes(searchData)
-      );
-    };
-    setTabledata(dataSource.filter(includesSearchData));
+    setSearchData(event.target.value);
   };
 
   const [page, setPage] = useState(0);
@@ -77,7 +77,6 @@ export function InventarioTable() {
   };
   useEffect(() => {
     loadContent();
-    getListaProductos()
   }, []);
   return (
     <div className="w-[75%] space-y-5">
@@ -112,6 +111,7 @@ export function InventarioTable() {
           </TableHead>
           <TableBody>
             {tableData
+              .filter(includesSearchData)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((producto: Producto) => {
                 return (
@@ -164,6 +164,7 @@ export function InventarioTable() {
         isOpen={isAddMermaOpen}
         setIsOpen={setAddMermaOpen}
         currentProducto={selectedProducto}
+        reloader={loadContent}
       />
       <DeleteProductoModal
         isOpen={isdeleteProductoOpen}

@@ -29,3 +29,7 @@ export async function addStockProduct(params: {newstock: number, codigo: string}
   const result = await axios.post(`${DIRECCION_API}add-stock`, params)
   return result.data;
 }
+export async function removeStock(params: {merma: number, codigo: string}) {
+  const result = await axios.post(`${DIRECCION_API}remove-stock`, params)
+  return result.data;
+}
