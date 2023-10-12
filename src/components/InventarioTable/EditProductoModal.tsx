@@ -1,7 +1,6 @@
 import { Form, Input, InputNumber, Modal, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { editarProducto, getAllMarcas } from '../../services';
-import { render } from 'react-dom';
 
 type EditProductoModalProps = {
   currentProducto: Producto;
@@ -109,7 +108,7 @@ export default function EditProductoModal({
           <InputNumber
             prefix="$"
             placeholder="Precio del producto"
-            min={precio_unitario}
+            min={0}
           />
         </Form.Item>
       </Form>

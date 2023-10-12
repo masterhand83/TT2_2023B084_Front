@@ -112,6 +112,7 @@ export function InventarioTable() {
           <TableBody>
             {tableData
               .filter(includesSearchData)
+              .filter((producto: Producto) => producto.activo)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((producto: Producto) => {
                 return (
@@ -170,6 +171,7 @@ export function InventarioTable() {
         isOpen={isdeleteProductoOpen}
         setIsOpen={setDeleteProductoOpen}
         currentProducto={selectedProducto}
+        reloader={loadContent}
       />
       <AddMarcaModal
         isOpen={isAddMarcaOpen}

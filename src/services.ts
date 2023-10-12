@@ -33,3 +33,7 @@ export async function removeStock(params: {merma: number, codigo: string}) {
   const result = await axios.post(`${DIRECCION_API}remove-stock`, params)
   return result.data;
 }
+export async function desactivarProducto(codigo: string) {
+  const result = await axios.post(`${DIRECCION_API}desactivar-producto`, {codigo})
+  return result.data;
+}
