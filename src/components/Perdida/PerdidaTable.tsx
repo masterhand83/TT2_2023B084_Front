@@ -11,13 +11,14 @@ import {
 } from '@mui/material';
 import datosPerdidas from '../../test_data/perdidas.json';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DatePicker } from 'antd';
+import { getMermas } from '../../services';
 
 type PerdidaTableProps = {
   onVentaSelected?: (_venta: Venta) => void;
 };
-const dataSource: readonly Perdida[] = datosPerdidas;
+//const dataSource: readonly Perdida[] = datosPerdidas;
 
 const getFechaHours = (fecha: string) => {
   const fechaDate = new Date(fecha);
@@ -38,7 +39,7 @@ const getFormatedFecha = (fecha: string) => {
 export function PerdidaTable(props: PerdidaTableProps) {
   const firstDateOfYear = dayjs().startOf('year');
   const lastDateOfYear = dayjs().endOf('year');
-  const [tableData, setTabledata] = useState(dataSource);
+  const [tableData, setTabledata] = useState([] as Perdida[]);
   const [page, setPage] = useState(0);
   const [upperLimit, setUpperLimit] = useState<dayjs.Dayjs | null>(
     lastDateOfYear
@@ -58,6 +59,12 @@ export function PerdidaTable(props: PerdidaTableProps) {
   ) => {
     setPage(newPage);
   };
+  useEffect(() => {
+    getMermas().then((mermas) => {
+      console.log(mermas)
+      setTabledata(mermas);
+    })
+  }, [])
   return (
     <div className="flex flex-col items-center w-[100%] space-y-3">
       <div className="flex space-x-2 items-center">
@@ -123,7 +130,7 @@ export function PerdidaTable(props: PerdidaTableProps) {
                     <TableCell>{getFormatedFecha(perdida.fecha)}</TableCell>
                     <TableCell>{getFechaHours(perdida.fecha)}</TableCell>
                     <TableCell>{perdida.cantidad}</TableCell>
-                    <TableCell>${(perdida.cantidad * perdida.producto.precio).toFixed(2)}</TableCell>
+                    <TableCell>${(perdida.total).toFixed(2)}</TableCell>
                   </TableRow>
                 );
               })}

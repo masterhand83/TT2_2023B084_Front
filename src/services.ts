@@ -49,3 +49,7 @@ export async function getVentas() {
   const result = await axios.get(`${DIRECCION_API}get-lista-ventas`)
   return result.data;
 }
+export async function getMermas() {
+  const result = await axios.get(`${DIRECCION_API}get-lista-mermas`)
+  return result.data;
+}

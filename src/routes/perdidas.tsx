@@ -1,6 +1,4 @@
 
-import { useState } from 'react';
-import { VentaTable } from '../components/Ventas/VentaTable';
 import { PerdidaTable } from '../components/Perdida/PerdidaTable';
 import{createTheme, ThemeProvider} from '@mui/material/styles';
 import { esES } from '@mui/material/locale'
