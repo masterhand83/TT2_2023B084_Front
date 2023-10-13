@@ -37,3 +37,7 @@ export async function desactivarProducto(codigo: string) {
   const result = await axios.post(`${DIRECCION_API}desactivar-producto`, {codigo})
   return result.data;
 }
+export async function addMarcaToList(marca: string) {
+  const result = await axios.post(`${DIRECCION_API}add-marca`, {marca})
+  return result.data;
+}

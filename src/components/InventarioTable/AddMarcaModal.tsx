@@ -2,6 +2,7 @@
 import { Form,  Modal, Input } from 'antd';
 import React from 'react';
 import { useState } from 'react';
+import { addMarcaToList } from '../../services';
 
 type AddMarcaModalProps = {
   isOpen: boolean;
@@ -27,12 +28,11 @@ export default function AddMarcaModal({
   const addMarca = (values: addProductFormType) => {
     console.log(values);
     setConfirmLoading(true);
-    setTimeout(() => {
-      setIsOpen(false);
+    addMarcaToList(values.marca).then((res) => {
       setConfirmLoading(false);
       form.resetFields();
       setIsOpen(false);
-    }, 2000);
+    })
   };
   return (
     <Modal
@@ -50,7 +50,7 @@ export default function AddMarcaModal({
             Añade una marca que necesites para tus productos
           </p>
         </div>
-        <Form.Item label="Marca" name="merma" initialValue={1}>
+        <Form.Item label="Marca" name="marca" initialValue={"nueva marca"}>
           <Input placeholder="nombre del producto" />
         </Form.Item>
       </Form>
