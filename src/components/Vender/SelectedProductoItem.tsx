@@ -31,12 +31,12 @@ export default function SelectedProductoItem({
         <InputNumber
           value={item.cantidad}
           min={1}
-          max={producto.stock}
+          max={producto.existencias}
           onChange={handleSpinner}
         />
       </div>
       <div className="text-[0.75rem] w-[20%]">
-        $ {formatToMoney(producto.precio * item.cantidad)}
+        $ {formatToMoney(producto.precio_unitario * item.cantidad)}
       </div>
       <div className="">
         <button

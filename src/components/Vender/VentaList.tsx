@@ -1,57 +1,25 @@
 import { Divider } from '@mui/material';
 import SelectedProductoItem from './SelectedProductoItem';
-import { useState } from 'react';
 import { pipe, map, sum } from 'ramda';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { hacerCompra } from '../../services';
 type VentaListProps = {
   selectedList: VentaItem[];
   onListItemCantidadChange: (_item: VentaItem, _value: number) => void;
   onListItemDeleted: (_item: VentaItem) => void;
-};
-const hacerVenta = () => {
-  const swal = withReactContent(Swal);
-  swal.fire({
-      title: '¿Desea hacer la venta?',
-      text: '¿Estás seguro de que deseas confirmar la venta de estos productos?',
-      icon: 'info',
-      showCancelButton: true,
-      confirmButtonColor: 'green',
-      cancelButtonColor: 'red',
-      confirmButtonText: 'Sí',
-      cancelButtonText: 'Cancelar',
-      reverseButtons: true,
-      showLoaderOnConfirm: true,
-      preConfirm: () => {
-        return fetch('https://api.ipify.org?format=json')
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(response.statusText);
-            }
-            return response.json();
-          })
-          .catch((error) => {
-            swal.showValidationMessage(`Request failed: ${error}`);
-          });
-      },
-    })
-    .then((result) => {
-      if (result.isConfirmed) {
-        console.log(result.value);
-        swal.fire({
-          title: `Guardado exitoso`,
-          icon: 'success',
-        });
-      }
-    });
+  resetList: () => void;
+  reloader: () => void;
 };
 export default function VentaList({
   selectedList,
   onListItemCantidadChange,
   onListItemDeleted,
+  resetList,
+  reloader
 }: VentaListProps) {
   const obtenerPrecioTotal = pipe(
-    map((item: VentaItem) => item.producto.precio * item.cantidad),
+    map((item: VentaItem) => item.producto.precio_unitario * item.cantidad),
     sum
   );
   const obtenerCantidadTotal = pipe(
@@ -76,8 +44,43 @@ export default function VentaList({
         onDelete={() => onListItemDeleted(item)}
       />
     ));
+const hacerVenta = (lista: VentaItem[]) => {
+  console.log(lista)
+  const swal = withReactContent(Swal);
+  swal.fire({
+      title: '¿Desea hacer la venta?',
+      text: '¿Estás seguro de que deseas confirmar la venta de estos productos?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: 'green',
+      cancelButtonColor: 'red',
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        return hacerCompra(lista).then((response) => {
+          return response
+        })
+        .catch((error) => {
+          swal.showValidationMessage(`Request failed: ${error}`);
+        })
+      },
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        console.log(result.value);
+        resetList();
+        reloader()
+        swal.fire({
+          title: `Guardado exitoso`,
+          icon: 'success',
+        });
+      }
+    });
+};
   const VentaResumen = () => (
-    <div className="flex p-8 hover:cursor-pointer" onClick={hacerVenta}>
+    <div className="flex p-8 hover:cursor-pointer" onClick={() =>  hacerVenta(selectedList)}>
       <div className="font-bold">
         <h1 className="text-3xl">Precio</h1>
         <h1 className="text-green-300">productos: {cantidadTotal}</h1>

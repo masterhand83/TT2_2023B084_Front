@@ -1,6 +1,5 @@
 import {
   Divider,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -8,7 +7,6 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { useState } from 'react';
 type DetalleVentaListProps = {
   selectedVenta: Venta | null;
 };
@@ -47,7 +45,6 @@ const DetalleVenta = ({ selectedVenta }: VentaProps) => (
 export default function DetalleVentaList({
   selectedVenta,
 }: DetalleVentaListProps) {
-  const [openModal, setOpenModal] = useState(false);
   const ListHeader = () => (
     <div className="px-6 py-4">
       <Divider />
@@ -96,9 +93,9 @@ export default function DetalleVentaList({
                   <TableCell>{producto.codigo}</TableCell>
                   <TableCell>{producto.nombre}</TableCell>
                   <TableCell>{cantidad}</TableCell>
-                  <TableCell>${producto.precio}</TableCell>
+                  <TableCell>${producto.precio_unitario}</TableCell>
                   <TableCell>
-                    ${(cantidad * producto.precio).toFixed(2)}
+                    ${(cantidad * producto.precio_unitario).toFixed(2)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -109,7 +106,7 @@ export default function DetalleVentaList({
       <div className="flex px-[6rem]">
         <div className="ml-auto space-x-6 text-xl">
           <span className='font-bold'>Total:</span>
-          <span>${selectedVenta?.total}</span>
+          <span>${selectedVenta?.total.toFixed(2)}</span>
         </div>
       </div>
     </div>

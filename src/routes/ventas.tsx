@@ -1,7 +1,5 @@
 
-import { VenderTable } from '../components/VenderTable';
 import { useState } from 'react';
-import VentaList from '../components/Vender/VentaList';
 import { VentaTable } from '../components/Ventas/VentaTable';
 import DetalleVentaList from '../components/Ventas/DetalleVentaList';
 import{createTheme, ThemeProvider} from '@mui/material/styles';

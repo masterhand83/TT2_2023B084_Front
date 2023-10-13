@@ -11,19 +11,13 @@ import {
 } from '@mui/material';
 import Search from 'antd/es/input/Search';
 import { ChangeEvent, ChangeEventHandler, useState } from 'react';
-import productosData from '../test_data/productos.json';
-const dataSource: readonly Producto[] = productosData;
 type VenderTableProps = {
   onProductoSelected: (_producto: Producto) => void;
+  tableData: Producto[];
 };
 
-export function VenderTable({ onProductoSelected }: VenderTableProps) {
-  const [tableData, setTabledata] = useState(dataSource);
-
-  const onProductoSearch: ChangeEventHandler = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    const searchData: string = event.currentTarget.value;
+export function VenderTable({ onProductoSelected, tableData }: VenderTableProps) {
+  const [searchData, setSearchData] = useState('' as string);
     const includesSearchData = (producto: Producto) => {
       return (
         producto.codigo.includes(searchData) ||
@@ -31,8 +25,14 @@ export function VenderTable({ onProductoSelected }: VenderTableProps) {
         producto.nombre.includes(searchData)
       );
     };
-    setTabledata(dataSource.filter(includesSearchData));
+  const onProductoSearch: ChangeEventHandler = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchData(event.target.value);
+    //setTabledata(dataSource.filter(includesSearchData));
   };
+
+
 
   const [page, setPage] = useState(0);
   const rowsPerPage = 8;
@@ -76,7 +76,8 @@ export function VenderTable({ onProductoSelected }: VenderTableProps) {
           <TableBody>
             {tableData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .filter((producto) => producto.stock != 0)
+              .filter(includesSearchData)
+              .filter((producto) => producto.existencias != 0)
               .map((producto: Producto) => {
                 return (
                   <TableRow
@@ -87,8 +88,8 @@ export function VenderTable({ onProductoSelected }: VenderTableProps) {
                     <TableCell>{producto.codigo}</TableCell>
                     <TableCell>{producto.nombre}</TableCell>
                     <TableCell>{producto.marca}</TableCell>
-                    <TableCell>{producto.stock}</TableCell>
-                    <TableCell>{producto.precio}</TableCell>
+                    <TableCell>{producto.existencias}</TableCell>
+                    <TableCell>{producto.precio_unitario}</TableCell>
                   </TableRow>
                 );
               })}

@@ -9,16 +9,14 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import datosVentas from '../../test_data/ventas.json';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { DatePicker } from 'antd';
-import axios from 'axios';
+import { getVentas } from '../../services';
 
 type VentaTableProps = {
   onVentaSelected?: (_venta: Venta) => void;
 };
-const dataSource: readonly Venta[] = datosVentas;
 
 const getFechaHours = (fecha: string) => {
   const fechaDate = new Date(fecha);
@@ -39,7 +37,7 @@ const getFormatedFecha = (fecha: string) => {
 export function VentaTable({ onVentaSelected }: VentaTableProps) {
   const firstDateOfYear = dayjs().startOf('year');
   const lastDateOfYear = dayjs().endOf('year');
-  const [tableData, setTabledata] = useState(dataSource);
+  const [tableData, setTabledata] = useState([] as any[]);
   const [page, setPage] = useState(0);
   const [upperLimit, setUpperLimit] = useState<dayjs.Dayjs | null>(
     lastDateOfYear
@@ -59,13 +57,19 @@ export function VentaTable({ onVentaSelected }: VentaTableProps) {
   ) => {
     setPage(newPage);
   };
+  useEffect(() => {
+    getVentas().then((data) => {
+      console.log(data)
+      setTabledata(data)
+    })
+  })
   return (
     <div className="flex flex-col items-center w-[100%] space-y-3">
       <div className="flex space-x-2 items-center">
         <div>De:</div>
         <div>
           <DatePicker
-            onChange={(value, date) => setLowerLimit(value)}
+            onChange={(value, _date) => setLowerLimit(value)}
             format={'DD/MM/YYYY'}
             defaultValue={lowerLimit ? lowerLimit : firstDateOfYear}
           />
@@ -73,7 +77,7 @@ export function VentaTable({ onVentaSelected }: VentaTableProps) {
         <div>a:</div>
         <div>
           <DatePicker
-            onChange={(value, date) => setUpperLimit(value)}
+            onChange={(value, _date) => setUpperLimit(value)}
             format={'DD/MM/YYYY'}
             defaultValue={upperLimit ? upperLimit : lastDateOfYear}
           />

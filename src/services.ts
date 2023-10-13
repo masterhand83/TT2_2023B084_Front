@@ -41,3 +41,11 @@ export async function addMarcaToList(marca: string) {
   const result = await axios.post(`${DIRECCION_API}add-marca`, {marca})
   return result.data;
 }
+export async function hacerCompra(params: VentaItem[]){
+  const result = await axios.post(`${DIRECCION_API}hacer-compra`, params)
+  return result.data;
+}
+export async function getVentas() {
+  const result = await axios.get(`${DIRECCION_API}get-lista-ventas`)
+  return result.data;
+}

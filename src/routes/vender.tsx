@@ -1,12 +1,14 @@
 import { VenderTable } from '../components/VenderTable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import VentaList from '../components/Vender/VentaList';
 import{createTheme, ThemeProvider} from '@mui/material/styles';
 import { esES } from '@mui/material/locale'
+import { getListaProductos } from '../services';
 
 const theme = createTheme({
 }, esES);
 export function Vender() {
+  const [tableData, setTabledata] = useState([] as Producto[]);
   const [selectedList, setSelectedList] = useState([] as VentaItem[]);
   const addProductoToList = (producto: Producto) => {
     const productoALreadyExists = selectedList.some(
@@ -17,7 +19,7 @@ export function Vender() {
     }
     const newItem: VentaItem = {
       cantidad: 1,
-      key: producto.key,
+      key: producto.codigo,
       producto: producto,
     };
     const updatedList: VentaItem[] = selectedList.concat(newItem);
@@ -45,12 +47,20 @@ export function Vender() {
       })
     );
   };
+  const loadContent = () => {
+    getListaProductos().then((data) => {
+      setTabledata(data);
+    })
+  }
 
+  useEffect(() => {
+    loadContent();
+  }, [])
   return (
     <div className="grid grid-cols-3 grid-rows-1 items-right h-full">
       <div className="mr-9 ml-10 mt-[3rem] col-span-2">
         <ThemeProvider theme={theme}>
-          <VenderTable onProductoSelected={addProductoToList} />
+          <VenderTable onProductoSelected={addProductoToList} tableData={tableData}  />
         </ThemeProvider>
       </div>
       <div className="bg-stone-100 border-l border-slate-300">
@@ -58,6 +68,8 @@ export function Vender() {
           selectedList={selectedList}
           onListItemCantidadChange={changeCantidad}
           onListItemDeleted={removeItemFromList}
+          resetList={() => setSelectedList([])}
+          reloader={loadContent}
         />
       </div>
     </div>
