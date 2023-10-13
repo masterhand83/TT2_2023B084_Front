@@ -62,7 +62,7 @@ export function VentaTable({ onVentaSelected }: VentaTableProps) {
       console.log(data)
       setTabledata(data)
     })
-  })
+  }, [])
   return (
     <div className="flex flex-col items-center w-[100%] space-y-3">
       <div className="flex space-x-2 items-center">

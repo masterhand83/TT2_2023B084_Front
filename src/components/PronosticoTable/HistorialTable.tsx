@@ -9,16 +9,40 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
+import datosPerdidas from '../../test_data/perdidas.json';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
-import { DatePicker } from 'antd';
-import { getMermas } from '../../services';
+import { useState } from 'react';
 
 type PerdidaTableProps = {
   onVentaSelected?: (_venta: Venta) => void;
 };
-//const dataSource: readonly Perdida[] = datosPerdidas;
-
+const dataSource: PronosticoVentas = [
+  {
+    periodoInicio: '2023-02-12',
+    periodoFin: '2023-03-18',
+    ventas: 512,
+  },
+  {
+    periodoInicio: '2023-05-06',
+    periodoFin: '2023-06-10',
+    ventas: 289,
+  },
+  {
+    periodoInicio: '2023-08-21',
+    periodoFin: '2023-09-25',
+    ventas: 726,
+  },
+  {
+    periodoInicio: '2023-11-03',
+    periodoFin: '2023-12-07',
+    ventas: 148,
+  },
+  {
+    periodoInicio: '2023-04-30',
+    periodoFin: '2023-06-04',
+    ventas: 821,
+  },
+];
 const getFechaHours = (fecha: string) => {
   const fechaDate = new Date(fecha);
   return new Date(fechaDate).toLocaleTimeString();
@@ -35,10 +59,10 @@ const getFormatedFecha = (fecha: string) => {
   return formattedDate;
 };
 
-export function PerdidaTable(_props: PerdidaTableProps) {
+export function HistorialTable(props: PerdidaTableProps) {
   const firstDateOfYear = dayjs().startOf('year');
   const lastDateOfYear = dayjs().endOf('year');
-  const [tableData, setTabledata] = useState([] as Perdida[]);
+  const [tableData, setTabledata] = useState(dataSource);
   const [page, setPage] = useState(0);
   const [upperLimit, setUpperLimit] = useState<dayjs.Dayjs | null>(
     lastDateOfYear
@@ -58,78 +82,28 @@ export function PerdidaTable(_props: PerdidaTableProps) {
   ) => {
     setPage(newPage);
   };
-  useEffect(() => {
-    getMermas().then((mermas) => {
-      console.log(mermas)
-      setTabledata(mermas);
-    })
-  }, [])
   return (
     <div className="flex flex-col items-center w-[100%] space-y-3">
-      <div className="flex space-x-2 items-center">
-        <div>De:</div>
-        <div>
-          <DatePicker
-            onChange={(value, _date) => setLowerLimit(value)}
-            format={'DD/MM/YYYY'}
-            defaultValue={lowerLimit ? lowerLimit : firstDateOfYear}
-          />
-        </div>
-        <div>a:</div>
-        <div>
-          <DatePicker
-            onChange={(value, _date) => setUpperLimit(value)}
-            format={'DD/MM/YYYY'}
-            defaultValue={upperLimit ? upperLimit : lastDateOfYear}
-          />
-        </div>
-      </div>
-      <div className="flex items-center space-x-2">
-        <span>Pérdidas totales: </span>
-        <div className="bg-red-500 text-white px-6 py-[0.1rem] rounded">
-          $
-          <span>
-
-            {tableData
-              .filter(isInDateRange)
-              .map((perdida) => perdida.total)
-              .reduce((a, b) => a + b, 0)
-              .toFixed(2)}
-          </span>
-        </div>
-      </div>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>
-                <span className="font-bold">Fecha</span>
+                <span className="font-bold">Periodo</span>
               </TableCell>
               <TableCell>
-                <span className="font-bold">Hora</span>
-              </TableCell>
-              <TableCell>
-                <span className="font-bold">No.&nbsp;Productos</span>
-              </TableCell>
-              <TableCell>
-                <span className="font-bold">Total</span>
+                <span className="font-bold">Valor</span>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {tableData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .filter(isInDateRange)
-              .map((perdida) => {
+              .map((pronostico) => {
                 return (
-                  <TableRow
-                    className="hover:bg-blue-50"
-                    key={perdida.id}
-                    >
-                    <TableCell>{getFormatedFecha(perdida.fecha)}</TableCell>
-                    <TableCell>{getFechaHours(perdida.fecha)}</TableCell>
-                    <TableCell>{perdida.cantidad}</TableCell>
-                    <TableCell>${(perdida.total).toFixed(2)}</TableCell>
+                  <TableRow className="hover:bg-blue-50" key={pronostico.periodoFin}>
+                    <TableCell>{pronostico.periodoInicio} - {pronostico.periodoFin}</TableCell>
+                    <TableCell>{pronostico.ventas}</TableCell>
                   </TableRow>
                 );
               })}

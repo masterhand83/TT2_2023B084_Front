@@ -10,6 +10,7 @@ import { Ventas } from './routes/ventas.tsx'
 import { Perdidas } from './routes/perdidas.tsx'
 import { Pronostico } from './routes/pronostico.tsx'
 import { PaginaPronostico } from './routes/pagina_pronostico.tsx'
+import { PaginaHistorial } from './routes/pagina_historial.tsx'
 
 
 const router = createBrowserRouter([
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
     element: <Root/>,
     errorElement: <ErrorPage/>,
     children:[
+      {
+        path: "/pagina-historial",
+        element: <PaginaHistorial/>
+      },
       {
         path: "/inventario",
         element: <Inventario/>,

@@ -9,7 +9,7 @@ const theme = createTheme({
 export function Pronostico() {
   return (
     <div className="flex flex-col w-full items-center space-y-4 py-[6rem] ">
-      <ThemeProvider theme={theme}>2
+      <ThemeProvider theme={theme}>
       <PronosticoTable />
       </ThemeProvider>
     </div>

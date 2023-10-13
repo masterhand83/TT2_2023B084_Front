@@ -1,9 +1,12 @@
-import { useState } from 'react';
+
+import { useEffect, useState } from 'react';
 import DetalleVentaList from '../components/Ventas/DetalleVentaList';
 import { ResponsiveLine } from '@nivo/line';
 import { SummaryTable } from '../components/PronosticoTable/SummaryTable';
 import { useLocation } from 'react-router-dom';
-const data = [
+import { getExistencias } from '../services';
+import { HistorialTable } from '../components/PronosticoTable/HistorialTable';
+const defaultData = [
   {
     id: 'p1',
     data: [
@@ -30,14 +33,22 @@ const data = [
     ],
   },
 ];
-export function PaginaPronostico() {
-  const [selectedVenta, setSelectedVenta] = useState<Venta | null>(null);
-  const {state} = useLocation()
-  console.log(state)
+export function PaginaHistorial() {
+  const [data, setData] = useState(defaultData);
+  const [selectedProducto, setSelectedProducto] = useState<Producto | null>(null);
+  const {producto} = useLocation().state
+  console.log(producto)
+  useEffect(() => {
+    console.log("llamando")
+    getExistencias(producto.codigo).then((data: any[]) => {
+      console.log(data)
+      console.log()
+    })
+  } , [])
   return (
     <div className="grid grid-cols-4 grid-rows-1 items-right h-full">
       <div className="mr-9 ml-10 mt-[3rem] col-span-2">
-        <SummaryTable />
+        <HistorialTable />
       </div>
       <div className="bg-slate-50 col-span-2">
         <ResponsiveLine
