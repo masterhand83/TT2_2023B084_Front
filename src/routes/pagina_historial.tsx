@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import DetalleVentaList from '../components/Ventas/DetalleVentaList';
 import { ResponsiveLine } from '@nivo/line';
-import { SummaryTable } from '../components/PronosticoTable/SummaryTable';
 import { useLocation } from 'react-router-dom';
 import { getExistencias } from '../services';
 import { HistorialTable } from '../components/PronosticoTable/HistorialTable';
