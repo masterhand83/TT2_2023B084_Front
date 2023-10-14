@@ -1,8 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import DetalleVentaList from '../components/Ventas/DetalleVentaList';
 import { ResponsiveLine } from '@nivo/line';
-import { SummaryTable } from '../components/PronosticoTable/SummaryTable';
 import { useLocation } from 'react-router-dom';
 import { getExistencias } from '../services';
 import { HistorialTable } from '../components/PronosticoTable/HistorialTable';
@@ -34,8 +32,7 @@ const defaultData = [
   },
 ];
 export function PaginaHistorial() {
-  const [data, setData] = useState(defaultData);
-  const [selectedProducto, setSelectedProducto] = useState<Producto | null>(null);
+  const [data, _setData] = useState(defaultData);
   const {producto} = useLocation().state
   console.log(producto)
   useEffect(() => {
