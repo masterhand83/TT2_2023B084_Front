@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import DetalleVentaList from '../components/Ventas/DetalleVentaList';
 import { ResponsiveLine } from '@nivo/line';
 import { SummaryTable } from '../components/PronosticoTable/SummaryTable';
 import { useLocation } from 'react-router-dom';
@@ -31,7 +29,6 @@ const data = [
   },
 ];
 export function PaginaPronostico() {
-  const [selectedVenta, setSelectedVenta] = useState<Venta | null>(null);
   const {state} = useLocation()
   console.log(state)
   return (

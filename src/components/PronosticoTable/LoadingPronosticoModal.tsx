@@ -1,6 +1,6 @@
-import { Form, InputNumber, Modal } from 'antd';
-import { useEffect, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { Modal } from 'antd';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Settings, CloudDone, Storage, SmartToy } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,34 +9,17 @@ type PronosticoModalProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-type addProductFormType = {
-  codigo: string;
-  nombre: string;
-  marca: string;
-  stock: number;
-  precio: number;
-};
 export default function LoadingPronosticoModal({
   isOpen,
   setIsOpen,
   currentProducto,
 }: PronosticoModalProps) {
-  const generalControls = useAnimation();
-  const [confirmloading, setConfirmLoading] = useState(false);
+  const [confirmloading, _setConfirmLoading] = useState(false);
   const [loadingStage, setLoadingStage] = useState(-1);
   const handleCancel = () => {
     setIsOpen(false);
   };
-  const addMerma = (values: addProductFormType) => {
-    console.log(values);
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setIsOpen(false);
-      setConfirmLoading(false);
-      setIsOpen(false);
-    }, 2000);
-  };
-  const AnimatedGear = (props: { className?: string }) => (
+  const AnimatedGear = (_props: { className?: string }) => (
     <motion.div
       animate={{ rotate: 180 }}
       transition={{
