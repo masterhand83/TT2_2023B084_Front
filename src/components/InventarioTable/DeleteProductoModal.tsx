@@ -21,7 +21,7 @@ export default function DeleteProductoModal({
   const deleteProducto = (producto: Producto) => {
     console.log(producto);
     setConfirmLoading(true);
-    desactivarProducto(producto.codigo).then((res) => {
+    desactivarProducto(producto.codigo).then((_res) => {
         setIsOpen(false);
         setConfirmLoading(false);
         if(reloader){

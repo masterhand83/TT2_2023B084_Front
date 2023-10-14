@@ -28,7 +28,7 @@ export default function AddMarcaModal({
   const addMarca = (values: addProductFormType) => {
     console.log(values);
     setConfirmLoading(true);
-    addMarcaToList(values.marca).then((res) => {
+    addMarcaToList(values.marca).then((_res) => {
       setConfirmLoading(false);
       form.resetFields();
       setIsOpen(false);
