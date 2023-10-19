@@ -13,13 +13,14 @@ import Search from 'antd/es/input/Search';
 import { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react';
 import ProductoActionGroup from './ProductoActionGroup';
 import AddProductoModal from './InventarioTable/AddProductoModal';
+import LoadingContentRow from './utils/LoadingContentRow';
 import AddStockModal from './InventarioTable/AddStockModal';
 import EditProductoModal from './InventarioTable/EditProductoModal';
 import AddMermaModal from './InventarioTable/AddMermaModal';
 import DeleteProductoModal from './InventarioTable/DeleteProductoModal';
 import AddMarcaModal from './InventarioTable/AddMarcaModal';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import {getListaProductos} from '../services'
+import { getListaProductos } from '../services';
 import { PlaylistAdd } from '@mui/icons-material';
 const dataSource: readonly Producto[] = [];
 
@@ -33,6 +34,7 @@ export function InventarioTable() {
   const [selectedProducto, setSelectedProducto] = useState({} as Producto);
   const [isdeleteProductoOpen, setDeleteProductoOpen] = useState(false);
   const [searchData, setSearchData] = useState('');
+  const [loadingContent, setLoadingContent] = useState(true);
 
   const includesSearchData = (producto: Producto) => {
     return (
@@ -71,13 +73,38 @@ export function InventarioTable() {
     }
   };
   const loadContent = () => {
+    setLoadingContent(true)
     getListaProductos().then((response) => {
       setTabledata(response);
+      setLoadingContent(false)
     });
   };
   useEffect(() => {
     loadContent();
   }, []);
+  const TableContent = () => {
+    return tableData
+      .filter(includesSearchData)
+      .filter((producto: Producto) => producto.activo)
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      .map((producto: Producto) => {
+        return (
+          <TableRow key={producto.codigo}>
+            <TableCell>{producto.codigo}</TableCell>
+            <TableCell>{producto.nombre}</TableCell>
+            <TableCell>{producto.marca}</TableCell>
+            <TableCell>{producto.existencias}</TableCell>
+            <TableCell>{producto.precio_unitario}</TableCell>
+            <TableCell>
+              <ProductoActionGroup
+                producto={producto}
+                onAction={(action) => openModal(action, producto)}
+              />
+            </TableCell>
+          </TableRow>
+        );
+      });
+  };
   return (
     <div className="w-[75%] space-y-5">
       <div className="flex space-x-2 items-center">
@@ -110,27 +137,11 @@ export function InventarioTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData
-              .filter(includesSearchData)
-              .filter((producto: Producto) => producto.activo)
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((producto: Producto) => {
-                return (
-                  <TableRow key={producto.codigo}>
-                    <TableCell>{producto.codigo}</TableCell>
-                    <TableCell>{producto.nombre}</TableCell>
-                    <TableCell>{producto.marca}</TableCell>
-                    <TableCell>{producto.existencias}</TableCell>
-                    <TableCell>{producto.precio_unitario}</TableCell>
-                    <TableCell>
-                      <ProductoActionGroup
-                        producto={producto}
-                        onAction={(action) => openModal(action, producto)}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+            {loadingContent ? (
+              <LoadingContentRow colSpan={6} />
+            ) : (
+              <TableContent />
+            )}
           </TableBody>
           <TableFooter>
             <TableRow>
@@ -173,10 +184,7 @@ export function InventarioTable() {
         currentProducto={selectedProducto}
         reloader={loadContent}
       />
-      <AddMarcaModal
-        isOpen={isAddMarcaOpen}
-        setIsOpen={setAddMarcaOpen}
-       />
+      <AddMarcaModal isOpen={isAddMarcaOpen} setIsOpen={setAddMarcaOpen} />
     </div>
   );
 }

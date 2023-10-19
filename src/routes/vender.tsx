@@ -10,6 +10,7 @@ const theme = createTheme({
 export function Vender() {
   const [tableData, setTabledata] = useState([] as Producto[]);
   const [selectedList, setSelectedList] = useState([] as VentaItem[]);
+  const [loadingContent, setLoadingContent] = useState(true);
   const addProductoToList = (producto: Producto) => {
     const productoALreadyExists = selectedList.some(
       (item) => item.key === producto.codigo
@@ -48,7 +49,9 @@ export function Vender() {
     );
   };
   const loadContent = () => {
+    setLoadingContent(true)
     getListaProductos().then((data) => {
+      setLoadingContent(false)
       setTabledata(data);
     })
   }
@@ -60,7 +63,7 @@ export function Vender() {
     <div className="grid grid-cols-3 grid-rows-1 items-right h-full">
       <div className="mr-9 ml-10 mt-[3rem] col-span-2">
         <ThemeProvider theme={theme}>
-          <VenderTable onProductoSelected={addProductoToList} tableData={tableData}  />
+          <VenderTable loadingContent={loadingContent} onProductoSelected={addProductoToList} tableData={tableData}  />
         </ThemeProvider>
       </div>
       <div className="bg-stone-100 border-l border-slate-300">
