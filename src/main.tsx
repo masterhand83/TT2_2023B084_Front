@@ -20,6 +20,10 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage/>,
     children:[
       {
+        path: "/",
+        element: <Vender/>,
+      },
+      {
         path: "/pagina-historial",
         element: <PaginaHistorial/>
       },
