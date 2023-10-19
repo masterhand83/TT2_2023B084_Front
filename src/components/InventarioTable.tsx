@@ -9,8 +9,7 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import Search from 'antd/es/input/Search';
-import { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductoActionGroup from './ProductoActionGroup';
 import AddProductoModal from './InventarioTable/AddProductoModal';
 import LoadingContentRow from './utils/LoadingContentRow';
@@ -22,6 +21,7 @@ import AddMarcaModal from './InventarioTable/AddMarcaModal';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { getListaProductos } from '../services';
 import { PlaylistAdd } from '@mui/icons-material';
+import SearchBar from './utils/SearchBar';
 const dataSource: readonly Producto[] = [];
 
 export function InventarioTable() {
@@ -42,11 +42,6 @@ export function InventarioTable() {
       producto.marca.includes(searchData) ||
       producto.nombre.includes(searchData)
     );
-  };
-  const onProductoSearch: ChangeEventHandler = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchData(event.target.value);
   };
 
   const [page, setPage] = useState(0);
@@ -73,10 +68,10 @@ export function InventarioTable() {
     }
   };
   const loadContent = () => {
-    setLoadingContent(true)
+    setLoadingContent(true);
     getListaProductos().then((response) => {
       setTabledata(response);
-      setLoadingContent(false)
+      setLoadingContent(false);
     });
   };
   useEffect(() => {
@@ -94,7 +89,7 @@ export function InventarioTable() {
             <TableCell>{producto.nombre}</TableCell>
             <TableCell>{producto.marca}</TableCell>
             <TableCell>{producto.existencias}</TableCell>
-            <TableCell>{producto.precio_unitario}</TableCell>
+            <TableCell>$&nbsp;&nbsp;{producto.precio_unitario}</TableCell>
             <TableCell>
               <ProductoActionGroup
                 producto={producto}
@@ -107,12 +102,8 @@ export function InventarioTable() {
   };
   return (
     <div className="w-[75%] space-y-5">
-      <div className="flex space-x-2 items-center">
-        <Search
-          placeholder="Codigo de barras, marca o nombre del producto"
-          onChange={onProductoSearch}
-          size="large"
-        />
+      <div className="flex space-x-2 items-center width-[100%]">
+        <SearchBar onProductoSearch={setSearchData} />
         <button
           onClick={() => setAddProductoModalOpen(true)}
           className="bg-green-500 text-white py-2 px-2 rounded">
@@ -128,12 +119,24 @@ export function InventarioTable() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Código</TableCell>
-              <TableCell>Producto</TableCell>
-              <TableCell>Marca</TableCell>
-              <TableCell>Existencia</TableCell>
-              <TableCell>Precio</TableCell>
-              <TableCell>Acciones</TableCell>
+              <TableCell>
+                <span className="font-bold">Código</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Producto</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Marca</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Existencia</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Precio</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Acciones</span>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
