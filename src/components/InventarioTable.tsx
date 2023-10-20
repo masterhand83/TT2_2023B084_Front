@@ -43,7 +43,6 @@ export function InventarioTable() {
       producto.nombre.includes(searchData)
     );
   };
-
   const [page, setPage] = useState(0);
   const rowsPerPage = 5;
   const handleChangePage = (
