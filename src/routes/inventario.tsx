@@ -2,7 +2,7 @@ import { InventarioTable } from '../components/InventarioTable';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { PlaylistAdd } from '@mui/icons-material';
 import SearchBar from '../components/utils/SearchBar';
-import { Container, Stack } from '@mui/material';
+import { Container, Stack, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getListaProductos } from '../services';
 import AddProductoModal from '../components/InventarioTable/AddProductoModal';
@@ -34,16 +34,20 @@ export function Inventario() {
         spacing={'10px'}
         sx={{ marginBottom: '1rem' }}>
         <SearchBar onProductoSearch={setSearchData} />
+        <Tooltip title="Agregar producto">
         <button
           onClick={() => setAddProductoModalOpen(true)}
-          className="bg-green-500 text-white px-3 rounded">
+          className="bg-green-500 text-white px-4 rounded">
           <AddBusinessIcon />
         </button>
+        </Tooltip>
+        <Tooltip title="Agregar marca">
         <button
           onClick={() => setAddMarcaOpen(true)}
-          className="bg-green-500 text-white px-3 rounded">
+          className="bg-teal-500 text-white px-4 rounded">
           <PlaylistAdd />
         </button>
+        </Tooltip>
       </Stack>
       <InventarioTable
         loadingContent={ladingContent}
