@@ -9,40 +9,39 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ProductoActionGroup from './ProductoActionGroup';
-import AddProductoModal from './InventarioTable/AddProductoModal';
 import LoadingContentRow from './utils/LoadingContentRow';
 import AddStockModal from './InventarioTable/AddStockModal';
 import EditProductoModal from './InventarioTable/EditProductoModal';
 import AddMermaModal from './InventarioTable/AddMermaModal';
 import DeleteProductoModal from './InventarioTable/DeleteProductoModal';
-import AddMarcaModal from './InventarioTable/AddMarcaModal';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { getListaProductos } from '../services';
-import { PlaylistAdd } from '@mui/icons-material';
-import SearchBar from './utils/SearchBar';
-const dataSource: readonly Producto[] = [];
 
-export function InventarioTable() {
-  const [tableData, setTabledata] = useState(dataSource);
-  const [isAddProductoModalOpen, setAddProductoModalOpen] = useState(false);
+type InventarioTableProps = {
+  tableData: Producto[];
+  loadingContent: boolean;
+  loadContent: () => void;
+  searchParameter?: string;
+};
+const includesSearchData = (searchData: string) => (producto: Producto) => {
+  return (
+    producto.codigo.includes(searchData) ||
+    producto.marca.includes(searchData) ||
+    producto.nombre.includes(searchData)
+  );
+};
+export function InventarioTable({
+  tableData,
+  loadingContent,
+  loadContent,
+  searchParameter,
+}: InventarioTableProps) {
   const [isAddStockOpen, setAddStockOpen] = useState(false);
   const [isAddMermaOpen, setAddMermaOpen] = useState(false);
-  const [isAddMarcaOpen, setAddMarcaOpen] = useState(false);
   const [isEditProductoOpen, setEditProductoOpen] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState({} as Producto);
   const [isdeleteProductoOpen, setDeleteProductoOpen] = useState(false);
-  const [searchData, setSearchData] = useState('');
-  const [loadingContent, setLoadingContent] = useState(true);
 
-  const includesSearchData = (producto: Producto) => {
-    return (
-      producto.codigo.includes(searchData) ||
-      producto.marca.includes(searchData) ||
-      producto.nombre.includes(searchData)
-    );
-  };
   const [page, setPage] = useState(0);
   const rowsPerPage = 5;
   const handleChangePage = (
@@ -66,19 +65,9 @@ export function InventarioTable() {
       setDeleteProductoOpen(true);
     }
   };
-  const loadContent = () => {
-    setLoadingContent(true);
-    getListaProductos().then((response) => {
-      setTabledata(response);
-      setLoadingContent(false);
-    });
-  };
-  useEffect(() => {
-    loadContent();
-  }, []);
   const TableContent = () => {
     return tableData
-      .filter(includesSearchData)
+      .filter(includesSearchData(searchParameter || ''))
       .filter((producto: Producto) => producto.activo)
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       .map((producto: Producto) => {
@@ -100,26 +89,13 @@ export function InventarioTable() {
       });
   };
   return (
-    <div className="w-[75%] space-y-5">
-      <div className="flex space-x-2 items-center width-[100%]">
-        <SearchBar onProductoSearch={setSearchData} />
-        <button
-          onClick={() => setAddProductoModalOpen(true)}
-          className="bg-green-500 text-white py-2 px-2 rounded">
-          <AddBusinessIcon />
-        </button>
-        <button
-          onClick={() => setAddMarcaOpen(true)}
-          className="bg-green-500 text-white py-2 px-2 rounded">
-          <PlaylistAdd />
-        </button>
-      </div>
+    <>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>
-                <span className="font-bold">Código</span>
+                <span className="font-bold">Código {loadingContent}</span>
               </TableCell>
               <TableCell>
                 <span className="font-bold">Producto</span>
@@ -157,11 +133,6 @@ export function InventarioTable() {
           </TableFooter>
         </Table>
       </TableContainer>
-      <AddProductoModal
-        isOpen={isAddProductoModalOpen}
-        setIsOpen={setAddProductoModalOpen}
-        reloader={loadContent}
-      />
       <AddStockModal
         isOpen={isAddStockOpen}
         setIsOpen={setAddStockOpen}
@@ -186,7 +157,6 @@ export function InventarioTable() {
         currentProducto={selectedProducto}
         reloader={loadContent}
       />
-      <AddMarcaModal isOpen={isAddMarcaOpen} setIsOpen={setAddMarcaOpen} />
-    </div>
+    </>
   );
 }
