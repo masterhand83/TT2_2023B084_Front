@@ -1,16 +1,24 @@
 import { VenderTable } from '../components/VenderTable';
 import { useEffect, useState } from 'react';
 import VentaList from '../components/Vender/VentaList';
-import{createTheme, ThemeProvider} from '@mui/material/styles';
-import { esES } from '@mui/material/locale'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { esES } from '@mui/material/locale';
 import { getListaProductos } from '../services';
-
-const theme = createTheme({
-}, esES);
+import SearchBar from '../components/utils/SearchBar';
+import {
+  Stack,
+  Box,
+  Grid,
+} from '@mui/material';
+import { Global } from '@emotion/react';
+import MobileVentaList from '../components/Vender/MobileVentaList';
+const drawerBleeding = 75;
+const theme = createTheme({}, esES);
 export function Vender() {
   const [tableData, setTabledata] = useState([] as Producto[]);
   const [selectedList, setSelectedList] = useState([] as VentaItem[]);
   const [loadingContent, setLoadingContent] = useState(true);
+  const [searchData, setSearchData] = useState('' as string);
   const addProductoToList = (producto: Producto) => {
     const productoALreadyExists = selectedList.some(
       (item) => item.key === producto.codigo
@@ -49,32 +57,82 @@ export function Vender() {
     );
   };
   const loadContent = () => {
-    setLoadingContent(true)
+    setLoadingContent(true);
     getListaProductos().then((data) => {
-      setLoadingContent(false)
+      setLoadingContent(false);
       setTabledata(data);
-    })
-  }
-
+    });
+  };
   useEffect(() => {
     loadContent();
-  }, [])
+  }, []);
+  const DesktopDesign = () => (
+    <Box sx={{ display: { xs: 'none', md: 'flex' } }} height={'100%'}>
+      <Grid
+        container
+        spacing={2}
+        justifyContent="space-around"
+        alignContent="stretch">
+        <Grid item xs={8}>
+          <Stack spacing={2} padding={'1rem'}>
+            <ThemeProvider theme={theme}>
+              <SearchBar onProductoSearch={setSearchData} />
+              <VenderTable
+                loadingContent={loadingContent}
+                onProductoSelected={addProductoToList}
+                tableData={tableData}
+                searchData={searchData}
+              />
+            </ThemeProvider>
+          </Stack>
+        </Grid>
+        <Grid item xs={4}>
+          <VentaList
+            selectedList={selectedList}
+            onListItemCantidadChange={changeCantidad}
+            onListItemDeleted={removeItemFromList}
+            resetList={() => setSelectedList([])}
+            reloader={loadContent}
+          />
+        </Grid>
+      </Grid>
+    </Box>
+  );
+  const MobileDesign = () => (
+        <Box sx={{ height: '100%', display: { xs: 'block', md: 'none' } }}>
+          <Stack spacing={2} padding={'1rem'} height={'110%'}>
+            <SearchBar onProductoSearch={setSearchData} />
+            <VenderTable
+              loadingContent={loadingContent}
+              onProductoSelected={addProductoToList}
+              tableData={tableData}
+              searchData={searchData}
+            />
+          </Stack>
+          <MobileVentaList
+            selectedList={selectedList}
+            onListItemCantidadChange={changeCantidad}
+            onListItemDeleted={removeItemFromList}
+            resetList={() => setSelectedList([])}
+            reloader={loadContent}
+           />
+        </Box>
+
+  );
   return (
-    <div className="grid grid-cols-3 grid-rows-1 items-right h-full">
-      <div className="mr-9 ml-10 mt-[3rem] col-span-2">
-        <ThemeProvider theme={theme}>
-          <VenderTable loadingContent={loadingContent} onProductoSelected={addProductoToList} tableData={tableData}  />
-        </ThemeProvider>
-      </div>
-      <div className="bg-stone-100 border-l border-slate-300">
-        <VentaList
-          selectedList={selectedList}
-          onListItemCantidadChange={changeCantidad}
-          onListItemDeleted={removeItemFromList}
-          resetList={() => setSelectedList([])}
-          reloader={loadContent}
+    <Box height={'100%'}>
+      <ThemeProvider theme={theme}>
+        <Global
+          styles={{
+            '.MuiDrawer-root > .MuiPaper-root': {
+              height: `calc(50% - ${drawerBleeding}px)`,
+              overflow: 'visible',
+            },
+          }}
         />
-      </div>
-    </div>
+        <DesktopDesign />
+        <MobileDesign />
+      </ThemeProvider>
+    </Box>
   );
 }

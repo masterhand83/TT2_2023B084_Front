@@ -9,35 +9,28 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import Search from 'antd/es/input/Search';
-import { ChangeEvent, ChangeEventHandler, useState } from 'react';
+import { useState } from 'react';
 import LoadingContentRow from './utils/LoadingContentRow';
 type VenderTableProps = {
   onProductoSelected: (_producto: Producto) => void;
   tableData: Producto[];
   loadingContent: boolean;
+  searchData?: string;
 };
 
+const includesSearchData = (searchData: string) => (producto: Producto) => {
+  return (
+    producto.codigo.includes(searchData) ||
+    producto.marca.includes(searchData) ||
+    producto.nombre.includes(searchData)
+  );
+};
 export function VenderTable({
   onProductoSelected,
   tableData,
-  loadingContent
+  loadingContent,
+  searchData
 }: VenderTableProps) {
-  const [searchData, setSearchData] = useState('' as string);
-  const includesSearchData = (producto: Producto) => {
-    return (
-      producto.codigo.includes(searchData) ||
-      producto.marca.includes(searchData) ||
-      producto.nombre.includes(searchData)
-    );
-  };
-  const onProductoSearch: ChangeEventHandler = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchData(event.target.value);
-    //setTabledata(dataSource.filter(includesSearchData));
-  };
-
   const [page, setPage] = useState(0);
   const rowsPerPage = 8;
   const handleChangePage = (
@@ -49,7 +42,7 @@ export function VenderTable({
   const TableContent = () => {
     return tableData
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-      .filter(includesSearchData)
+      .filter(includesSearchData(searchData || ''))
       .filter((producto) => producto.existencias != 0)
       .map((producto: Producto) => {
         return (
@@ -68,15 +61,7 @@ export function VenderTable({
       });
   };
   return (
-    <div className="w-[100%] space-y-5">
-      <div className="flex  items-center">
-        <Search
-          className="border border-slate-400 border rounded-lg"
-          placeholder="Codigo de barras, marca o nombre del producto"
-          onChange={onProductoSearch}
-          size="large"
-        />
-      </div>
+    <>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -113,6 +98,6 @@ export function VenderTable({
           </TableFooter>
         </Table>
       </TableContainer>
-    </div>
+    </>
   );
 }
