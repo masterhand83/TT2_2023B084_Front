@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@mui/material';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import {  useState } from 'react';
 import { DatePicker } from 'antd';
 
 type VentaTableProps = {
@@ -34,7 +34,7 @@ const getFormatedFecha = (fecha: string) => {
   return formattedDate;
 };
 
-export function VentaTable({ onVentaSelected, tableData }: VentaTableProps) {
+export function MobileVentaTable({ onVentaSelected, tableData }: VentaTableProps) {
   const firstDateOfYear = dayjs().startOf('year');
   const lastDateOfYear = dayjs().endOf('year');
   const [page, setPage] = useState(0);
@@ -122,7 +122,9 @@ export function VentaTable({ onVentaSelected, tableData }: VentaTableProps) {
                     <TableCell>{getFormatedFecha(venta.fecha)}</TableCell>
                     <TableCell>{getFechaHours(venta.fecha)}</TableCell>
                     <TableCell>{venta.cantidad}</TableCell>
-                    <TableCell>$ {venta.total.toFixed(2)}</TableCell>
+                    <TableCell
+                      sx={{whiteSpace: 'nowrap'}}
+                     >$ {venta.total.toFixed(2)}</TableCell>
                   </TableRow>
                 );
               })}
