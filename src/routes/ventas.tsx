@@ -20,9 +20,8 @@ export function Ventas() {
     });
   }, []);
   const DesktopView = () => (
-    <Box sx={{ height: '100%', display: { xs: 'none', md: 'block' } }}>
-      <ThemeProvider theme={theme}>
-        <Grid container height={'100%'} spacing={2}>
+    <Box sx={{ height: '100%', display: { xs: 'none', md: 'flex' } }}>
+        <Grid alignContent={'stretch'} container  spacing={2}>
           <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
             <div className="p-[3rem]">
               <VentaTable
@@ -32,14 +31,13 @@ export function Ventas() {
             </div>
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <div className="bg-slate-100 border-l border-slate-200 h-full">
+            <div className="bg-white border-l border-slate-300 h-full">
               <DetalleVentaList
                 selectedVenta={selectedVenta ? selectedVenta : null}
               />
             </div>
           </Grid>
         </Grid>
-      </ThemeProvider>
     </Box>
   );
   const VentaAlert = withReactContent(Swal);

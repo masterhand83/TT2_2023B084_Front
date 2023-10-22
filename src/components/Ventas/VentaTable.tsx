@@ -79,7 +79,7 @@ export function VentaTable({ onVentaSelected, tableData }: VentaTableProps) {
       <div className="flex items-center space-x-2">
         <span>Suma total: </span>
         <div className="bg-green-500 text-white px-6 py-[0.1rem] rounded">
-          $
+          $&nbsp;
           <span>
             {tableData
               .filter(isInDateRange)

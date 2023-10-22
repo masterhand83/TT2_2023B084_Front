@@ -96,7 +96,7 @@ export default function VentaList({
   );
 
   return (
-    <div className="flex flex-col h-full border-l h-full border-slate-200 bg-stone-100">
+    <div className="flex flex-col h-full border-l h-full border-slate-200 bg-white">
       <div className="flex-none">
         <ListHeader />
       </div>

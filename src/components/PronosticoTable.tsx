@@ -76,12 +76,12 @@ export function PronosticoTable() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Código</TableCell>
-              <TableCell>Producto</TableCell>
-              <TableCell>Marca</TableCell>
-              <TableCell>Existencia</TableCell>
-              <TableCell>Precio</TableCell>
-              <TableCell>Acciones</TableCell>
+              <TableCell sx={{fontWeight:'bold'}}>Código</TableCell>
+              <TableCell sx={{fontWeight:'bold'}}>Producto</TableCell>
+              <TableCell sx={{fontWeight:'bold'}}>Marca</TableCell>
+              <TableCell sx={{fontWeight:'bold'}}>Existencia</TableCell>
+              <TableCell sx={{fontWeight:'bold'}}>Precio</TableCell>
+              <TableCell sx={{fontWeight:'bold'}}>Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -95,7 +95,7 @@ export function PronosticoTable() {
                     <TableCell>{producto.nombre}</TableCell>
                     <TableCell>{producto.marca}</TableCell>
                     <TableCell>{producto.existencias}</TableCell>
-                    <TableCell>{producto.precio_unitario}</TableCell>
+                    <TableCell>$ {producto.precio_unitario}</TableCell>
                     <TableCell>
                       <PronosticoActionGroup
                         producto={producto}

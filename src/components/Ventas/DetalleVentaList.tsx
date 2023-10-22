@@ -1,5 +1,6 @@
 import {
   Divider,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -28,6 +29,11 @@ const getFormatedFecha = (fecha: string) => {
   const formattedDate = `${day}/${month}/${year}`;
   return formattedDate;
 };
+const formatNumber = (number: number) => {
+  return Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(
+    number
+  );
+}
 const DetalleVenta = ({ selectedVenta }: VentaProps) => (
   <>
     <div className="w-full">
@@ -66,23 +72,20 @@ export default function DetalleVentaList({
         )}
       </div>
       <div className="px-10 py-1 overflow-y-auto">
-        <TableContainer sx={{ backgroundColor: 'transparent', maxHeight: 340 }}>
-          <Table size="small" aria-label="simple table" stickyHeader>
+        <TableContainer sx={{ backgroundColor: 'transparent',minHeight:340, maxHeight: 340 }}>
+          <Table size="small" aria-label="simple table" stickyHeader >
             <TableHead>
               <TableRow>
-                <TableCell>
-                  <span className="font-bold">Código</span>
-                </TableCell>
-                <TableCell>
+                <TableCell sx={{fontSize:'10pt'}}>
                   <span className="font-bold">Producto</span>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{fontSize:'10pt'}}>
                   <span className="font-bold">Cantidad</span>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{fontSize:'10pt'}}>
                   <span className="font-bold">Precio Unitario</span>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{fontSize:'10pt'}}>
                   <span className="font-bold">Subtotal</span>
                 </TableCell>
               </TableRow>
@@ -90,12 +93,16 @@ export default function DetalleVentaList({
             <TableBody>
               {selectedVenta?.items.map(({ producto, key, cantidad }) => (
                 <TableRow key={key}>
-                  <TableCell>{producto.codigo}</TableCell>
-                  <TableCell>{producto.nombre}</TableCell>
-                  <TableCell>{cantidad}</TableCell>
-                  <TableCell>${producto.precio_unitario}</TableCell>
                   <TableCell>
-                    ${(cantidad * producto.precio_unitario).toFixed(2)}
+                    <Stack>
+                        <span className='font-bold text-indigo-300'>{producto.codigo}</span>
+                        <span>{producto.nombre}</span>
+                    </Stack>
+                  </TableCell>
+                  <TableCell sx={{fontSize:'10pt'}}>{cantidad}</TableCell>
+                  <TableCell sx={{fontSize:'10pt', whiteSpace:'nowrap'}}>$ {producto.precio_unitario}</TableCell>
+                  <TableCell sx={{fontSize:'10pt', whiteSpace:'nowrap'}}>
+                    $ {formatNumber(cantidad * producto.precio_unitario)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -106,7 +113,10 @@ export default function DetalleVentaList({
       <div className="flex px-[6rem]">
         <div className="ml-auto space-x-6 text-xl">
           <span className='font-bold'>Total:</span>
-          <span>${selectedVenta?.total.toFixed(2)}</span>
+          <span>$ {formatNumber(
+            selectedVenta? selectedVenta.total: 0
+          )
+          }</span>
         </div>
       </div>
     </div>

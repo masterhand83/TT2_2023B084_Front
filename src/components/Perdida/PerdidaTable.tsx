@@ -87,8 +87,7 @@ export function PerdidaTable(_props: PerdidaTableProps) {
       <div className="flex items-center space-x-2">
         <span>Pérdidas totales: </span>
         <div className="bg-red-500 text-white px-6 py-[0.1rem] rounded">
-          $
-          <span>
+          $&nbsp;<span>
 
             {tableData
               .filter(isInDateRange)
@@ -129,7 +128,7 @@ export function PerdidaTable(_props: PerdidaTableProps) {
                     <TableCell>{getFormatedFecha(perdida.fecha)}</TableCell>
                     <TableCell>{getFechaHours(perdida.fecha)}</TableCell>
                     <TableCell>{perdida.cantidad}</TableCell>
-                    <TableCell>${(perdida.total).toFixed(2)}</TableCell>
+                    <TableCell>$ {(perdida.total).toFixed(2)}</TableCell>
                   </TableRow>
                 );
               })}
