@@ -12,36 +12,11 @@ import {
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-const dataSource: PronosticoVentas = [
-  {
-    periodoInicio: '2023-02-12',
-    periodoFin: '2023-03-18',
-    ventas: 512,
-  },
-  {
-    periodoInicio: '2023-05-06',
-    periodoFin: '2023-06-10',
-    ventas: 289,
-  },
-  {
-    periodoInicio: '2023-08-21',
-    periodoFin: '2023-09-25',
-    ventas: 726,
-  },
-  {
-    periodoInicio: '2023-11-03',
-    periodoFin: '2023-12-07',
-    ventas: 148,
-  },
-  {
-    periodoInicio: '2023-04-30',
-    periodoFin: '2023-06-04',
-    ventas: 821,
-  },
-];
+type HistorialTableProps = {
+  dataSource: PronosticoVentas;
+}
 
-
-export function HistorialTable() {
+export function HistorialTable({ dataSource }: HistorialTableProps) {
   const firstDateOfYear = dayjs().startOf('year');
   const lastDateOfYear = dayjs().endOf('year');
   const [tableData, _setTabledata] = useState(dataSource);
@@ -60,13 +35,16 @@ export function HistorialTable() {
     setPage(newPage);
   };
   return (
-    <div className="flex flex-col items-center w-[100%] space-y-3">
-      <TableContainer component={Paper}>
-        <Table>
+    <div className="flex flex-col w-full items-center space-y-3">
+      <TableContainer component={Paper} sx={{width:{xs:'100%', md:'75%'}}}>
+        <Table size='small'>
           <TableHead>
             <TableRow>
               <TableCell>
-                <span className="font-bold">Periodo</span>
+                <span className="font-bold">Inicio</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Final</span>
               </TableCell>
               <TableCell>
                 <span className="font-bold">Valor</span>
@@ -79,7 +57,8 @@ export function HistorialTable() {
               .map((pronostico) => {
                 return (
                   <TableRow className="hover:bg-blue-50" key={pronostico.periodoFin}>
-                    <TableCell>{pronostico.periodoInicio} - {pronostico.periodoFin}</TableCell>
+                    <TableCell>{pronostico.periodoInicio}</TableCell>
+                    <TableCell>{pronostico.periodoFin}</TableCell>
                     <TableCell>{pronostico.ventas}</TableCell>
                   </TableRow>
                 );
