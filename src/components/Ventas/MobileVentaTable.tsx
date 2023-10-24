@@ -12,6 +12,7 @@ import {
 import dayjs from 'dayjs';
 import {  useState } from 'react';
 import { DatePicker } from 'antd';
+import { formatNumber } from '../../utils/utilities';
 
 type VentaTableProps = {
   onVentaSelected?: (_venta: Venta) => void;
@@ -81,11 +82,11 @@ export function MobileVentaTable({ onVentaSelected, tableData }: VentaTableProps
         <div className="bg-green-500 text-white px-6 py-[0.1rem] rounded">
           $
           <span>
-            {tableData
+            {formatNumber(tableData
               .filter(isInDateRange)
               .map((venta) => venta.total)
               .reduce((a, b) => a + b, 0)
-              .toFixed(2)}
+              .toFixed(2))}
           </span>
         </div>
       </div>

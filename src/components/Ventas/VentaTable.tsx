@@ -12,6 +12,7 @@ import {
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { DatePicker } from 'antd';
+import { formatNumber } from '../../utils/utilities';
 
 type VentaTableProps = {
   onVentaSelected?: (_venta: Venta) => void;
@@ -81,11 +82,11 @@ export function VentaTable({ onVentaSelected, tableData }: VentaTableProps) {
         <div className="bg-green-500 text-white px-6 py-[0.1rem] rounded">
           $&nbsp;
           <span>
-            {tableData
+            {formatNumber(tableData
               .filter(isInDateRange)
               .map((venta) => venta.total)
-              .reduce((a, b) => a + b, 0)
-              .toFixed(2)}
+              .reduce((a, b) => a + b, 0))
+              }
           </span>
         </div>
       </div>
@@ -122,7 +123,7 @@ export function VentaTable({ onVentaSelected, tableData }: VentaTableProps) {
                     <TableCell>{getFormatedFecha(venta.fecha)}</TableCell>
                     <TableCell>{getFechaHours(venta.fecha)}</TableCell>
                     <TableCell>{venta.cantidad}</TableCell>
-                    <TableCell>$ {venta.total.toFixed(2)}</TableCell>
+                    <TableCell>$ {formatNumber(venta.total)}</TableCell>
                   </TableRow>
                 );
               })}
