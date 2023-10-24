@@ -3,6 +3,7 @@ import SelectedProductoItem from './SelectedProductoItem';
 import { pipe, map, sum } from 'ramda';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { formatNumber } from '../../utils/utilities';
 import { hacerCompra } from '../../services';
 type VentaListProps = {
   selectedList: VentaItem[];
@@ -27,7 +28,7 @@ export default function VentaList({
     sum
   );
   const cantidadTotal = obtenerCantidadTotal(selectedList);
-  const precioTotal = obtenerPrecioTotal(selectedList).toFixed(2);
+  const precioTotal = formatNumber(obtenerPrecioTotal(selectedList));
   const ListHeader = () => (
     <div className="px-6 py-4">
       <Divider />
@@ -45,7 +46,6 @@ export default function VentaList({
       />
     ));
   const hacerVenta = (lista: VentaItem[]) => {
-    console.log(lista);
     const swal = withReactContent(Swal);
     swal
       .fire({
@@ -71,7 +71,6 @@ export default function VentaList({
       })
       .then((result) => {
         if (result.isConfirmed) {
-          console.log(result.value);
           resetList();
           reloader();
           swal.fire({

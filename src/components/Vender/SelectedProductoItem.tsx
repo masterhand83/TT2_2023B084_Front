@@ -1,5 +1,6 @@
 import { InputNumber } from 'antd';
 import { RemoveCircle } from '@mui/icons-material';
+import { formatNumber } from '../../utils/utilities';
 const style = "flex bg-white my-3 p-3 space-x-4 items-center border rounded border-stone-200 shadow"
 
 type SelectedProductoItemProps = {
@@ -19,7 +20,7 @@ export default function SelectedProductoItem({
     }
   };
   const formatToMoney = (value: number) => {
-    return value.toFixed(2);
+    return formatNumber(value);
   };
   return (
     <div className={style}>

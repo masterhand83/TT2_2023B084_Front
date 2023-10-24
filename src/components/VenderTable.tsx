@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import LoadingContentRow from './utils/LoadingContentRow';
+import { formatNumber } from '../utils/utilities';
 type VenderTableProps = {
   onProductoSelected: (_producto: Producto) => void;
   tableData: Producto[];
@@ -55,7 +56,7 @@ export function VenderTable({
             <TableCell>{producto.nombre}</TableCell>
             <TableCell>{producto.marca}</TableCell>
             <TableCell>{producto.existencias}</TableCell>
-            <TableCell>$&nbsp;{producto.precio_unitario}</TableCell>
+            <TableCell>$&nbsp;{formatNumber(producto.precio_unitario)}</TableCell>
           </TableRow>
         );
       });

@@ -8,6 +8,7 @@ import {
   styled,
 } from '@mui/material';
 import SelectedProductoItem from './SelectedProductoItem';
+import { formatNumber } from '../../utils/utilities';
 import { pipe, map, sum } from 'ramda';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -49,7 +50,7 @@ export default function MobileVentaList({
     sum
   );
   const cantidadTotal = obtenerCantidadTotal(selectedList);
-  const precioTotal = obtenerPrecioTotal(selectedList).toFixed(2);
+  const precioTotal = formatNumber(obtenerPrecioTotal(selectedList));
   const hacerVenta = (lista: VentaItem[]) => {
     console.log(lista);
     const swal = withReactContent(Swal);
