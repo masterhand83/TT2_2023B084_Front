@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { Global } from '@emotion/react';
 import MobileVentaList from '../components/Vender/MobileVentaList';
+import { MobileVenderTable } from '../components/MobileVenderTable';
 const drawerBleeding = 75;
 const theme = createTheme({}, esES);
 export function Vender() {
@@ -102,7 +103,7 @@ export function Vender() {
         <Box sx={{ height: '100%', display: { xs: 'block', md: 'none' } }}>
           <Stack spacing={2} padding={'1rem'} height={'110%'}>
             <SearchBar onProductoSearch={setSearchData} />
-            <VenderTable
+            <MobileVenderTable
               loadingContent={loadingContent}
               onProductoSelected={addProductoToList}
               tableData={tableData}
