@@ -108,7 +108,10 @@ export function PerdidaTable(_props: PerdidaTableProps) {
                 <span className="font-bold">Hora</span>
               </TableCell>
               <TableCell>
-                <span className="font-bold">No.&nbsp;Productos</span>
+                <span className="font-bold">Producto</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-bold">Cantidad</span>
               </TableCell>
               <TableCell>
                 <span className="font-bold">Total</span>
@@ -127,6 +130,7 @@ export function PerdidaTable(_props: PerdidaTableProps) {
                     >
                     <TableCell>{getFormatedFecha(perdida.fecha)}</TableCell>
                     <TableCell>{getFechaHours(perdida.fecha)}</TableCell>
+                    <TableCell>{perdida.producto.nombre}</TableCell>
                     <TableCell>{perdida.cantidad}</TableCell>
                     <TableCell>$ {(perdida.total).toFixed(2)}</TableCell>
                   </TableRow>
