@@ -112,6 +112,11 @@ export function VentaTable({ onVentaSelected, tableData }: VentaTableProps) {
             {tableData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .filter(isInDateRange)
+              .sort((a, b) => {
+                const aDate = new Date(a.fecha);
+                const bDate = new Date(b.fecha);
+                return bDate.getTime() - aDate.getTime();
+              })
               .map((venta) => {
                 return (
                   <TableRow

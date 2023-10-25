@@ -122,6 +122,11 @@ export function PerdidaTable(_props: PerdidaTableProps) {
             {tableData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .filter(isInDateRange)
+              .sort((a, b) => {
+                const dateA = new Date(a.fecha);
+                const dateB = new Date(b.fecha);
+                return dateA.getTime() - dateB.getTime();
+              })
               .map((perdida) => {
                 return (
                   <TableRow
