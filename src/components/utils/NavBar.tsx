@@ -26,7 +26,7 @@ const paginas = [
     ruta: '/inventario',
   },
   {
-    titulo: 'Perdidas',
+    titulo: 'Pérdidas',
     ruta: '/perdidas',
   },
   {
