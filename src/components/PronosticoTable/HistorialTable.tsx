@@ -14,12 +14,12 @@ import { useState } from 'react';
 
 type HistorialTableProps = {
   dataSource: PronosticoVentas;
-}
+  producto: Producto;
+};
 
-export function HistorialTable({ dataSource }: HistorialTableProps) {
+export function HistorialTable({ dataSource, producto }: HistorialTableProps) {
   const firstDateOfYear = dayjs().startOf('year');
   const lastDateOfYear = dayjs().endOf('year');
-  const [tableData, _setTabledata] = useState(dataSource);
   const [page, setPage] = useState(0);
   const [_upperLimit, _setUpperLimit] = useState<dayjs.Dayjs | null>(
     lastDateOfYear
@@ -27,7 +27,7 @@ export function HistorialTable({ dataSource }: HistorialTableProps) {
   const [_lowerLimit, _setLowerLimit] = useState<dayjs.Dayjs | null>(
     firstDateOfYear
   );
-  const rowsPerPage = 8;
+  const rowsPerPage = 4;
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -36,9 +36,17 @@ export function HistorialTable({ dataSource }: HistorialTableProps) {
   };
   return (
     <div className="flex flex-col w-full items-center space-y-3">
-      <TableContainer component={Paper} sx={{width:{xs:'100%', md:'75%'}}}>
-        <Table size='small'>
+      <TableContainer
+        component={Paper}
+        sx={{ width: { xs: '100%', md: '75%' } }}>
+        <Table size="small">
           <TableHead>
+            <TableRow>
+              <TableCell colSpan={3}>
+                <span className='font-bold text-stone-600'>{producto.codigo}</span>
+                <div>Historial de: <span className="font-bold">{producto.nombre}</span></div>
+              </TableCell>
+            </TableRow>
             <TableRow>
               <TableCell>
                 <span className="font-bold">Inicio</span>
@@ -52,11 +60,13 @@ export function HistorialTable({ dataSource }: HistorialTableProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData
+            {dataSource
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((pronostico) => {
+              .map((pronostico, index) => {
                 return (
-                  <TableRow className="hover:bg-blue-50" key={pronostico.periodoFin}>
+                  <TableRow
+                    className="hover:bg-blue-50"
+                    key={index}>
                     <TableCell>{pronostico.periodoInicio}</TableCell>
                     <TableCell>{pronostico.periodoFin}</TableCell>
                     <TableCell>{pronostico.ventas}</TableCell>
@@ -68,7 +78,7 @@ export function HistorialTable({ dataSource }: HistorialTableProps) {
             <TableRow>
               <TablePagination
                 rowsPerPage={rowsPerPage}
-                count={tableData.length}
+                count={dataSource.length}
                 page={page}
                 onPageChange={handleChangePage}
               />

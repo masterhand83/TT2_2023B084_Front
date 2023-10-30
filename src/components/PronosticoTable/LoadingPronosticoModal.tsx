@@ -1,7 +1,7 @@
 import { Modal } from 'antd';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Settings, CloudDone, Storage, SmartToy } from '@mui/icons-material';
+import { Settings, Storage, SmartToy } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 type PronosticoModalProps = {
@@ -49,16 +49,14 @@ export default function LoadingPronosticoModal({
             setLoadingStage(0);
           }, 1000);
           setTimeout(() => {
-            setLoadingStage(1);
-          }, 3000);
-          setTimeout(() => {
             setLoadingStage(2);
           }, 5000);
           setTimeout(() => {
             setLoadingStage(-1)
             setIsOpen(false);
+            console.log(currentProducto)
             navigate('/pagina-pronostico', {
-              state: { currentProducto },
+              state: { producto:currentProducto },
             });
           }, 6000);
         }
@@ -80,22 +78,6 @@ export default function LoadingPronosticoModal({
                 <span className="text-amber-300">Cargando Datos</span>
               ) : (
                 <span className="text-blue-700">Datos Listos</span>
-              )}
-            </motion.div>
-          </motion.div>
-          <motion.div className="flex h-[3rem] items-center space-x-[1rem]">
-            <motion.div>
-              {loadingStage < 1 ? (
-                <AnimatedGear />
-              ) : (
-                <CloudDone className="text-blue-700" sx={{ fontSize: 50 }} />
-              )}
-            </motion.div>
-            <motion.div className="text-3xl font-bold">
-              {loadingStage < 1 ? (
-                <span className="text-amber-300">Creando Modelo</span>
-              ) : (
-                <span className="text-blue-700">Modelo Listo</span>
               )}
             </motion.div>
           </motion.div>
