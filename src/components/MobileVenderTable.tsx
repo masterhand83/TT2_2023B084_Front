@@ -13,6 +13,7 @@ import {
 import { useState } from 'react';
 import LoadingContentRow from './utils/LoadingContentRow';
 import { formatNumber } from '../utils/utilities';
+import SearchBar from './utils/SearchBar';
 type VenderTableProps = {
   onProductoSelected: (_producto: Producto) => void;
   tableData: Producto[];
@@ -31,8 +32,8 @@ export function MobileVenderTable({
   onProductoSelected,
   tableData,
   loadingContent,
-  searchData,
 }: VenderTableProps) {
+  const [searchData, setSearchData] = useState('');
   const [page, setPage] = useState(0);
   const rowsPerPage = 8;
   const handleChangePage = (
@@ -70,6 +71,7 @@ export function MobileVenderTable({
   };
   return (
     <>
+        <SearchBar onProductoSearch={setSearchData}/>
       <TableContainer component={Paper}>
         <Table size='small'>
           <TableHead>

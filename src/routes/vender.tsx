@@ -4,7 +4,6 @@ import VentaList from '../components/Vender/VentaList';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { esES } from '@mui/material/locale';
 import { getListaProductos } from '../services';
-import SearchBar from '../components/utils/SearchBar';
 import {
   Stack,
   Box,
@@ -16,10 +15,10 @@ import { MobileVenderTable } from '../components/MobileVenderTable';
 const drawerBleeding = 75;
 const theme = createTheme({}, esES);
 export function Vender() {
+  console.log("rendering vender")
   const [tableData, setTabledata] = useState([] as Producto[]);
   const [selectedList, setSelectedList] = useState([] as VentaItem[]);
   const [loadingContent, setLoadingContent] = useState(true);
-  const [searchData, setSearchData] = useState('' as string);
   const addProductoToList = (producto: Producto) => {
     const productoALreadyExists = selectedList.some(
       (item) => item.key === producto.codigo
@@ -65,8 +64,10 @@ export function Vender() {
     });
   };
   useEffect(() => {
+    console.log("loading content");
     loadContent();
   }, []);
+
   const DesktopDesign = () => (
     <Box sx={{ display: { xs: 'none', md: 'flex' } }} height={'100%'}>
       <Grid
@@ -74,15 +75,13 @@ export function Vender() {
         spacing={2}
         justifyContent="space-around"
         alignContent="stretch">
-        <Grid item xs={8}>
+        <Grid item xs={8} >
           <Stack spacing={2} padding={'1rem'}>
             <ThemeProvider theme={theme}>
-              <SearchBar onProductoSearch={setSearchData} />
               <VenderTable
                 loadingContent={loadingContent}
                 onProductoSelected={addProductoToList}
                 tableData={tableData}
-                searchData={searchData}
               />
             </ThemeProvider>
           </Stack>
@@ -102,12 +101,11 @@ export function Vender() {
   const MobileDesign = () => (
         <Box sx={{ height: '100%', display: { xs: 'block', md: 'none' } }}>
           <Stack spacing={2} padding={'1rem'} height={'110%'}>
-            <SearchBar onProductoSearch={setSearchData} />
+            {/* <SearchBar onProductoSearch={setSearchData} /> */}
             <MobileVenderTable
               loadingContent={loadingContent}
               onProductoSelected={addProductoToList}
               tableData={tableData}
-              searchData={searchData}
             />
           </Stack>
           <MobileVentaList
@@ -122,7 +120,6 @@ export function Vender() {
   );
   return (
     <Box height={'100%'}>
-      <ThemeProvider theme={theme}>
         <Global
           styles={{
             '.MuiDrawer-root > .MuiPaper-root': {
@@ -133,7 +130,6 @@ export function Vender() {
         />
         <DesktopDesign />
         <MobileDesign />
-      </ThemeProvider>
     </Box>
   );
 }

@@ -12,13 +12,13 @@ import {
 import { useState } from 'react';
 import LoadingContentRow from './utils/LoadingContentRow';
 import { formatNumber } from '../utils/utilities';
+import SearchBar from './utils/SearchBar';
 type VenderTableProps = {
   onProductoSelected: (_producto: Producto) => void;
   tableData: Producto[];
   loadingContent: boolean;
   searchData?: string;
 };
-
 const includesSearchData = (searchData: string) => (producto: Producto) => {
   return (
     producto.codigo.includes(searchData) ||
@@ -30,8 +30,8 @@ export function VenderTable({
   onProductoSelected,
   tableData,
   loadingContent,
-  searchData
 }: VenderTableProps) {
+  const [searchData, setSearchData] = useState('');
   const [page, setPage] = useState(0);
   const rowsPerPage = 8;
   const handleChangePage = (
@@ -63,6 +63,7 @@ export function VenderTable({
   };
   return (
     <>
+        <SearchBar onProductoSearch={setSearchData}/>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

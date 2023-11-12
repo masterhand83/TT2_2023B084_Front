@@ -3,6 +3,7 @@ import { SearchTwoTone as SearchIcon } from '@mui/icons-material';
 export default function SearchBar(props: {
   onProductoSearch: (result: string) => void;
   placeholder?: string;
+  keepervalue?: string
 }) {
   return (
     <TextField
@@ -21,12 +22,5 @@ export default function SearchBar(props: {
         props.onProductoSearch(event.currentTarget.value);
       }}
     />
-    // <Search
-    //   placeholder="Codigo de barras, marca o nombre del producto"
-    //   onChange={(event) => {
-    //     props.onProductoSearch(event.currentTarget.value);
-    //   }}
-    //   size="large"
-    // />
   );
 }
