@@ -72,7 +72,7 @@ export function Ventas() {
             <tbody>
               {venta.items.map((item) => (
                 <tr className="">
-                  <td className="text-left">{item.cantidad.toFixed(3)}</td>
+                  <td className="text-left">{item.cantidad}</td>
                   <td>
                     <div className="flex flex-col text-left">
                       <span>{item.producto.nombre}</span>

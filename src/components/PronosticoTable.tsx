@@ -9,12 +9,12 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import Search from 'antd/es/input/Search';
-import { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PronosticoActionGroup from './PronosticoTable/PronosticoActionGroup';
 import LoadingPronosticoModal from './PronosticoTable/LoadingPronosticoModal';
 import { getListaProductos } from '../services';
 import { useNavigate } from 'react-router-dom';
+import SearchBar from './utils/SearchBar';
 //const dataSource: readonly Producto[] = productosData;
 
 export function PronosticoTable() {
@@ -31,10 +31,10 @@ export function PronosticoTable() {
       producto.nombre.includes(searchData)
     );
   };
-  const onProductoSearch: ChangeEventHandler = (
-    event: ChangeEvent<HTMLInputElement>
+  const onProductoSearch = (
+    data: string
   ) => {
-    setSearchData(event.target.value);
+    setSearchData(data);
   };
 
   const [page, setPage] = useState(0);
@@ -66,11 +66,14 @@ export function PronosticoTable() {
   return (
     <div className="w-[75%] space-y-2">
       <div className="flex space-x-2 items-center">
-        <Search
+        <SearchBar
+          onProductoSearch={onProductoSearch}
+        />
+        {/* <Search
           placeholder="Codigo de barras, marca o nombre del producto"
           onChange={onProductoSearch}
           size="large"
-        />
+        /> */}
       </div>
       <TableContainer component={Paper}>
         <Table>

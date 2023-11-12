@@ -55,7 +55,7 @@ export function HistorialTable({ dataSource, producto }: HistorialTableProps) {
                 <span className="font-bold">Final</span>
               </TableCell>
               <TableCell>
-                <span className="font-bold">Valor</span>
+                <span className="font-bold">Existencias</span>
               </TableCell>
             </TableRow>
           </TableHead>
