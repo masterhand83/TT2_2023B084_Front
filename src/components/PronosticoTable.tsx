@@ -31,9 +31,7 @@ export function PronosticoTable() {
       producto.nombre.includes(searchData)
     );
   };
-  const onProductoSearch = (
-    data: string
-  ) => {
+  const onProductoSearch = (data: string) => {
     setSearchData(data);
   };
 
@@ -54,7 +52,10 @@ export function PronosticoTable() {
       });
     }
     if (action === 'forecast') {
-      setOpenPronosticoModal(true);
+      // setOpenPronosticoModal(true);
+      navigate('/pagina-pronostico', {
+        state: { producto },
+      })
     }
   };
   useEffect(() => {
@@ -66,25 +67,18 @@ export function PronosticoTable() {
   return (
     <div className="w-[75%] space-y-2">
       <div className="flex space-x-2 items-center">
-        <SearchBar
-          onProductoSearch={onProductoSearch}
-        />
-        {/* <Search
-          placeholder="Codigo de barras, marca o nombre del producto"
-          onChange={onProductoSearch}
-          size="large"
-        /> */}
+        <SearchBar onProductoSearch={onProductoSearch} />
       </div>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell sx={{fontWeight:'bold'}}>Código</TableCell>
-              <TableCell sx={{fontWeight:'bold'}}>Producto</TableCell>
-              <TableCell sx={{fontWeight:'bold'}}>Marca</TableCell>
-              <TableCell sx={{fontWeight:'bold'}}>Existencia</TableCell>
-              <TableCell sx={{fontWeight:'bold'}}>Precio</TableCell>
-              <TableCell sx={{fontWeight:'bold'}}>Acciones</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Código</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Producto</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Marca</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Existencia</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Precio</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

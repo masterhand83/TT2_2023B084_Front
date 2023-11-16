@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -9,24 +10,21 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import dayjs from 'dayjs';
 import { useState } from 'react';
+import LoadingContentRow from '../utils/LoadingContentRow';
 
 type HistorialTableProps = {
   dataSource: PronosticoVentas;
   producto: Producto;
+  loading: boolean;
 };
 
-export function HistorialTable({ dataSource, producto }: HistorialTableProps) {
-  const firstDateOfYear = dayjs().startOf('year');
-  const lastDateOfYear = dayjs().endOf('year');
+export function HistorialTable({
+  dataSource,
+  producto,
+  loading,
+}: HistorialTableProps) {
   const [page, setPage] = useState(0);
-  const [_upperLimit, _setUpperLimit] = useState<dayjs.Dayjs | null>(
-    lastDateOfYear
-  );
-  const [_lowerLimit, _setLowerLimit] = useState<dayjs.Dayjs | null>(
-    firstDateOfYear
-  );
   const rowsPerPage = 4;
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
@@ -43,8 +41,13 @@ export function HistorialTable({ dataSource, producto }: HistorialTableProps) {
           <TableHead>
             <TableRow>
               <TableCell colSpan={3}>
-                <span className='font-bold text-stone-600'>{producto.codigo}</span>
-                <div>Historial de: <span className="font-bold">{producto.nombre}</span></div>
+                <span className="font-bold text-stone-600">
+                  {producto.codigo}
+                </span>
+                <div>
+                  Historial de:{' '}
+                  <span className="font-bold">{producto.nombre}</span>
+                </div>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -60,19 +63,21 @@ export function HistorialTable({ dataSource, producto }: HistorialTableProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataSource
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((pronostico, index) => {
-                return (
-                  <TableRow
-                    className="hover:bg-blue-50"
-                    key={index}>
-                    <TableCell>{pronostico.periodoInicio}</TableCell>
-                    <TableCell>{pronostico.periodoFin}</TableCell>
-                    <TableCell>{pronostico.ventas}</TableCell>
-                  </TableRow>
-                );
-              })}
+            {loading ? (
+              <LoadingContentRow colSpan={3}/>
+            ) : (
+              dataSource
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((pronostico, index) => {
+                  return (
+                    <TableRow className="hover:bg-blue-50" key={index}>
+                      <TableCell>{pronostico.periodoInicio}</TableCell>
+                      <TableCell>{pronostico.periodoFin}</TableCell>
+                      <TableCell>{pronostico.ventas}</TableCell>
+                    </TableRow>
+                  );
+                })
+            )}
           </TableBody>
           <TableFooter>
             <TableRow>

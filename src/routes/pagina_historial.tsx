@@ -102,6 +102,7 @@ type HistorialItem = {
 export function PaginaHistorial() {
   const [_data, _setData] = useState(defaultData);
   const [datos, setDatos] = useState<HistorialItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const { producto } = useLocation().state;
   useEffect(() => {
     console.log('llamando');
@@ -110,6 +111,7 @@ export function PaginaHistorial() {
         data.map((d) => ({ fecha: d.fecha, existencias: d.existencias }))
       );
       setDatos(res);
+      setLoading(false);
       console.log('res',datos)
     });
   }, []);
@@ -187,7 +189,7 @@ export function PaginaHistorial() {
                 periodoInicio: v.range[1],
                 periodoFin: v.range[0],
                 ventas: v.totalExistencias
-              }))} producto={producto} />
+              }))} producto={producto} loading={loading}/>
             </Box>
           </Grid>
           <Grid item xs={12} md={6} sx={{ display: { xs: 'flex' } }}>
@@ -228,7 +230,7 @@ export function PaginaHistorial() {
                 periodoInicio: v.range[1],
                 periodoFin: v.range[0],
                 ventas: v.totalExistencias
-              }))} producto={producto} />
+              }))} producto={producto} loading={loading}/>
             </Box>
           </Grid>
         </Grid>
