@@ -1,5 +1,4 @@
 import {
-  CircularProgress,
   Paper,
   Table,
   TableBody,
