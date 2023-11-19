@@ -91,7 +91,7 @@ export default function DetalleVentaList({
               </TableRow>
             </TableHead>
             <TableBody>
-              {selectedVenta?.items.map(({ producto, key, cantidad }) => (
+              {selectedVenta?.items.map(({ producto, key, cantidad , registro_precio}) => (
                 <TableRow key={key}>
                   <TableCell>
                     <Stack>
@@ -100,7 +100,7 @@ export default function DetalleVentaList({
                     </Stack>
                   </TableCell>
                   <TableCell sx={{fontSize:'10pt'}}>{cantidad}</TableCell>
-                  <TableCell sx={{fontSize:'10pt', whiteSpace:'nowrap'}}>$ {producto.precio_unitario}</TableCell>
+                  <TableCell sx={{fontSize:'10pt', whiteSpace:'nowrap'}}>$ {registro_precio}</TableCell>
                   <TableCell sx={{fontSize:'10pt', whiteSpace:'nowrap'}}>
                     $ {formatNumber(cantidad * producto.precio_unitario)}
                   </TableCell>

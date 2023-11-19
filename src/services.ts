@@ -42,6 +42,7 @@ export async function addMarcaToList(marca: string) {
   return result.data;
 }
 export async function hacerCompra(params: VentaItem[]){
+  console.log(params)
   const result = await axios.post(`${DIRECCION_API}hacer-compra`, params)
   return result.data;
 }

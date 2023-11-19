@@ -11,6 +11,7 @@ declare type Producto = {
 declare type VentaItem = {
   key: string;
   cantidad: number;
+  registro_precio: number;
   producto: Producto;
 }
 declare type Venta = {

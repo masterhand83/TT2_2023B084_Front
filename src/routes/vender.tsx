@@ -29,6 +29,7 @@ export function Vender() {
     const newItem: VentaItem = {
       cantidad: 1,
       key: producto.codigo,
+      registro_precio: producto.precio_unitario,
       producto: producto,
     };
     const updatedList: VentaItem[] = selectedList.concat(newItem);
@@ -38,6 +39,7 @@ export function Vender() {
     const newItem: VentaItem = {
       cantidad: value,
       key: item.key,
+      registro_precio: item.registro_precio,
       producto: item.producto,
     };
     setSelectedList(
