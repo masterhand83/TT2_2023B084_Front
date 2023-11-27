@@ -36,7 +36,7 @@ const getFormatedFecha = (fecha: string) => {
 };
 
 export function MobileVentaTable({ onVentaSelected, tableData }: VentaTableProps) {
-  const firstDateOfYear = dayjs().startOf('year');
+  const firstDateOfYear = dayjs().startOf('year').subtract(5, 'years')
   const lastDateOfYear = dayjs().endOf('year');
   const [page, setPage] = useState(0);
   const [upperLimit, setUpperLimit] = useState<dayjs.Dayjs | null>(

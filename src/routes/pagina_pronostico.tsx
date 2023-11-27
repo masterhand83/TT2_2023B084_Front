@@ -8,7 +8,7 @@ import LoadingPronosticoSpinner from '../components/PronosticoTable/LoadingProno
 type Pronostico = {
   period: string[];
   prediction: number[];
-}
+};
 // const dataSource: PronosticoVentas = [
 //   {
 //     periodoInicio: '2023-02-12',
@@ -50,22 +50,23 @@ type Pronostico = {
 export function PaginaPronostico() {
   const { producto } = useLocation().state;
   const socketUrl =
-    'wss://ttendpoint--4tk2z8n.politestone-8d1546f8.westus2.azurecontainerapps.io/ws/25' ;
+    'wss://ttendpoint--4tk2z8n.politestone-8d1546f8.westus2.azurecontainerapps.io/ws/' +
+    producto.codigo;
   const { lastMessage } = useWebSocket(socketUrl, {
     shouldReconnect: (_closeEvent) => false,
   });
   const [data, setData] = useState([] as any);
+  const [dataLimit, setDataLimit] = useState(100);
   const [dataSource, setDataSource] = useState([] as any[]);
   const [loadStatus, setLoadStatus] = useState(0);
   useEffect(() => {
-    if(lastMessage === null) {
-      return
+    if (lastMessage === null) {
+      return;
     }
-    if (lastMessage.data === 'Retrieving data...'){
-      setLoadStatus(0)
-    }
-    else if (lastMessage.data === 'Creating prediction...'){
-      setLoadStatus(1)
+    if (lastMessage.data === 'Retrieving data...') {
+      setLoadStatus(0);
+    } else if (lastMessage.data === 'Creating prediction...') {
+      setLoadStatus(1);
     } else {
       const content = JSON.parse(lastMessage.data) as Pronostico;
       const newDataSource = content.period.map((period, index) => {
@@ -74,25 +75,32 @@ export function PaginaPronostico() {
           periodoInicio: periodos[0],
           periodoFin: periodos[1],
           ventas: content.prediction[index],
-        }
+        };
 
         return newData;
       });
-      const newData = [{
-        id: 'p1',
-        data: content.prediction.map((ventas: any, index: any) => {
-          return {
-            x: `s${index}`,
-            y: ventas
-          }
-        })
-    }]
-      setDataSource(newDataSource)
-      setData(newData)
+      const newData = [
+        {
+          id: 'p1',
+          data: content.prediction.map((ventas: any, index: any) => {
+            return {
+              x: `s${index}`,
+              y: ventas,
+            };
+          }),
+        },
+      ];
+      const limit =
+        newData[0].data.reduce((prev: any, curr: any) => {
+          return prev.y > curr.y ? prev : curr;
+        }).y + 5;
+      setDataLimit(limit);
+      setDataSource(newDataSource);
+      setData(newData);
       setLoadStatus(2);
     }
 
-    console.log('llamando',  lastMessage);
+    console.log('llamando', lastMessage);
   }, [lastMessage]);
   const DataChart = () => (
     <ResponsiveLine
@@ -102,12 +110,10 @@ export function PaginaPronostico() {
       yScale={{
         type: 'linear',
         min: 0,
-        max:100,
-          // data[0].data.reduce((prev: any, curr: any) => {
-          //   return prev.y > curr.y ? prev : curr;
-          // }).y + 10,
+        max: dataLimit,
         stacked: false,
         reverse: false,
+        nice: true
       }}
       curve="linear"
       enableArea={false}

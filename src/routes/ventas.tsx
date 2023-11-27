@@ -12,12 +12,15 @@ import Swal from 'sweetalert2';
 
 const theme = createTheme({}, esES);
 export function Ventas() {
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedVenta, setSelectedVenta] = useState<Venta | null>(null);
   const [tableData, setTabledata] = useState([] as any[]);
 
   useEffect(() => {
+    setIsLoading(true);
     getVentas().then((data) => {
       setTabledata(data);
+      setIsLoading(false);
     });
   }, []);
   const DesktopView = () => (
@@ -26,6 +29,7 @@ export function Ventas() {
         <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
           <div className="p-[3rem]">
             <VentaTable
+              isLoading={isLoading}
               tableData={tableData}
               onVentaSelected={(venta) => setSelectedVenta(venta)}
             />

@@ -13,8 +13,10 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { DatePicker } from 'antd';
 import { formatNumber } from '../../utils/utilities';
+import LoadingContentRow from '../utils/LoadingContentRow';
 
 type VentaTableProps = {
+  isLoading: boolean;
   onVentaSelected?: (_venta: Venta) => void;
   tableData: any[]
 };
@@ -35,8 +37,8 @@ const getFormatedFecha = (fecha: string) => {
   return formattedDate;
 };
 
-export function VentaTable({ onVentaSelected, tableData }: VentaTableProps) {
-  const firstDateOfYear = dayjs().startOf('year');
+export function VentaTable({ onVentaSelected, tableData, isLoading }: VentaTableProps) {
+  const firstDateOfYear = dayjs().startOf('year').subtract(5, 'years');
   const lastDateOfYear = dayjs().endOf('year');
   const [page, setPage] = useState(0);
   const [upperLimit, setUpperLimit] = useState<dayjs.Dayjs | null>(
@@ -109,6 +111,7 @@ export function VentaTable({ onVentaSelected, tableData }: VentaTableProps) {
             </TableRow>
           </TableHead>
           <TableBody>
+            {isLoading? <LoadingContentRow colSpan={4} /> : null}
             {tableData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .filter(isInDateRange)
