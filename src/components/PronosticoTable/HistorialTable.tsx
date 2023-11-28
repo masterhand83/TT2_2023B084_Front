@@ -11,17 +11,20 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import LoadingContentRow from '../utils/LoadingContentRow';
+import {  singleMonthDayFormat } from '../../utils/utilities';
 
 type HistorialTableProps = {
   dataSource: PronosticoVentas;
   producto: Producto;
   loading: boolean;
+  type: string;
 };
 
 export function HistorialTable({
   dataSource,
   producto,
   loading,
+  type,
 }: HistorialTableProps) {
   const [page, setPage] = useState(0);
   const rowsPerPage = 4;
@@ -40,21 +43,18 @@ export function HistorialTable({
           <TableHead>
             <TableRow>
               <TableCell colSpan={3}>
-                <span className="font-bold text-stone-600">
-                  {producto.codigo}
-                </span>
                 <div>
-                  Historial de:{' '}
+                  {type} de:{' '}
                   <span className="font-bold">{producto.nombre}</span>
                 </div>
+                <span className="font-bold text-stone-500">
+                  Código del producto: {producto.codigo}
+                </span>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <span className="font-bold">Inicio</span>
-              </TableCell>
-              <TableCell>
-                <span className="font-bold">Final</span>
+                <span className="font-bold">Rango de fechas</span>
               </TableCell>
               <TableCell>
                 <span className="font-bold">Existencias</span>
@@ -63,15 +63,17 @@ export function HistorialTable({
           </TableHead>
           <TableBody>
             {loading ? (
-              <LoadingContentRow colSpan={3}/>
+              <LoadingContentRow colSpan={3} />
             ) : (
               dataSource
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((pronostico, index) => {
                   return (
                     <TableRow className="hover:bg-blue-50" key={index}>
-                      <TableCell>{pronostico.periodoInicio}</TableCell>
-                      <TableCell>{pronostico.periodoFin}</TableCell>
+                      <TableCell>
+                        {singleMonthDayFormat(pronostico.periodoInicio)} -{' '}
+                        {singleMonthDayFormat(pronostico.periodoFin)}
+                      </TableCell>
                       <TableCell>{pronostico.ventas}</TableCell>
                     </TableRow>
                   );

@@ -2,51 +2,56 @@ import { useEffect, useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { useLocation } from 'react-router-dom';
 import { HistorialTable } from '../components/PronosticoTable/HistorialTable';
-import { Box, Card, Grid } from '@mui/material';
+import { Box, Card, Grid, Typography } from '@mui/material';
 import useWebSocket from 'react-use-websocket';
 import LoadingPronosticoSpinner from '../components/PronosticoTable/LoadingPronosticoSpinner';
+import { toMonthDayFormat } from '../utils/utilities';
 type Pronostico = {
   period: string[];
   prediction: number[];
 };
-// const dataSource: PronosticoVentas = [
-//   {
-//     periodoInicio: '2023-02-12',
-//     periodoFin: '2023-03-18',
-//     ventas: 512,
-//   },
-//   {
-//     periodoInicio: '2023-05-06',
-//     periodoFin: '2023-06-10',
-//     ventas: 289,
-//   },
-//   {
-//     periodoInicio: '2023-08-21',
-//     periodoFin: '2023-09-25',
-//     ventas: 726,
-//   },
-//   {
-//     periodoInicio: '2023-11-03',
-//     periodoFin: '2023-12-07',
-//     ventas: 148,
-//   },
-//   {
-//     periodoInicio: '2023-04-30',
-//     periodoFin: '2023-06-04',
-//     ventas: 821,
-//   },
-// ];
-// const defaultData = [
-//   {
-//     id: 'p1',
-//     data: dataSource.map((data, index) => {
-//       return {
-//         x: `s${index}`,
-//         y: data.ventas,
-//       };
-//     }),
-//   },
-// ];
+function convertSpanishDateToISO(dateString: string) {
+  let parts = dateString.split(' de ');
+  let day = parts[0];
+  type Months = {
+    [key: string]: string;
+    enero: string;
+    febrero: string;
+    marzo: string;
+    abril: string;
+    mayo: string;
+    junio: string;
+    julio: string;
+    agosto: string;
+    septiembre: string;
+    octubre: string;
+    noviembre: string;
+    diciembre: string;
+  };
+  let months: Months = {
+    enero: '01',
+    febrero: '02',
+    marzo: '03',
+    abril: '04',
+    mayo: '05',
+    junio: '06',
+    julio: '07',
+    agosto: '08',
+    septiembre: '09',
+    octubre: '10',
+    noviembre: '11',
+    diciembre: '12',
+  };
+  let month = months[parts[1].toLowerCase() as keyof Months];
+  let year = new Date().getFullYear();
+  if (day.length === 1) {
+    day = '0' + day; // Add leading zero if day is a single digit
+  }
+  const ndate = new Date(`${year}-${month}-${day}`);
+
+  // ndate.setDate(ndate.getDate() + 1)
+  return ndate;
+}
 export function PaginaPronostico() {
   const { producto } = useLocation().state;
   const socketUrl =
@@ -57,8 +62,9 @@ export function PaginaPronostico() {
   });
   const [data, setData] = useState([] as any);
   const [dataLimit, setDataLimit] = useState(100);
-  const [dataSource, setDataSource] = useState([] as any[]);
+  const [dataSource, setDataSource] = useState([] as any);
   const [loadStatus, setLoadStatus] = useState(0);
+
   useEffect(() => {
     if (lastMessage === null) {
       return;
@@ -69,8 +75,12 @@ export function PaginaPronostico() {
       setLoadStatus(1);
     } else {
       const content = JSON.parse(lastMessage.data) as Pronostico;
+      console.log('contenido descargado', content);
       const newDataSource = content.period.map((period, index) => {
-        const periodos = period.split('/');
+        const periodos = period.split('/').map((date: string) => {
+          const dateObj = convertSpanishDateToISO(date);
+          return dateObj;
+        });
         const newData = {
           periodoInicio: periodos[0],
           periodoFin: periodos[1],
@@ -78,14 +88,14 @@ export function PaginaPronostico() {
         };
 
         return newData;
-      });
+      }).slice(0, 4);
       const newData = [
         {
           id: 'p1',
-          data: content.prediction.map((ventas: any, index: any) => {
+          data: newDataSource.map((ventas: any, _index: any) => {
             return {
-              x: `s${index}`,
-              y: ventas,
+              x: toMonthDayFormat(ventas.periodoInicio, ventas.periodoFin),
+              y: ventas.ventas,
             };
           }),
         },
@@ -99,21 +109,19 @@ export function PaginaPronostico() {
       setData(newData);
       setLoadStatus(2);
     }
-
-    console.log('llamando', lastMessage);
   }, [lastMessage]);
   const DataChart = () => (
     <ResponsiveLine
       data={data}
-      margin={{ top: 20, right: 20, bottom: 50, left: 50 }}
+      margin={{ top: 20, right: 50, bottom: 60, left: 50 }}
       xScale={{ type: 'point' }}
       yScale={{
         type: 'linear',
         min: 0,
-        max: dataLimit,
+        max: dataLimit - 1,
         stacked: false,
         reverse: false,
-        nice: true
+        nice: true,
       }}
       curve="linear"
       enableArea={false}
@@ -123,9 +131,10 @@ export function PaginaPronostico() {
       enablePointLabel
       pointLabel={'yFormatted'}
       axisLeft={{
-        legend: 'Ventas',
+        legend: 'Unidades de Venta',
         legendOffset: -40,
         legendPosition: 'middle',
+        tickValues: Array.from({ length: dataLimit }, (_, i) => i),
       }}
       axisBottom={{
         tickSize: 10,
@@ -153,12 +162,36 @@ export function PaginaPronostico() {
             <Box
               sx={{ height: '100%', display: 'flex' }}
               flexDirection={'column'}
-              justifyContent={'center'}>
-              <span>{loadStatus}</span>
+              justifyContent={'center'}
+              alignItems={'center'}>
+              <Card
+                sx={{
+                  backgroundColor: 'white',
+                  width: '75%',
+                  padding: '1rem',
+                  marginBottom: '1rem',
+                }}>
+                <Typography
+                  variant="h4"
+                  align="center"
+                  marginBottom={'1rem'}
+                  className="text-slate-900"
+                  fontWeight={500}>
+                  Pronóstico de ventas.
+                </Typography>
+                <Typography
+                  align="justify"
+                  fontSize={'1.1rem'}
+                  className="text-slate-700">
+                  Es el pronostico de las ventas en razón de unidades del
+                  producto que tendra el usuario en las siguientes 4 semanas.
+                </Typography>
+              </Card>
               <HistorialTable
                 producto={producto}
                 dataSource={dataSource}
                 loading={loadStatus !== 2}
+                type="Pronóstico"
               />
             </Box>
           </Grid>
@@ -204,6 +237,7 @@ export function PaginaPronostico() {
                 producto={producto}
                 dataSource={dataSource}
                 loading={loadStatus !== 2}
+                type="Pronóstico"
               />
             </Box>
           </Grid>

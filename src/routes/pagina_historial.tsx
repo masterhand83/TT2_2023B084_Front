@@ -3,7 +3,7 @@ import { ResponsiveLine } from '@nivo/line';
 import { useLocation } from 'react-router-dom';
 import { getExistencias } from '../services';
 import { HistorialTable } from '../components/PronosticoTable/HistorialTable';
-import { Box, Card, Grid } from '@mui/material';
+import { Box, Card, Grid, Stack, Typography } from '@mui/material';
 const dataSource: PronosticoVentas = [
   {
     periodoInicio: '2023-02-12',
@@ -39,6 +39,7 @@ type HistoriaExistencia = {
 type DateObject = { fecha: string; existencias: number };
 
 function subsetDatesByWeeks(dates: DateObject[]): any[] {
+  console.log('dates', dates);
   const oneWeekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
   // Convert the 'fecha' field to Date objects and sort the list
   const sortedDates = [...dates].sort(
@@ -85,9 +86,9 @@ function subsetDatesByWeeks(dates: DateObject[]): any[] {
 const defaultData = [
   {
     id: 'p1',
-    data: dataSource.map((data, index) => {
+    data: dataSource.map((data, _index) => {
       return {
-        x: `s${index}`,
+        x: data.periodoInicio,
         y: data.ventas,
       };
     }),
@@ -98,7 +99,7 @@ type HistorialItem = {
   range: string[];
   totalExistencias: number;
   dates: string[];
-}
+};
 export function PaginaHistorial() {
   const [_data, _setData] = useState(defaultData);
   const [datos, setDatos] = useState<HistorialItem[]>([]);
@@ -107,31 +108,46 @@ export function PaginaHistorial() {
   useEffect(() => {
     console.log('llamando');
     getExistencias(producto.codigo).then((data: HistoriaExistencia[]) => {
+      console.log('datos descargados', data);
       const res = subsetDatesByWeeks(
         data.map((d) => ({ fecha: d.fecha, existencias: d.existencias }))
-      );
+      )
+        .slice()
+        .reverse();
       setDatos(res);
       setLoading(false);
-      console.log('res',datos)
+      console.log('datos procesados', res);
     });
   }, []);
+  const toMonthDayFormat = (dateStart: string, dateFinish: string) => {
+    //return date but formatted like "Noviembre 13 del 2020" with the month in spanish
+    const dateObjectStart = new Date(dateStart);
+    const dateObjectFinish = new Date(dateFinish);
+    const monthStart = dateObjectStart.toLocaleString('es-ES', {
+      month: 'short',
+    });
+    const monthFinish = dateObjectFinish.toLocaleString('es-ES', {
+      month: 'short',
+    });
+    const dayStart = dateObjectStart.getDate();
+    const dayFinish = dateObjectFinish.getDate();
+    return `${dayStart} ${monthStart} - ${dayFinish} ${monthFinish}`;
+  };
   const filteredData = [
     {
       id: 'p1',
-      data: datos
-        .map((data, index) => {
-          return {
-            x: `s${index}`,
-            y: data.totalExistencias,
-          };
-        })
+      data: datos.map((data, _index) => {
+        return {
+          x: toMonthDayFormat(data.range[0], data.range[1]),
+          y: data.totalExistencias,
+        };
+      }),
     },
   ];
-  console.log(filteredData);
   const DataChart = () => (
     <ResponsiveLine
       data={filteredData}
-      margin={{ top: 20, right: 20, bottom: 50, left: 50 }}
+      margin={{ top: 20, right: 50, bottom: 60, left: 50 }}
       xScale={{ type: 'point' }}
       yScale={{
         type: 'linear',
@@ -141,7 +157,7 @@ export function PaginaHistorial() {
               .map((value) => value.y)
               .reduce((prev, curr) => {
                 return prev > curr ? prev : curr;
-              }, 0) + 10
+              }, 0) + 100
           : 100,
         stacked: false,
         reverse: false,
@@ -184,24 +200,55 @@ export function PaginaHistorial() {
             <Box
               sx={{ height: '100%', display: 'flex' }}
               flexDirection={'column'}
-              justifyContent={'center'}>
-              <HistorialTable dataSource={datos.map((v) => ({
-                periodoInicio: v.range[1],
-                periodoFin: v.range[0],
-                ventas: v.totalExistencias
-              }))} producto={producto} loading={loading}/>
+              justifyContent={'center'}
+              alignItems={'center'}>
+              <Card
+                sx={{
+                  backgroundColor: 'white',
+                  width: '75%',
+                  padding: '1rem',
+                  marginBottom: '1rem',
+                }}>
+                <Typography
+                  variant="h4"
+                  align="center"
+                  marginBottom={'1rem'}
+                  className="text-slate-900"
+                  fontWeight={500}>
+                  Historial de existencias semanales del producto.
+                </Typography>
+                <Typography
+                  align="justify"
+                  fontSize={'1.1rem'}
+                  className="text-slate-700">
+                  Es el historial de existencias desde hace 4 semanas hasta la
+                  semana donde se dió el registro mas reciente.
+                </Typography>
+              </Card>
+              <HistorialTable
+                dataSource={datos.map((v) => ({
+                  periodoInicio: v.range[0],
+                  periodoFin: v.range[1],
+                  ventas: v.totalExistencias,
+                }))}
+                producto={producto}
+                loading={loading}
+                type="Historial"
+              />
             </Box>
           </Grid>
           <Grid item xs={12} md={6} sx={{ display: { xs: 'flex' } }}>
-            <Card
-              sx={{
-                backgroundColor: 'white',
-                height: '100%',
-                width: '100%',
-                padding: '1rem',
-              }}>
-              <DataChart />
-            </Card>
+            <Stack direction="column" width={'100%'}>
+              <Card
+                sx={{
+                  backgroundColor: 'white',
+                  height: '100%',
+                  width: '100%',
+                  padding: '1rem',
+                }}>
+                <DataChart />
+              </Card>
+            </Stack>
           </Grid>
         </Grid>
       </Box>
@@ -226,11 +273,16 @@ export function PaginaHistorial() {
               sx={{ height: '100%', display: 'flex' }}
               flexDirection={'column'}
               justifyContent={'center'}>
-              <HistorialTable dataSource={datos.map((v) => ({
-                periodoInicio: v.range[1],
-                periodoFin: v.range[0],
-                ventas: v.totalExistencias
-              }))} producto={producto} loading={loading}/>
+              <HistorialTable
+                dataSource={datos.map((v) => ({
+                  periodoInicio: v.range[1],
+                  periodoFin: v.range[0],
+                  ventas: v.totalExistencias,
+                }))}
+                producto={producto}
+                loading={loading}
+                type="Historial"
+              />
             </Box>
           </Grid>
         </Grid>

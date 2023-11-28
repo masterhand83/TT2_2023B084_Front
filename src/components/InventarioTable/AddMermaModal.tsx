@@ -1,5 +1,5 @@
 import { Form, InputNumber, Modal } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { removeStock } from '../../services';
 
 type AddMermaModalProps = {
@@ -19,9 +19,13 @@ export default function AddMermaModal({
   isOpen,
   setIsOpen,
   currentProducto,
-  reloader
+  reloader,
 }: AddMermaModalProps) {
   const [confirmloading, setConfirmLoading] = useState(false);
+  const [merma, setMerma] = useState(1);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errorStatus, setErrorStatus] = useState('' as  'error' | 'warning'|'success'|'');
   const [form] = Form.useForm();
   const handleCancel = () => {
     form.resetFields();
@@ -29,6 +33,18 @@ export default function AddMermaModal({
   };
   const addMerma = (values: { merma: number }) => {
     console.log(values);
+    if(values.merma <= 0) {
+      setError(true);
+      setErrorStatus('error');
+      setErrorMessage('La merma debe ser mayor a 0');
+      return
+    }
+    if (merma > existencias) {
+      setError(true);
+      setErrorStatus('error');
+      setErrorMessage('La merma es mayor a las existencias');
+      return
+    }
     setConfirmLoading(true);
     // setTimeout(() => {
     //   setIsOpen(false);
@@ -41,13 +57,33 @@ export default function AddMermaModal({
         console.log(response);
         setConfirmLoading(false);
         setIsOpen(false);
-        if(reloader){
-          reloader()
+        if (reloader) {
+          reloader();
         }
       }
     );
   };
   const { existencias } = currentProducto;
+  useEffect(() => {
+    form.resetFields();
+  }, [confirmloading])
+  useEffect(() => {
+    if (merma <= 0) {
+      setError(true);
+      setErrorStatus('error');
+      setErrorMessage('La merma debe ser mayor a 0');
+      return
+    }
+    if (merma > existencias) {
+      setError(true);
+      setErrorStatus('error');
+      setErrorMessage('La merma es mayor a las existencias');
+      return
+    }
+    setError(false);
+    setErrorStatus('')
+    setErrorMessage('')
+  }, [merma])
   return (
     <Modal
       confirmLoading={confirmloading}
@@ -57,21 +93,40 @@ export default function AddMermaModal({
       okType="default"
       cancelText="Cancelar"
       okText="Subir"
-      onCancel={handleCancel}>
+      onCancel={handleCancel}
+      okButtonProps={{disabled: error}}
+    >
+      <div className='mb-4'>
+        <p>
+          La merma representa una manera de reportar pérdidas en el inventario
+          que no están asociadas con las ventas y pueden deberse a caducidad,
+          robo, extravío o errores en el conteo.
+        </p>
+      </div>
       <Form form={form} onFinish={addMerma}>
-        <div>
-          <p>
-            La merma es una forma de reportar perdidas en el inventario no
-            relacionadas con las ventas ya sea por caducidad, robo, extravio o
-            mal conteo
-          </p>
-        </div>
-        <Form.Item label="Merma" name="merma" initialValue={1}>
+        <Form.Item label="Merma" name="merma" initialValue={1}
+        required
+        validateStatus={errorStatus}
+        help={errorMessage}>
           <InputNumber
-            prefix="-"
             style={{ width: '100%' }}
-            min={1}
-            max={existencias}
+            value={merma}
+            onChange={(value) => {
+              if(value === null) return;
+              setMerma(value)
+            }}
+            onKeyDown={(e) => {
+              const isNumber = /^[0-9]+$/.test(e.key);
+              const isbackspace = e.key === 'Backspace';
+              if(isNumber) {
+                return;
+              }
+              if(isbackspace) {
+                return;
+              }
+              e.preventDefault()
+            }}
+
           />
         </Form.Item>
       </Form>
