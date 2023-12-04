@@ -57,7 +57,9 @@ export function HistorialTable({
                 <span className="font-bold">Rango de fechas</span>
               </TableCell>
               <TableCell>
-                <span className="font-bold">Existencias</span>
+                <span className="font-bold">
+                  {type === 'Pronóstico' ? 'Ventas' : 'Existencias'}
+                </span>
               </TableCell>
             </TableRow>
           </TableHead>

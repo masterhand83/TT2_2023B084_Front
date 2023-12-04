@@ -76,19 +76,21 @@ export function PaginaPronostico() {
     } else {
       const content = JSON.parse(lastMessage.data) as Pronostico;
       console.log('contenido descargado', content);
-      const newDataSource = content.period.map((period, index) => {
-        const periodos = period.split('/').map((date: string) => {
-          const dateObj = convertSpanishDateToISO(date);
-          return dateObj;
-        });
-        const newData = {
-          periodoInicio: periodos[0],
-          periodoFin: periodos[1],
-          ventas: content.prediction[index],
-        };
+      const newDataSource = content.period
+        .map((period, index) => {
+          const periodos = period.split('/').map((date: string) => {
+            const dateObj = convertSpanishDateToISO(date);
+            return dateObj;
+          });
+          const newData = {
+            periodoInicio: periodos[0],
+            periodoFin: periodos[1],
+            ventas: content.prediction[index],
+          };
 
-        return newData;
-      }).slice(0, 4);
+          return newData;
+        })
+        .slice(0, 4);
       const newData = [
         {
           id: 'p1',
@@ -183,8 +185,8 @@ export function PaginaPronostico() {
                   align="justify"
                   fontSize={'1.1rem'}
                   className="text-slate-700">
-                  Es el pronostico de las ventas en razón de unidades del
-                  producto que tendra el usuario en las siguientes 4 semanas.
+                  Es el pronóstico de las ventas en razón de unidades del
+                  producto que tendrá el usuario en las siguientes 4 semanas.
                 </Typography>
               </Card>
               <HistorialTable

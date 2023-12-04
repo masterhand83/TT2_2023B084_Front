@@ -9,7 +9,7 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LoadingContentRow from './utils/LoadingContentRow';
 import { formatNumber } from '../utils/utilities';
 import SearchBar from './utils/SearchBar';
@@ -26,11 +26,12 @@ const includesSearchData = (searchData: string) => (producto: Producto) => {
     producto.nombre.includes(searchData)
   );
 };
-export function VenderTable({
+function VenderTable({
   onProductoSelected,
   tableData,
   loadingContent,
 }: VenderTableProps) {
+  console.log('rendering vender table');
   const [searchData, setSearchData] = useState('');
   const [page, setPage] = useState(0);
   const rowsPerPage = 8;
@@ -40,6 +41,33 @@ export function VenderTable({
   ) => {
     setPage(newPage);
   };
+  let accumulatedInput = ''
+  let lastKeypressTime = 0;
+
+  const HandleKeyPress = (event: KeyboardEvent) => {
+    const currentTime = new Date().getTime();
+    if(currentTime - lastKeypressTime > 500) {
+      accumulatedInput = ''
+    }
+    lastKeypressTime = currentTime;
+    if (event.key === 'Enter') {
+      const producto = tableData.find((producto) => producto.codigo === accumulatedInput.trim())
+      if(producto){
+        console.log(producto)
+        onProductoSelected(producto)
+      }
+      //setSearchData(accumulatedInput.trim())
+      console.log('accumulated input',accumulatedInput.trim())
+      accumulatedInput = ''
+    }
+    accumulatedInput += event.key;
+  }
+  useEffect(() => {
+    window.addEventListener('keypress', HandleKeyPress)
+    return () => {
+      window.removeEventListener('keypress', HandleKeyPress)
+    }
+  })
   const TableContent = () => {
     return tableData
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -103,3 +131,5 @@ export function VenderTable({
     </>
   );
 }
+
+export default React.memo(VenderTable)
