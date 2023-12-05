@@ -102,7 +102,7 @@ export default function DetalleVentaList({
                   <TableCell sx={{fontSize:'10pt'}}>{cantidad}</TableCell>
                   <TableCell sx={{fontSize:'10pt', whiteSpace:'nowrap'}}>$ {registro_precio}</TableCell>
                   <TableCell sx={{fontSize:'10pt', whiteSpace:'nowrap'}}>
-                    $ {formatNumber(cantidad * producto.precio_unitario)}
+                    $ {formatNumber(cantidad * registro_precio)}
                   </TableCell>
                 </TableRow>
               ))}
