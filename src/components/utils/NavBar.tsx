@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState, MouseEvent } from 'react';
 
 const paginas = [
@@ -39,13 +39,14 @@ export default function NavBar() {
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu: any = () => {
     setAnchorElNav(null);
   };
+  const {pathname} = useLocation();
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters variant='dense'>
           <Typography
             variant="h6"
             component="a"
@@ -81,16 +82,19 @@ export default function NavBar() {
                 display: { xs: 'block', md: 'none' },
               }}>
               {paginas.map((pagina, index) => (
-                <MenuItem key={index} onClick={handleCloseNavMenu}>
                   <Link to={pagina.ruta} key={index}>
+                <MenuItem key={index} onClick={handleCloseNavMenu}
+                  selected={
+                     pagina.ruta === pathname
+                    }>
                     <Typography
                       variant="h6"
                       component="div"
                       sx={{ flexGrow: 1 }}>
                       {pagina.titulo}
                     </Typography>
-                  </Link>
                 </MenuItem>
+                  </Link>
               ))}
             </Menu>
           </Box>
@@ -107,15 +111,17 @@ export default function NavBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: {xs:'none', md:'flex'} }} >
               {paginas.map((pagina, index) => (
-                <MenuItem key={index} onClick={handleCloseNavMenu}>
                   <Link to={pagina.ruta} key={index}>
+                <MenuItem key={index} onClick={handleCloseNavMenu} selected={pagina.ruta === pathname}>
                     <Typography
                       component="div"
-                      sx={{ flexGrow: 1 }}>
+                      sx={{ flexGrow: 1,
+                        fontWeight: pagina.ruta === pathname? '700':'500',
+                        }}>
                       {pagina.titulo}
                     </Typography>
-                  </Link>
                 </MenuItem>
+                  </Link>
               ))}
 
           </Box>
