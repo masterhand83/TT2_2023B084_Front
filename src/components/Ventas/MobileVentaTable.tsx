@@ -135,7 +135,7 @@ export function MobileVentaTable({
                 <span className="font-bold">No.&nbsp;Productos</span>
               </TableCell>
               <TableCell>
-                <span className="font-bold">{isLoading}</span>
+                <span className="font-bold">Total</span>
               </TableCell>
             </TableRow>
           </TableHead>
