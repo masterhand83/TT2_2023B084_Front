@@ -58,3 +58,7 @@ export async function getExistencias(codigo:string) {
   const result = await axios.get(`${DIRECCION_API}get-lista-existencias?codigo=${codigo}`)
   return result.data;
 }
+export async function getVistaVentas(): Promise<VistaVenta[]> {
+  const result = await axios.get(`${DIRECCION_API}get-vista-ventas`)
+  return result.data;
+}

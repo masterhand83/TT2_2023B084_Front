@@ -9,10 +9,10 @@ import {
   TableRow,
 } from '@mui/material';
 type DetalleVentaListProps = {
-  selectedVenta: Venta | null;
+  selectedVenta: VistaVenta | null;
 };
 type VentaProps = {
-  selectedVenta: Venta;
+  selectedVenta: VistaVenta;
 };
 const getFechaHours = (fecha: string) => {
   const fechaDate = new Date(fecha);
@@ -91,12 +91,12 @@ export default function DetalleVentaList({
               </TableRow>
             </TableHead>
             <TableBody>
-              {selectedVenta?.items.map(({ producto, key, cantidad , registro_precio}) => (
-                <TableRow key={key}>
+              {selectedVenta?.items.map(({codigo_producto, nombre, cantidad, registro_precio}: VistaVentaItem) => (
+                <TableRow key={codigo_producto}>
                   <TableCell>
                     <Stack>
-                        <span className='font-bold text-indigo-300'>{producto.codigo}</span>
-                        <span>{producto.nombre}</span>
+                        <span className='font-bold text-indigo-300'>{codigo_producto}</span>
+                        <span>{nombre}</span>
                     </Stack>
                   </TableCell>
                   <TableCell sx={{fontSize:'10pt'}}>{cantidad}</TableCell>

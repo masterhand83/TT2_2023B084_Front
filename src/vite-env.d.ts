@@ -21,6 +21,20 @@ declare type Venta = {
   cantidad: number;
   total: number;
 }
+declare type VistaVentaItem = {
+  codigo_producto: string;
+  nombre: string;
+  cantidad: number;
+  registro_precio: number;
+  subtotal: number;
+}
+declare type VistaVenta = {
+  id_venta: string;
+  fecha: string;
+  items: VentaVistaItem[]
+  total: number;
+  cantidad: number;
+}
 declare type Perdida = {
   id: number;
   fecha: string;

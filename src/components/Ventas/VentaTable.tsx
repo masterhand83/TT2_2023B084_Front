@@ -17,8 +17,8 @@ import LoadingContentRow from '../utils/LoadingContentRow';
 
 type VentaTableProps = {
   isLoading: boolean;
-  onVentaSelected?: (_venta: Venta) => void;
-  tableData: any[]
+  onVentaSelected?: (_venta: VistaVenta) => void;
+  tableData: VistaVenta[]
 };
 
 const getFechaHours = (fecha: string) => {
@@ -48,7 +48,7 @@ export function VentaTable({ onVentaSelected, tableData, isLoading }: VentaTable
     firstDateOfYear
   );
   const rowsPerPage = 8;
-  const isInDateRange = (venta: Venta) => {
+  const isInDateRange = (venta: VistaVenta) => {
     if (!lowerLimit || !upperLimit) return false;
     const ventaDate = dayjs(venta.fecha);
     return ventaDate.isAfter(lowerLimit) && ventaDate.isBefore(upperLimit);
@@ -124,7 +124,7 @@ export function VentaTable({ onVentaSelected, tableData, isLoading }: VentaTable
                 return (
                   <TableRow
                     className="hover:bg-blue-50"
-                    key={venta.id}
+                    key={venta.id_venta}
                     sx={{ cursor: 'pointer' }}
                     onClick={() => onVentaSelected?.(venta)}
                     >

@@ -4,7 +4,7 @@ import DetalleVentaList from '../components/Ventas/DetalleVentaList';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { esES } from '@mui/material/locale';
 import { Box, Grid } from '@mui/material';
-import { getVentas } from '../services';
+import  {getVistaVentas } from '../services';
 import { formatNumber } from '../utils/utilities';
 import { MobileVentaTable } from '../components/Ventas/MobileVentaTable';
 import withReactContent from 'sweetalert2-react-content';
@@ -25,7 +25,7 @@ const getFechaHours = (fecha: string) => {
   const fechaDate = new Date(fecha);
   return new Date(fechaDate).toLocaleTimeString();
 };
-const MobileDetalleVentaList = (venta: Venta) => {
+const MobileDetalleVentaList = (venta: VistaVenta) => {
   return (
     <div className="flex flex-col">
       <span>Fecha: {getFormatedFecha(venta.fecha)}</span>
@@ -38,14 +38,14 @@ const MobileDetalleVentaList = (venta: Venta) => {
             <td className="w-[5rem]">DATOS</td>
           </thead>
           <tbody>
-            {venta.items.map((item) => (
+            {venta.items.map((item: VistaVentaItem) => (
               <tr className="">
                 <td className="text-left">{item.cantidad}</td>
                 <td>
                   <div className="flex flex-col text-left">
-                    <span>{item.producto.nombre}</span>
+                    <span>{item.nombre}</span>
                     <span className="font-bold text-indigo-300">
-                      {item.producto.codigo}
+                      {item.codigo_producto}
                     </span>
                   </div>
                 </td>
@@ -53,13 +53,13 @@ const MobileDetalleVentaList = (venta: Venta) => {
                   <div className="flex flex-col text-left pt-2">
                     <span>
                       <span className="font-bold">Precio:</span>
-                      <br />$ {formatNumber(item.producto.precio_unitario)}
+                      <br />$ {formatNumber(item.registro_precio)}
                     </span>
                     <span>
                       <span className="font-bold">Total:</span>
                       <br />${' '}
                       {formatNumber(
-                        item.registro_precio * item.cantidad
+                        item.subtotal
                       )}
                     </span>
                   </div>
@@ -76,17 +76,17 @@ const MobileDetalleVentaList = (venta: Venta) => {
 
 const DesktopView = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedVenta, setSelectedVenta] = useState<Venta | null>(null);
-  const [tableData, setTabledata] = useState([] as any[]);
+  const [selectedVenta, setSelectedVenta] = useState<VistaVenta | null>(null);
+  const [tableData, setTabledata] = useState([] as VistaVenta[]);
 
   useEffect(() => {
     setIsLoading(true);
     console.log('loading data')
-    getVentas().then((data) => {
+    getVistaVentas().then((data) => {
       console.log('data loaded', data);
       setTabledata(data);
       setIsLoading(false);
-    });
+    })
   }, []);
   const VentaAlert = withReactContent(Swal);
 
@@ -97,6 +97,7 @@ const DesktopView = () => {
           <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
             <div className="p-[3rem]">
               <MobileVentaTable
+                isLoading={isLoading}
                 tableData={tableData}
                 onVentaSelected={(venta) => {
                   setSelectedVenta(venta);

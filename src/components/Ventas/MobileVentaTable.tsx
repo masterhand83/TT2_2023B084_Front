@@ -10,13 +10,15 @@ import {
   TableRow,
 } from '@mui/material';
 import dayjs from 'dayjs';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { DatePicker } from 'antd';
 import { formatNumber } from '../../utils/utilities';
+import LoadingContentRow from '../utils/LoadingContentRow';
 
 type VentaTableProps = {
-  onVentaSelected?: (_venta: Venta) => void;
-  tableData: any[]
+  onVentaSelected?: (_venta: VistaVenta) => void;
+  isLoading: boolean;
+  tableData: VistaVenta[];
 };
 
 const getFechaHours = (fecha: string) => {
@@ -35,8 +37,12 @@ const getFormatedFecha = (fecha: string) => {
   return formattedDate;
 };
 
-export function MobileVentaTable({ onVentaSelected, tableData }: VentaTableProps) {
-  const firstDateOfYear = dayjs().startOf('year').subtract(5, 'years')
+export function MobileVentaTable({
+  onVentaSelected,
+  tableData,
+  isLoading
+}: VentaTableProps) {
+  const firstDateOfYear = dayjs().startOf('year').subtract(5, 'years');
   const lastDateOfYear = dayjs().endOf('year');
   const [page, setPage] = useState(0);
   const [upperLimit, setUpperLimit] = useState<dayjs.Dayjs | null>(
@@ -46,7 +52,7 @@ export function MobileVentaTable({ onVentaSelected, tableData }: VentaTableProps
     firstDateOfYear
   );
   const rowsPerPage = 8;
-  const isInDateRange = (venta: Venta) => {
+  const isInDateRange = (venta: VistaVenta) => {
     if (!lowerLimit || !upperLimit) return false;
     const ventaDate = dayjs(venta.fecha);
     return ventaDate.isAfter(lowerLimit) && ventaDate.isBefore(upperLimit);
@@ -57,6 +63,25 @@ export function MobileVentaTable({ onVentaSelected, tableData }: VentaTableProps
   ) => {
     setPage(newPage);
   };
+  const TableContents =() => (tableData
+    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    .filter(isInDateRange)
+    .map((venta) => {
+      return (
+        <TableRow
+          className="hover:bg-blue-50"
+          key={venta.id_venta}
+          sx={{ cursor: 'pointer' }}
+          onClick={() => onVentaSelected?.(venta)}>
+          <TableCell>{getFormatedFecha(venta.fecha)}</TableCell>
+          <TableCell>{getFechaHours(venta.fecha)}</TableCell>
+          <TableCell>{venta.cantidad}</TableCell>
+          <TableCell sx={{ whiteSpace: 'nowrap' }}>
+            $ {venta.total.toFixed(2)}
+          </TableCell>
+        </TableRow>
+      );
+    }));
   return (
     <div className="flex flex-col items-center w-[100%] space-y-3">
       <div className="flex space-x-2 items-center">
@@ -82,11 +107,17 @@ export function MobileVentaTable({ onVentaSelected, tableData }: VentaTableProps
         <div className="bg-green-500 text-white px-6 py-[0.1rem] rounded">
           $
           <span>
-            {formatNumber(tableData
+            {/* {formatNumber(tableData
               .filter(isInDateRange)
               .map((venta) => venta.total)
               .reduce((a, b) => a + b, 0)
-              .toFixed(2))}
+              .toFixed(2))} */}
+            {formatNumber(
+              tableData
+                .filter(isInDateRange)
+                .map((venta) => venta.total)
+                .reduce((a, b) => a + b, 0)
+            )}
           </span>
         </div>
       </div>
@@ -104,32 +135,11 @@ export function MobileVentaTable({ onVentaSelected, tableData }: VentaTableProps
                 <span className="font-bold">No.&nbsp;Productos</span>
               </TableCell>
               <TableCell>
-                <span className="font-bold">Total</span>
+                <span className="font-bold">{isLoading}</span>
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {tableData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .filter(isInDateRange)
-              .map((venta) => {
-                return (
-                  <TableRow
-                    className="hover:bg-blue-50"
-                    key={venta.id}
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => onVentaSelected?.(venta)}
-                    >
-                    <TableCell>{getFormatedFecha(venta.fecha)}</TableCell>
-                    <TableCell>{getFechaHours(venta.fecha)}</TableCell>
-                    <TableCell>{venta.cantidad}</TableCell>
-                    <TableCell
-                      sx={{whiteSpace: 'nowrap'}}
-                     >$ {venta.total.toFixed(2)}</TableCell>
-                  </TableRow>
-                );
-              })}
-          </TableBody>
+          <TableBody>{isLoading? <LoadingContentRow colSpan={4}/>: <TableContents/>}</TableBody>
           <TableFooter>
             <TableRow>
               <TablePagination
