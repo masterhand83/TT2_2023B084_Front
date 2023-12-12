@@ -22,9 +22,8 @@ export const singleMonthDayFormat = (date: string) => {
   const dateObject = new Date(date);
   dateObject.setDate(dateObject.getDate() + 1);
   const month = dateObject.toLocaleString('es-ES', { month: 'short' });
-  const day = dateObject.getDate() ;
+  const day = dateObject.getDate();
   //subtract 1 day to the date but consider month jumps after substraction
 
-
   return `${day} ${month}`;
-}
+};

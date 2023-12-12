@@ -5,8 +5,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { esES } from '@mui/material/locale';
 import { getListaProductos } from '../../services';
 import { Stack, Box, Grid } from '@mui/material';
-import { MobileVenderTable } from '../MobileVenderTable';
 import MobileVentaList from './MobileVentaList';
+import TablaProductos from '../Table/TablaProductos';
 
 const theme = createTheme({}, esES);
 export default function VenderDesktop() {
@@ -97,11 +97,17 @@ export default function VenderDesktop() {
         <Box sx={{ height: '100%', display: { xs: 'block', md: 'none' } }}>
           <Stack spacing={2} padding={'1rem'} height={'110%'}>
             {/* <SearchBar onProductoSearch={setSearchData} /> */}
-            <MobileVenderTable
+            <TablaProductos
+              loadingContent={loadingContent}
+              onProductoSelected={addProductoToList}
+              isRowSelectable={true}
+              tableData={tableData}
+            />
+            {/* <MobileVenderTable
               loadingContent={loadingContent}
               onProductoSelected={addProductoToList}
               tableData={tableData}
-            />
+            /> */}
           </Stack>
           <MobileVentaList
             selectedList={selectedList}
