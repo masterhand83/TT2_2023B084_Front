@@ -14,7 +14,7 @@ import { HorizontalRule, Sort } from '@mui/icons-material';
 import LoadingContentRow from '../utils/LoadingContentRow';
 import React, { useState } from 'react';
 import { formatNumber } from '../../utils/utilities';
-import {  orderBy } from 'lodash';
+import { orderBy } from 'lodash';
 type sortItem = {
   field: string;
   direction: 'asc' | 'desc';
@@ -24,8 +24,10 @@ type TablaProductosProps = {
   searchData?: string;
   loadingContent: boolean;
   tableData: Producto[];
+  displayLength?: number;
   isRowSelectable?: boolean;
   onProductoSelected?: (_producto: Producto) => void;
+  renderActionButtons?: (_producto: Producto) => JSX.Element;
 };
 const includesSearchData = (searchData: string) => (producto: Producto) => {
   if (searchData === '') {
@@ -78,14 +80,11 @@ const SortButton = (props: {
 export default function TablaProductos(props: TablaProductosProps) {
   const [page, setPage] = useState(0);
   const [sortList, setSortList] = useState<sortItem[]>([]); // [{field: 'marca', direction: 'asc'}
-  const rowsPerPage = 8;
+  const rowsPerPage = props.displayLength || 8;
   const handleChangePage = (_event: any | null, newPage: number) => {
     setPage(newPage);
   };
-  console.log(
-    'sort list',
-    sortList
-  );
+  console.log('sort list', sortList);
   const sortedData = orderBy(
     props.tableData,
     sortList.map((s) => s.field),
@@ -96,9 +95,9 @@ export default function TablaProductos(props: TablaProductosProps) {
     .filter(includesSearchData(props.searchData || ''))
     .filter((producto) => producto.existencias != 0);
   const getFieldSorter = (field: string) => {
-    return (dir: 'asc' | 'desc'| 'none') => {
+    return (dir: 'asc' | 'desc' | 'none') => {
       if (dir === 'none') {
-      setSortList(sortList.filter((s) => s.field !== field));
+        setSortList(sortList.filter((s) => s.field !== field));
         return;
       }
       setSortList(
@@ -107,8 +106,8 @@ export default function TablaProductos(props: TablaProductosProps) {
           .concat([{ field: field, direction: dir }])
       );
       console.log(sortList);
-    }
-  }
+    };
+  };
   const TableContent = () => {
     return filteredData.map((producto: Producto) => {
       return (
@@ -124,6 +123,9 @@ export default function TablaProductos(props: TablaProductosProps) {
           <TableCell>{producto.marca}</TableCell>
           <TableCell>{producto.existencias}</TableCell>
           <TableCell>$&nbsp;{formatNumber(producto.precio_unitario)}</TableCell>
+          {props.renderActionButtons ? (
+            <TableCell>{props.renderActionButtons(producto)} </TableCell>
+          ) : null}
         </TableRow>
       );
     });
@@ -138,28 +140,25 @@ export default function TablaProductos(props: TablaProductosProps) {
             </TableCell>
             <TableCell>
               <span className="font-bold">Producto</span>
-              <SortButton
-                onSortSelected={getFieldSorter('nombre')}
-              />
+              <SortButton onSortSelected={getFieldSorter('nombre')} />
             </TableCell>
             <TableCell>
               <span className="font-bold">Marca</span>
-              <SortButton
-                onSortSelected={getFieldSorter('marca')}
-              />
+              <SortButton onSortSelected={getFieldSorter('marca')} />
             </TableCell>
             <TableCell>
               <span className="font-bold">Existencia</span>
-              <SortButton
-                onSortSelected={getFieldSorter('existencias')}
-              />
+              <SortButton onSortSelected={getFieldSorter('existencias')} />
             </TableCell>
             <TableCell>
               <span className="font-bold">Precio</span>
-              <SortButton
-                onSortSelected={getFieldSorter('precio_unitario')}
-              />
+              <SortButton onSortSelected={getFieldSorter('precio_unitario')} />
             </TableCell>
+            {props.renderActionButtons ? (
+              <TableCell>
+                <span className="font-bold">Acciones</span>
+              </TableCell>
+            ) : null}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -188,14 +187,6 @@ export default function TablaProductos(props: TablaProductosProps) {
                 }}
               />
             </TableCell>
-            {/* <TablePagination
-              rowsPerPage={rowsPerPage}
-              rowsPerPageOptions={[5, 8]}
-              count={props.tableData.length}
-              page={page}
-              onPageChange={handleChangePage}
-
-            /> */}
           </TableRow>
         </TableFooter>
       </Table>
