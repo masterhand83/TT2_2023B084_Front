@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { getListaProductos } from '../services';
 import AddProductoModal from '../components/InventarioTable/AddProductoModal';
 import AddMarcaModal from '../components/InventarioTable/AddMarcaModal';
+import { openAddProductoModal } from '../components/modales/inventarioModales';
 
 export function Inventario() {
   const [tableData, setTabledata] = useState([] as Producto[]);
@@ -36,7 +37,7 @@ export function Inventario() {
         <SearchBar onProductoSearch={setSearchData} />
         <Tooltip title="Agregar producto">
         <button
-          onClick={() => setAddProductoModalOpen(true)}
+          onClick={() => openAddProductoModal(loadContent)}
           className="bg-green-500 text-white px-4 rounded">
           <AddBusinessIcon />
         </button>
