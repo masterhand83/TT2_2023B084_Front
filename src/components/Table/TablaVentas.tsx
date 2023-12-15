@@ -13,31 +13,22 @@ import {
 import { HorizontalRule, Sort } from '@mui/icons-material';
 import LoadingContentRow from '../utils/LoadingContentRow';
 import React, { useState } from 'react';
-import { formatNumber } from '../../utils/utilities';
+import { getFechaHours, getFormatedFecha } from '../../utils/utilities';
 import { orderBy } from 'lodash';
+import dayjs from 'dayjs';
 type sortItem = {
   field: string;
   direction: 'asc' | 'desc';
 };
 
-type TablaProductosProps = {
-  searchData?: string;
+type TablaVentasProps = {
   loadingContent: boolean;
-  tableData: Producto[];
+  upperLimit: dayjs.Dayjs | null;
+  lowerLimit: dayjs.Dayjs | null;
+  searchData?: string;
+  tableData: VistaVenta[];
   displayLength?: number;
-  isRowSelectable?: boolean;
-  onProductoSelected?: (_producto: Producto) => void;
-  renderActionButtons?: (_producto: Producto) => JSX.Element;
-};
-const includesSearchData = (searchData: string) => (producto: Producto) => {
-  if (searchData === '') {
-    return true;
-  }
-  return (
-    producto.codigo.includes(searchData) ||
-    producto.marca.includes(searchData) ||
-    producto.nombre.includes(searchData)
-  );
+  onRowSelected?: (_venta: VistaVenta) => void;
 };
 
 const getSortIcon = (sortDirection: 'asc' | 'desc' | 'none') => {
@@ -77,11 +68,15 @@ const SortButton = (props: {
     </div>
   );
 };
-export default function TablaProductos(props: TablaProductosProps) {
-  if (!props) return (<></>);
+export default function TablaVentas(props: TablaVentasProps) {
   const [page, setPage] = useState(0);
   const [sortList, setSortList] = useState<sortItem[]>([]); // [{field: 'marca', direction: 'asc'}
   const rowsPerPage = props.displayLength || 8;
+  const isInDateRange = (venta: VistaVenta) => {
+    if (!props.lowerLimit || !props.upperLimit) return false;
+    const ventaDate = dayjs(venta.fecha);
+    return ventaDate.isAfter(props.lowerLimit) && ventaDate.isBefore(props.upperLimit);
+  };
   const handleChangePage = (_event: any | null, newPage: number) => {
     setPage(newPage);
   };
@@ -92,9 +87,8 @@ export default function TablaProductos(props: TablaProductosProps) {
     sortList.map((s) => s.direction)
   );
   const filteredData = sortedData
-    .filter(includesSearchData(props.searchData || ''))
+    .filter(isInDateRange)
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-    .filter((producto) => producto.existencias != 0);
   const getFieldSorter = (field: string) => {
     return (dir: 'asc' | 'desc' | 'none') => {
       if (dir === 'none') {
@@ -110,23 +104,19 @@ export default function TablaProductos(props: TablaProductosProps) {
     };
   };
   const TableContent = () => {
-    return filteredData.map((producto: Producto) => {
+    return filteredData.map((venta: VistaVenta, index: number) => {
       return (
         <TableRow
           className="hover:bg-blue-50"
-          key={producto.codigo}
-          sx={{ cursor: props.isRowSelectable ? 'pointer' : 'auto' }}
+          key={index}
+          sx={{ cursor: props.onRowSelected ? 'pointer' : 'auto' }}
           onClick={() =>
-            props.onProductoSelected ? props.onProductoSelected(producto) : null
+            props.onRowSelected ? props.onRowSelected(venta) : null
           }>
-          <TableCell>{producto.codigo}</TableCell>
-          <TableCell>{producto.nombre}</TableCell>
-          <TableCell>{producto.marca}</TableCell>
-          <TableCell>{producto.existencias}</TableCell>
-          <TableCell>$&nbsp;{formatNumber(producto.precio_unitario)}</TableCell>
-          {props.renderActionButtons ? (
-            <TableCell>{props.renderActionButtons(producto)} </TableCell>
-          ) : null}
+          <TableCell>{getFormatedFecha(venta.fecha)}</TableCell>
+          <TableCell>{getFechaHours(venta.fecha)}</TableCell>
+          <TableCell>{venta.cantidad}</TableCell>
+          <TableCell>$&nbsp;{venta.total}</TableCell>
         </TableRow>
       );
     });
@@ -137,29 +127,20 @@ export default function TablaProductos(props: TablaProductosProps) {
         <TableHead>
           <TableRow>
             <TableCell sortDirection={'desc'}>
-              <span className="font-bold">Código</span>
+              <span className="font-bold">Fecha</span>
+              <SortButton onSortSelected={getFieldSorter('fecha')} />
             </TableCell>
             <TableCell>
-              <span className="font-bold">Producto</span>
-              <SortButton onSortSelected={getFieldSorter('nombre')} />
+              <span className="font-bold">Hora</span>
             </TableCell>
             <TableCell>
-              <span className="font-bold">Marca</span>
-              <SortButton onSortSelected={getFieldSorter('marca')} />
+              <span className="font-bold"># Productos</span>
+              <SortButton onSortSelected={getFieldSorter('cantidad')} />
             </TableCell>
             <TableCell>
-              <span className="font-bold">Existencia</span>
-              <SortButton onSortSelected={getFieldSorter('existencias')} />
+              <span className="font-bold">Total</span>
+              <SortButton onSortSelected={getFieldSorter('total')} />
             </TableCell>
-            <TableCell>
-              <span className="font-bold">Precio</span>
-              <SortButton onSortSelected={getFieldSorter('precio_unitario')} />
-            </TableCell>
-            {props.renderActionButtons ? (
-              <TableCell>
-                <span className="font-bold">Acciones</span>
-              </TableCell>
-            ) : null}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -173,12 +154,9 @@ export default function TablaProductos(props: TablaProductosProps) {
           <TableRow>
             <TableCell colSpan={5} align="center">
               <Pagination
-                count={props.tableData? Math.ceil(
-                  props.tableData
-                    .filter(includesSearchData(props.searchData || ''))
-                    .filter((producto) => producto.existencias != 0).length /
-                    rowsPerPage
-                ): 0}
+                count={Math.ceil(
+                  props.tableData.length/rowsPerPage
+                )}
                 color="primary"
                 shape="rounded"
                 showFirstButton
