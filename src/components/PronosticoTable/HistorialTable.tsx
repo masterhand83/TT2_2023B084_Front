@@ -44,17 +44,24 @@ export function HistorialTable({
             <TableRow>
               <TableCell colSpan={3}>
                 <div>
-                  {type} de:{' '}
-                  <span className="font-bold">{producto.nombre}</span>
-                </div>
                 <span className="font-bold text-stone-500">
                   Código del producto: {producto.codigo}
                 </span>
+                </div>
+                <div>
+                  {type} de:{' '}
+                  <span className="font-bold">{producto.nombre}</span>
+                </div>
+                <div>
+                <span className="">
+                  Existencias Actuales: {producto.existencias}
+                </span>
+                </div>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <span className="font-bold">Rango de fechas</span>
+                <span className="font-bold">Periodo</span>
               </TableCell>
               <TableCell>
                 <span className="font-bold">

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import * as r from 'ramda';
 import { ResponsiveLine } from '@nivo/line';
 import { useLocation } from 'react-router-dom';
 import { HistorialTable } from '../components/PronosticoTable/HistorialTable';
@@ -6,6 +7,7 @@ import { Box, Card, Grid, Typography } from '@mui/material';
 import useWebSocket from 'react-use-websocket';
 import LoadingPronosticoSpinner from '../components/PronosticoTable/LoadingPronosticoSpinner';
 import { toMonthDayFormat } from '../utils/utilities';
+import Swal from 'sweetalert2';
 type Pronostico = {
   period: string[];
   prediction: number[];
@@ -61,6 +63,7 @@ export function PaginaPronostico() {
     shouldReconnect: (_closeEvent) => false,
   });
   const [data, setData] = useState([] as any);
+  const [diferencial, setDiferencial] = useState([] as any[]);
   const [dataLimit, setDataLimit] = useState(100);
   const [dataSource, setDataSource] = useState([] as any);
   const [loadStatus, setLoadStatus] = useState(0);
@@ -75,7 +78,6 @@ export function PaginaPronostico() {
       setLoadStatus(1);
     } else {
       const content = JSON.parse(lastMessage.data) as Pronostico;
-      console.log('contenido descargado', content);
       const newDataSource = content.period
         .map((period, index) => {
           const periodos = period.split('/').map((date: string) => {
@@ -91,6 +93,24 @@ export function PaginaPronostico() {
           return newData;
         })
         .slice(0, 5);
+      const vlist = newDataSource.map((d) => d.ventas);
+      if (r.all(r.equals(0))(vlist)) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Al parecer no has hecho suficientes ventas para generar un pronóstico.',
+          icon: 'error',
+        });
+      }
+      const res = r.mapAccum<number, number, number>(
+        (acc, value) => [acc - value, acc - value],
+        producto.existencias,
+        vlist
+      )[1];
+      setDiferencial(res);
+
+      console.log('lista', vlist);
+      console.log('existencias', producto.existencias);
+      console.log('nuevos datos', res);
       const newData = [
         {
           id: 'p1',
@@ -126,13 +146,20 @@ export function PaginaPronostico() {
         nice: true,
       }}
       tooltip={(props) => {
+        const diff = diferencial[props.point.index];
+        const isWarning = diff <= 0;
         return (
-          <div className='bg-white'>
+          <div className="bg-white">
             <p>Periodo: {props.point.data.xFormatted}</p>
             <p>Ventas: {props.point.data.yFormatted}</p>
+            <p>Existencias estimadas: {diff}</p>
+            {isWarning && (
+              <p className="text-red-500">
+                Advertencia: Se recomienda surtir el producto.
+              </p>
+            )}
           </div>
-
-        )
+        );
       }}
       curve="linear"
       enableArea={false}
