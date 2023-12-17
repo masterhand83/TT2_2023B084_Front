@@ -162,6 +162,15 @@ export function PaginaHistorial() {
         stacked: false,
         reverse: false,
       }}
+      tooltip={(props) => {
+        return (
+          <div className='bg-white'>
+            <p>Periodo: {props.point.data.xFormatted}</p>
+            <p>Existencias: {props.point.data.yFormatted}</p>
+          </div>
+
+        )
+      }}
       curve="linear"
       enableArea={false}
       axisTop={null}

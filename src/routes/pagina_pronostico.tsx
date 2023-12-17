@@ -90,7 +90,7 @@ export function PaginaPronostico() {
 
           return newData;
         })
-        .slice(0, 4);
+        .slice(0, 5);
       const newData = [
         {
           id: 'p1',
@@ -124,6 +124,15 @@ export function PaginaPronostico() {
         stacked: false,
         reverse: false,
         nice: true,
+      }}
+      tooltip={(props) => {
+        return (
+          <div className='bg-white'>
+            <p>Periodo: {props.point.data.xFormatted}</p>
+            <p>Ventas: {props.point.data.yFormatted}</p>
+          </div>
+
+        )
       }}
       curve="linear"
       enableArea={false}
