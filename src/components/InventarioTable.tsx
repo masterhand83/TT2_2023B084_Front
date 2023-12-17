@@ -4,7 +4,7 @@ import AddStockModal from './InventarioTable/AddStockModal';
 import AddMermaModal from './InventarioTable/AddMermaModal';
 import DeleteProductoModal from './InventarioTable/DeleteProductoModal';
 import TablaProductos from './Table/TablaProductos';
-import { openEditProductoModal } from './modales/inventarioModales';
+import { openAddMermaModal, openEditProductoModal } from './modales/inventarioModales';
 import { getAllMarcas } from '../services';
 
 type InventarioTableProps = {
@@ -32,10 +32,10 @@ export function InventarioTable({
       //setEditProductoOpen(true);
     }
     if (action === 'add') {
-      setAddStockOpen(true);
+      openAddMermaModal(producto, loadContent);
     }
     if (action === 'remove') {
-      setAddMermaOpen(true);
+      openAddMermaModal(producto, loadContent);
     }
     if (action === 'delete') {
       setDeleteProductoOpen(true);

@@ -16,7 +16,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { Form, Formik } from 'formik';
 import type { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { addProducto, editarProducto, getAllMarcas } from '../../services';
+import { addProducto, editarProducto, getAllMarcas, removeStock } from '../../services';
 
 const AddProductoValidation = Yup.object().shape({
   codigo: Yup.string()
@@ -38,7 +38,9 @@ const getEditProductoValidation = () => {
       .required('El código es requerido')
       .max(20, 'El código debe tener menos de 20 caracteres'),
     nombre: Yup.string().required('El nombre es requerido'),
-    marca: Yup.number().required('La marca es requerida').typeError('Debe de seleccionar una marca'),
+    marca: Yup.number()
+      .required('La marca es requerida')
+      .typeError('Debe de seleccionar una marca'),
     existencias: Yup.number()
       .positive('Las existencias deben ser positivas')
       .moreThan(0, 'Las existencias deben ser mayor a 0')
@@ -48,8 +50,18 @@ const getEditProductoValidation = () => {
       .min(0.01, 'El precio debe ser mayor a 0')
       .required('El precio es requerido'),
   });
-}
-
+};
+const getAddMermaValidation = (existencias: number) => {
+  return Yup.object().shape({
+    merma: Yup.number()
+      .positive('La merma debe ser positiva')
+      .integer('La merma debe ser un número entero')
+      .typeError('La merma debe ser un número')
+      .moreThan(0, 'La merma debe ser mayor a 0')
+      .lessThan(existencias + 1, 'La merma no puede ser mayor a las existencias')
+      .required('La merma es requerida'),
+  });
+};
 const buttonStyle =
   'text-white px-4 py-2 mx-2 rounded font-bold bg-green-500' + ' ';
 const formModal = Swal.mixin({
@@ -249,7 +261,6 @@ export function openEditProductoModal(
   reloader: () => void,
   marcas: Marca[]
 ) {
-
   const defaultProduct: ProductoInput = {
     key: producto.key,
     codigo: producto.codigo,
@@ -257,7 +268,7 @@ export function openEditProductoModal(
     marca: marcas.find((marca) => marca.marca === producto.marca)?.id || 0,
     existencias: producto.existencias,
     precio_unitario: producto.precio_unitario,
-  }
+  };
   let formikRef: FormikProps<ProductoInput> | null = null;
 
   const swalert = withReactContent(formModal);
@@ -291,7 +302,11 @@ export function openEditProductoModal(
                     helperText={props.touched.nombre && props.errors.nombre}
                   />
                   <FormControl>
-                    <InputLabel sx={{position:'absolute', top:'-10px'}} htmlFor="marca">Marca(original: {producto.marca})</InputLabel>
+                    <InputLabel
+                      sx={{ position: 'absolute', top: '-10px' }}
+                      htmlFor="marca">
+                      Marca(original: {producto.marca})
+                    </InputLabel>
                     <Select
                       value={props.values.marca}
                       onChange={props.handleChange}
@@ -301,7 +316,9 @@ export function openEditProductoModal(
                         props.touched.marca && Boolean(props.errors.marca)
                       }>
                       {marcas.map((marca) => (
-                        <MenuItem key={marca.id} value={marca.id} >{marca.marca}</MenuItem>
+                        <MenuItem key={marca.id} value={marca.id}>
+                          {marca.marca}
+                        </MenuItem>
                       ))}
                     </Select>
                     {props.touched.marca && props.errors.marca && (
@@ -356,7 +373,6 @@ export function openEditProductoModal(
             </div>
           );
         }}></Formik>
-
     ),
     didOpen: () => {
       formikRef?.resetForm();
@@ -368,7 +384,7 @@ export function openEditProductoModal(
         return;
       }
       await formikRef.submitForm();
-      console.log(formikRef.values)
+      console.log(formikRef.values);
       if (formikRef.isValid) {
         editarProducto(formikRef.values).then((_res) => {
           Swal.fire({
@@ -383,5 +399,138 @@ export function openEditProductoModal(
         Swal.showValidationMessage('Por favor, corrija los errores');
       }
     },
-  })
+  });
+}
+
+export function openAddMermaModal(producto: Producto, reloader: () => void) {
+  let defaultInput: MermaInput = {
+    codigo: producto.codigo,
+    merma: 1,
+  };
+
+  let formikRef: FormikProps<MermaInput> | null = null;
+
+  const swalert = withReactContent(formModal);
+  swalert.fire({
+    title: 'Agregar Merma',
+    allowEnterKey: false,
+    confirmButtonText: 'Agregar',
+    cancelButtonText: 'Cancelar',
+    showCancelButton: true,
+    reverseButtons: true,
+    html: (
+      <Formik<MermaInput>
+        innerRef={(ref) => (formikRef = ref)}
+        initialValues={defaultInput}
+        validationSchema={getAddMermaValidation(producto.existencias)}
+        onSubmit={() => {}}
+        render={(props) => {
+          return (
+            <div className="my-4">
+              <Form>
+                <Stack spacing={2}>
+                  <Box>
+                    <p className='text-justify'>
+                      La <b>merma</b> representa una manera de reportar pérdidas en el
+                      inventario que no están asociadas con las ventas y pueden
+                      deberse a <b>caducidad, robo, extravío o errores en el
+                      conteo</b>.
+                    </p>
+                  </Box>
+                  <Box>
+                    <Stack  spacing={0}>
+                        <p className='text-justify'>
+                          <b>Producto:</b> {producto.nombre}
+                          </p>
+                        <p className='text-justify'>
+                          <b>Existencias actuales:</b> {producto.existencias}
+                        </p>
+                    </Stack>
+                  </Box>
+                  <Box>
+                    <FormControl fullWidth>
+                      <InputLabel htmlFor="precio_unitario">Merma</InputLabel>
+                      <OutlinedInput
+                        fullWidth
+                        id="merma"
+                        name="merma"
+                        title="Merma"
+                        label="Merma"
+                        type="number"
+                        value={props.values.merma}
+                        onChange={(e) => {
+                          console.log(Number(e.target.value));
+                          if (Number(e.target.value) < 0) {
+                            e.preventDefault();
+                            return;
+                          }
+                          props.handleChange(e);
+                        }}
+                        onBlur={props.handleBlur}
+                        error={
+                          props.touched.merma && Boolean(props.errors.merma)
+                        }
+                      />
+                      {props.touched.merma && props.errors.merma && (
+                        <FormHelperText error>
+                          {props.errors.merma}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+                  </Box>
+                </Stack>
+              </Form>
+            </div>
+          );
+        }}></Formik>
+    ),
+    didOpen: () => {
+      formikRef?.resetForm();
+      Swal.getPopup()?.querySelector('input')?.focus();
+    },
+    preConfirm: async () => {
+      if (!formikRef) {
+        Swal.showValidationMessage('Por favor, ingrese la información.');
+        return;
+      }
+      await formikRef.submitForm();
+      console.log('ref',formikRef);
+      if (formikRef.isValid) {
+        const values = formikRef.values;
+        formModal.fire({
+          title: '¿Esta seguro?',
+          icon: 'warning',
+          text: 'Cuando Agrega merma se sustraen las existencias del producto, no se puede deshacer esta acción.',
+          showCancelButton: true,
+          confirmButtonText: 'Si, estoy seguro',
+          cancelButtonText: 'Cancelar',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const SuccessResumen = () => {
+              return (
+                <p>
+                  <b>Producto:</b> {producto.nombre}
+                  <br />
+                  <b>Merma sustraida:</b> {values.merma  || 0}
+                </p>
+              )
+            }
+            removeStock(values).then((_res) => {
+              swalert.fire({
+                title: 'Merma agregada.',
+                icon: 'success',
+                html:  <SuccessResumen/>,
+                didClose: () => {
+                  reloader();
+                },
+              });
+            })
+          }
+        })
+      } else {
+        Swal.showValidationMessage('Por favor, corrija los errores');
+      }
+    },
+  });
 }
