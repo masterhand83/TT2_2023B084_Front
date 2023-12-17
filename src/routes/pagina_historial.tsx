@@ -221,8 +221,7 @@ export function PaginaHistorial() {
                   align="justify"
                   fontSize={'1.1rem'}
                   className="text-slate-700">
-                  Es el historial de existencias desde hace 4 semanas hasta la
-                  semana donde se dió el registro mas reciente.
+                  Es el historial de existencias desde hace 4 semanas hasta la semana donde se dio el registro más reciente.
                 </Typography>
               </Card>
               <HistorialTable
