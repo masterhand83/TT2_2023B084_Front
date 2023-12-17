@@ -1,6 +1,6 @@
 import { Form, Input, InputNumber, Modal, Select } from 'antd';
 import { useEffect, useState } from 'react';
-import { editarProducto, getAllMarcas } from '../../services';
+import { getAllMarcas } from '../../services';
 
 type EditProductoModalProps = {
   currentProducto: Producto;
@@ -18,8 +18,7 @@ type EditProductoFormType = {
 export default function EditProductoModal({
   isOpen,
   setIsOpen,
-  currentProducto,
-  reloader
+  currentProducto
 }: EditProductoModalProps) {
   const [confirmloading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
@@ -30,22 +29,22 @@ export default function EditProductoModal({
   };
   const editProducto = (values: EditProductoFormType) => {
     console.log(values)
-    const input = {
-      codigo: currentProducto.codigo,
-      nombre: values.nombre,
-      marca: values.marca,
-      precio_unitario: values.precio,
-    }
+    // const _input = {
+    //   codigo: currentProducto.codigo,
+    //   nombre: values.nombre,
+    //   marca: values.marca,
+    //   precio_unitario: values.precio,
+    // }
     setConfirmLoading(true);
-    editarProducto(input).then((response) => {
-      console.log(response)
-        setConfirmLoading(false);
-        setIsOpen(false);
-        if(reloader) {
-          reloader()
-        }
+    // editarProducto(input).then((response) => {
+    //   console.log(response)
+    //     setConfirmLoading(false);
+    //     setIsOpen(false);
+    //     if(reloader) {
+    //       reloader()
+    //     }
 
-    })
+    // })
 
     // setTimeout(() => {
     //   setIsOpen(false);
