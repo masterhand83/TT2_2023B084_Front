@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import ProductoActionGroup from './ProductoActionGroup';
 import AddStockModal from './InventarioTable/AddStockModal';
-import EditProductoModal from './InventarioTable/EditProductoModal';
 import AddMermaModal from './InventarioTable/AddMermaModal';
 import DeleteProductoModal from './InventarioTable/DeleteProductoModal';
 import TablaProductos from './Table/TablaProductos';
+import { openEditProductoModal } from './modales/inventarioModales';
+import { getAllMarcas } from '../services';
 
 type InventarioTableProps = {
   tableData: Producto[];
@@ -20,13 +21,15 @@ export function InventarioTable({
 }: InventarioTableProps) {
   const [isAddStockOpen, setAddStockOpen] = useState(false);
   const [isAddMermaOpen, setAddMermaOpen] = useState(false);
-  const [isEditProductoOpen, setEditProductoOpen] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState({} as Producto);
   const [isdeleteProductoOpen, setDeleteProductoOpen] = useState(false);
   const openModal = (action: string, producto: Producto) => {
     setSelectedProducto(producto);
     if (action === 'edit') {
-      setEditProductoOpen(true);
+      getAllMarcas().then((res) => {
+        openEditProductoModal(producto, loadContent, res);
+      });
+      //setEditProductoOpen(true);
     }
     if (action === 'add') {
       setAddStockOpen(true);
@@ -55,12 +58,6 @@ export function InventarioTable({
       <AddStockModal
         isOpen={isAddStockOpen}
         setIsOpen={setAddStockOpen}
-        currentProducto={selectedProducto}
-        reloader={loadContent}
-      />
-      <EditProductoModal
-        isOpen={isEditProductoOpen}
-        setIsOpen={setEditProductoOpen}
         currentProducto={selectedProducto}
         reloader={loadContent}
       />

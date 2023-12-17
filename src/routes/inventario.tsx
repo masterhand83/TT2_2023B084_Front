@@ -5,14 +5,12 @@ import SearchBar from '../components/utils/SearchBar';
 import { Container, Stack, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getListaProductos } from '../services';
-import AddProductoModal from '../components/InventarioTable/AddProductoModal';
 import AddMarcaModal from '../components/InventarioTable/AddMarcaModal';
 import { openAddProductoModal } from '../components/modales/inventarioModales';
 
 export function Inventario() {
   const [tableData, setTabledata] = useState([] as Producto[]);
   const [ladingContent, setLoadingContent] = useState(false);
-  const [isAddProductoModalOpen, setAddProductoModalOpen] = useState(false);
   const [isAddMarcaOpen, setAddMarcaOpen] = useState(false);
   const [searchData, setSearchData] = useState('');
   const loadContent = () => {
@@ -55,11 +53,6 @@ export function Inventario() {
         loadContent={loadContent}
         tableData={tableData}
         searchParameter={searchData}
-      />
-      <AddProductoModal
-        isOpen={isAddProductoModalOpen}
-        setIsOpen={setAddProductoModalOpen}
-        reloader={loadContent}
       />
       <AddMarcaModal isOpen={isAddMarcaOpen} setIsOpen={setAddMarcaOpen} />
     </Container>

@@ -8,6 +8,15 @@ declare type Producto = {
   precio_unitario: number;
   activo?: boolean = true;
 };
+declare type ProductoInput = {
+  key: string;
+  codigo: string;
+  nombre: string;
+  marca: number;
+  existencias: number;
+  precio_unitario: number;
+  activo?: boolean = true;
+};
 declare type VentaItem = {
   key: string;
   cantidad: number;

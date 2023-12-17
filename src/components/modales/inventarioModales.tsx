@@ -16,15 +16,14 @@ import withReactContent from 'sweetalert2-react-content';
 import { Form, Formik } from 'formik';
 import type { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { addProducto, getAllMarcas } from '../../services';
+import { addProducto, editarProducto, getAllMarcas } from '../../services';
 
 const AddProductoValidation = Yup.object().shape({
   codigo: Yup.string()
     .required('El código es requerido')
     .max(20, 'El código debe tener menos de 20 caracteres'),
   nombre: Yup.string().required('El nombre es requerido'),
-  marca: Yup.string()
-    .required('La marca es requerida'),
+  marca: Yup.string().required('La marca es requerida'),
   existencias: Yup.number()
     .positive('Las existencias deben ser positivas')
     .integer('Las existencias deben ser un número entero'),
@@ -33,6 +32,23 @@ const AddProductoValidation = Yup.object().shape({
     .min(0.01, 'El precio debe ser mayor a 0')
     .required('El precio es requerido'),
 });
+const getEditProductoValidation = () => {
+  return Yup.object().shape({
+    codigo: Yup.string()
+      .required('El código es requerido')
+      .max(20, 'El código debe tener menos de 20 caracteres'),
+    nombre: Yup.string().required('El nombre es requerido'),
+    marca: Yup.number().required('La marca es requerida').typeError('Debe de seleccionar una marca'),
+    existencias: Yup.number()
+      .positive('Las existencias deben ser positivas')
+      .moreThan(0, 'Las existencias deben ser mayor a 0')
+      .integer('Las existencias deben ser un número entero'),
+    precio_unitario: Yup.number()
+      .positive('El precio debe ser positivo')
+      .min(0.01, 'El precio debe ser mayor a 0')
+      .required('El precio es requerido'),
+  });
+}
 
 const buttonStyle =
   'text-white px-4 py-2 mx-2 rounded font-bold bg-green-500' + ' ';
@@ -104,18 +120,18 @@ export function openAddProductoModal(reloader: () => void) {
                       onChange={props.handleChange}
                       name="marca"
                       label="* Marca"
-                    error={props.touched.marca && Boolean(props.errors.marca)}
-                      >
+                      error={
+                        props.touched.marca && Boolean(props.errors.marca)
+                      }>
                       {marcas.map((marca) => (
                         <MenuItem value={marca.id}>{marca.marca}</MenuItem>
                       ))}
                     </Select>
-                    {props.touched.marca &&
-                      props.errors.marca && (
-                        <FormHelperText error>
-                          {props.errors.precio_unitario}
-                        </FormHelperText>
-                      )}
+                    {props.touched.marca && props.errors.marca && (
+                      <FormHelperText error>
+                        {props.errors.marca}
+                      </FormHelperText>
+                    )}
                   </FormControl>
 
                   <Stack direction="row" spacing={1}>
@@ -207,8 +223,8 @@ export function openAddProductoModal(reloader: () => void) {
       Swal.getPopup()?.querySelector('input')?.focus();
     },
     preConfirm: async () => {
-      if(!formikRef){
-        return
+      if (!formikRef) {
+        return;
       }
       await formikRef.submitForm();
       if (formikRef.isValid) {
@@ -218,12 +234,154 @@ export function openAddProductoModal(reloader: () => void) {
             icon: 'success',
             didClose: () => {
               reloader();
-            }
+            },
           });
-        })
+        });
       } else {
         Swal.showValidationMessage('Por favor, corrija los errores');
       }
-    }
+    },
   });
+}
+
+export function openEditProductoModal(
+  producto: Producto,
+  reloader: () => void,
+  marcas: Marca[]
+) {
+
+  const defaultProduct: ProductoInput = {
+    key: producto.key,
+    codigo: producto.codigo,
+    nombre: producto.nombre,
+    marca: marcas.find((marca) => marca.marca === producto.marca)?.id || 0,
+    existencias: producto.existencias,
+    precio_unitario: producto.precio_unitario,
+  }
+  let formikRef: FormikProps<ProductoInput> | null = null;
+
+  const swalert = withReactContent(formModal);
+  swalert.fire({
+    title: 'Editar Producto',
+    allowEnterKey: false,
+    confirmButtonText: 'Editar',
+    cancelButtonText: 'Cancelar',
+    showCancelButton: true,
+    reverseButtons: true,
+    html: (
+      <Formik<ProductoInput>
+        innerRef={(ref) => (formikRef = ref)}
+        initialValues={defaultProduct}
+        validationSchema={getEditProductoValidation()}
+        onSubmit={() => {}}
+        render={(props) => {
+          return (
+            <div className="my-4">
+              <Form>
+                <Stack spacing={6}>
+                  <TextField
+                    fullWidth
+                    id="nombre"
+                    name="nombre"
+                    label="* Nombre del producto"
+                    value={props.values.nombre}
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    error={props.touched.nombre && Boolean(props.errors.nombre)}
+                    helperText={props.touched.nombre && props.errors.nombre}
+                  />
+                  <FormControl>
+                    <InputLabel sx={{position:'absolute', top:'-10px'}} htmlFor="marca">Marca(original: {producto.marca})</InputLabel>
+                    <Select
+                      value={props.values.marca}
+                      onChange={props.handleChange}
+                      onBlur={props.handleBlur}
+                      name="marca"
+                      error={
+                        props.touched.marca && Boolean(props.errors.marca)
+                      }>
+                      {marcas.map((marca) => (
+                        <MenuItem key={marca.id} value={marca.id} >{marca.marca}</MenuItem>
+                      ))}
+                    </Select>
+                    {props.touched.marca && props.errors.marca && (
+                      <FormHelperText error>
+                        {props.errors.marca}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+
+                  <Stack direction="row" spacing={1}>
+                    <Box>
+                      <FormControl fullWidth>
+                        <InputLabel htmlFor="precio_unitario">
+                          Precio Unitario
+                        </InputLabel>
+                        <OutlinedInput
+                          fullWidth
+                          id="precio_unitario"
+                          name="precio_unitario"
+                          title="Precio Unitario"
+                          label="Precio Unitario"
+                          type="number"
+                          startAdornment={
+                            <InputAdornment position="start">$</InputAdornment>
+                          }
+                          value={props.values.precio_unitario}
+                          onChange={(e) => {
+                            console.log(Number(e.target.value));
+                            if (Number(e.target.value) < 0) {
+                              e.preventDefault();
+                              return;
+                            }
+                            props.handleChange(e);
+                          }}
+                          onBlur={props.handleBlur}
+                          error={
+                            props.touched.precio_unitario &&
+                            Boolean(props.errors.precio_unitario)
+                          }
+                        />
+                        {props.touched.precio_unitario &&
+                          props.errors.precio_unitario && (
+                            <FormHelperText error>
+                              {props.errors.precio_unitario}
+                            </FormHelperText>
+                          )}
+                      </FormControl>
+                    </Box>
+                  </Stack>
+                </Stack>
+              </Form>
+            </div>
+          );
+        }}></Formik>
+
+    ),
+    didOpen: () => {
+      formikRef?.resetForm();
+      Swal.getPopup()?.querySelector('input')?.focus();
+    },
+    preConfirm: async () => {
+      if (!formikRef) {
+        Swal.showValidationMessage('Por favor, ingrese la información.');
+        return;
+      }
+      await formikRef.submitForm();
+      console.log(formikRef.values)
+      if (formikRef.isValid) {
+        editarProducto(formikRef.values).then((_res) => {
+          Swal.fire({
+            title: 'Producto editado.',
+            icon: 'success',
+            didClose: () => {
+              reloader();
+            },
+          });
+        });
+      } else {
+        Swal.showValidationMessage('Por favor, corrija los errores');
+      }
+    },
+  })
 }
