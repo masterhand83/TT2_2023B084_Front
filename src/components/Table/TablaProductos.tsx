@@ -93,8 +93,8 @@ export default function TablaProductos(props: TablaProductosProps) {
   );
   const filteredData = sortedData
     .filter(includesSearchData(props.searchData || ''))
+    .filter((producto) => producto.activo)
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-    .filter((producto) => producto.existencias != 0);
   const getFieldSorter = (field: string) => {
     return (dir: 'asc' | 'desc' | 'none') => {
       if (dir === 'none') {

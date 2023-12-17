@@ -16,7 +16,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { Form, Formik } from 'formik';
 import type { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { addProducto, addStockProduct, editarProducto, getAllMarcas, removeStock } from '../../services';
+import { addProducto, addStockProduct, desactivarProducto, editarProducto, getAllMarcas, removeStock } from '../../services';
 
 const AddProductoValidation = Yup.object().shape({
   codigo: Yup.string()
@@ -119,7 +119,16 @@ export function openAddProductoModal(reloader: () => void) {
                     name="codigo"
                     label="* Código"
                     value={props.values.codigo}
-                    onChange={props.handleChange}
+                    onChange={(e) => {
+                      if (
+                        !/^[a-zA-Z0-9]*$/.test(e.target.value) &&
+                        e.target.value !== ''
+                      ) {
+                        e.preventDefault();
+                        return;
+                      }
+                      props.handleChange(e)
+                    }}
                     onBlur={props.handleBlur}
                     error={props.touched.codigo && Boolean(props.errors.codigo)}
                     helperText={props.touched.codigo && props.errors.codigo}
@@ -667,4 +676,40 @@ export function openAddStockModal(producto: Producto, reloader: () => void) {
       }
     },
   });
+}
+
+export function openDeleteProductoModal(producto: Producto, reloader: () => void) {
+  const swalert = withReactContent(formModal);
+  swalert.fire({
+    title: '¿Esta seguro?',
+    icon: 'warning',
+    text: 'Cuando elimina un producto, no se puede deshacer esta acción.',
+    html: (
+      <div>
+        <p>
+          Cuando elimina un producto, no se puede deshacer esta acción.
+          Sin embargo el código sera conservado para futuras referencias.
+        </p>
+        <p>
+          <b>Producto:</b> {producto.nombre}
+        </p>
+      </div>
+    ),
+    showCancelButton: true,
+    confirmButtonText: 'Si, estoy seguro',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true,
+  }).then((res) => {
+    if(res.isConfirmed) {
+      desactivarProducto(producto.codigo).then((_res) => {
+        swalert.fire({
+          title: 'Producto eliminado.',
+          icon: 'success',
+          didClose: () => {
+            reloader();
+          },
+        });
+      })
+    }
+  })
 }

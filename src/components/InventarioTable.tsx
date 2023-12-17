@@ -1,10 +1,6 @@
-import { useState } from 'react';
 import ProductoActionGroup from './ProductoActionGroup';
-import AddStockModal from './InventarioTable/AddStockModal';
-import AddMermaModal from './InventarioTable/AddMermaModal';
-import DeleteProductoModal from './InventarioTable/DeleteProductoModal';
 import TablaProductos from './Table/TablaProductos';
-import { openAddMermaModal, openAddStockModal, openEditProductoModal } from './modales/inventarioModales';
+import { openAddMermaModal, openAddStockModal, openDeleteProductoModal, openEditProductoModal } from './modales/inventarioModales';
 import { getAllMarcas } from '../services';
 
 type InventarioTableProps = {
@@ -19,12 +15,7 @@ export function InventarioTable({
   loadContent,
   searchParameter,
 }: InventarioTableProps) {
-  const [isAddStockOpen, setAddStockOpen] = useState(false);
-  const [isAddMermaOpen, setAddMermaOpen] = useState(false);
-  const [selectedProducto, setSelectedProducto] = useState({} as Producto);
-  const [isdeleteProductoOpen, setDeleteProductoOpen] = useState(false);
   const openModal = (action: string, producto: Producto) => {
-    setSelectedProducto(producto);
     if (action === 'edit') {
       getAllMarcas().then((res) => {
         openEditProductoModal(producto, loadContent, res);
@@ -38,7 +29,7 @@ export function InventarioTable({
       openAddMermaModal(producto, loadContent);
     }
     if (action === 'delete') {
-      setDeleteProductoOpen(true);
+      openDeleteProductoModal(producto, loadContent);
     }
   };
   return (
@@ -54,24 +45,6 @@ export function InventarioTable({
             onAction={(action) => openModal(action, producto)}
           />
         )}
-      />
-      <AddStockModal
-        isOpen={isAddStockOpen}
-        setIsOpen={setAddStockOpen}
-        currentProducto={selectedProducto}
-        reloader={loadContent}
-      />
-      <AddMermaModal
-        isOpen={isAddMermaOpen}
-        setIsOpen={setAddMermaOpen}
-        currentProducto={selectedProducto}
-        reloader={loadContent}
-      />
-      <DeleteProductoModal
-        isOpen={isdeleteProductoOpen}
-        setIsOpen={setDeleteProductoOpen}
-        currentProducto={selectedProducto}
-        reloader={loadContent}
       />
     </>
   );
