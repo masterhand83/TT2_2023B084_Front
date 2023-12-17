@@ -16,7 +16,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { Form, Formik } from 'formik';
 import type { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { addProducto, editarProducto, getAllMarcas, removeStock } from '../../services';
+import { addProducto, addStockProduct, editarProducto, getAllMarcas, removeStock } from '../../services';
 
 const AddProductoValidation = Yup.object().shape({
   codigo: Yup.string()
@@ -60,6 +60,16 @@ const getAddMermaValidation = (existencias: number) => {
       .moreThan(0, 'La merma debe ser mayor a 0')
       .lessThan(existencias + 1, 'La merma no puede ser mayor a las existencias')
       .required('La merma es requerida'),
+  });
+};
+const getAddStockValidation = (_existencias: number) => {
+  return Yup.object().shape({
+    newstock: Yup.number()
+      .positive('Las existencias debe ser positiva')
+      .integer('Las existencias debe ser un número entero')
+      .typeError('Las existencias debe ser un número')
+      .moreThan(0, 'Las existencias debe ser mayor a 0')
+      .required('Las existencias es requerida'),
   });
 };
 const buttonStyle =
@@ -164,7 +174,6 @@ export function openAddProductoModal(reloader: () => void) {
                           }
                           value={props.values.precio_unitario}
                           onChange={(e) => {
-                            console.log(Number(e.target.value));
                             if (Number(e.target.value) < 0) {
                               e.preventDefault();
                               return;
@@ -198,7 +207,6 @@ export function openAddProductoModal(reloader: () => void) {
                           type="number"
                           value={props.values.existencias}
                           onChange={(e) => {
-                            console.log(Number(e.target.value));
                             if (Number(e.target.value) < 1) {
                               e.preventDefault();
                               return;
@@ -346,7 +354,6 @@ export function openEditProductoModal(
                           }
                           value={props.values.precio_unitario}
                           onChange={(e) => {
-                            console.log(Number(e.target.value));
                             if (Number(e.target.value) < 0) {
                               e.preventDefault();
                               return;
@@ -384,7 +391,6 @@ export function openEditProductoModal(
         return;
       }
       await formikRef.submitForm();
-      console.log(formikRef.values);
       if (formikRef.isValid) {
         editarProducto(formikRef.values).then((_res) => {
           Swal.fire({
@@ -459,7 +465,6 @@ export function openAddMermaModal(producto: Producto, reloader: () => void) {
                         type="number"
                         value={props.values.merma}
                         onChange={(e) => {
-                          console.log(Number(e.target.value));
                           if (Number(e.target.value) < 0) {
                             e.preventDefault();
                             return;
@@ -494,7 +499,6 @@ export function openAddMermaModal(producto: Producto, reloader: () => void) {
         return;
       }
       await formikRef.submitForm();
-      console.log('ref',formikRef);
       if (formikRef.isValid) {
         const values = formikRef.values;
         formModal.fire({
@@ -519,6 +523,136 @@ export function openAddMermaModal(producto: Producto, reloader: () => void) {
             removeStock(values).then((_res) => {
               swalert.fire({
                 title: 'Merma agregada.',
+                icon: 'success',
+                html:  <SuccessResumen/>,
+                didClose: () => {
+                  reloader();
+                },
+              });
+            })
+          }
+        })
+      } else {
+        Swal.showValidationMessage('Por favor, corrija los errores');
+      }
+    },
+  });
+}
+
+export function openAddStockModal(producto: Producto, reloader: () => void) {
+  let defaultInput: StockInput = {
+    codigo: producto.codigo,
+    newstock: 1,
+  };
+
+  let formikRef: FormikProps<StockInput> | null = null;
+
+  const swalert = withReactContent(formModal);
+  swalert.fire({
+    title: 'Agregar Existencias',
+    allowEnterKey: false,
+    confirmButtonText: 'Agregar',
+    cancelButtonText: 'Cancelar',
+    showCancelButton: true,
+    reverseButtons: true,
+    html: (
+      <Formik<StockInput>
+        innerRef={(ref) => (formikRef = ref)}
+        initialValues={defaultInput}
+        validationSchema={getAddStockValidation(producto.existencias)}
+        onSubmit={() => {}}
+        render={(props) => {
+          return (
+            <div className="my-4">
+              <Form>
+                <Stack spacing={2}>
+                  <Box>
+                    <p className='text-justify'>
+                      Aqui puede agregar existencias al producto, por ejemplo, si se
+                      recibió una nueva partida de productos o se corrigió un error
+                      en el conteo.
+                    </p>
+                  </Box>
+                  <Box>
+                    <Stack  spacing={0}>
+                        <p className='text-justify'>
+                          <b>Producto:</b> {producto.nombre}
+                          </p>
+                        <p className='text-justify'>
+                          <b>Existencias actuales:</b> {producto.existencias}
+                        </p>
+                    </Stack>
+                  </Box>
+                  <Box>
+                    <FormControl fullWidth>
+                      <InputLabel htmlFor="precio_unitario">Nuevas Existencias</InputLabel>
+                      <OutlinedInput
+                        fullWidth
+                        id="newstock"
+                        name="newstock"
+                        title="Nuevas Existencias"
+                        label="Nuevas Existencias"
+                        type="number"
+                        value={props.values.newstock}
+                        onChange={(e) => {
+                          if (Number(e.target.value) < 0) {
+                            e.preventDefault();
+                            return;
+                          }
+                          props.handleChange(e);
+                        }}
+                        onBlur={props.handleBlur}
+                        error={
+                          props.touched.newstock && Boolean(props.errors.newstock)
+                        }
+                      />
+                      {props.touched.newstock && props.errors.newstock && (
+                        <FormHelperText error>
+                          {props.errors.newstock}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+                  </Box>
+                </Stack>
+              </Form>
+            </div>
+          );
+        }}></Formik>
+    ),
+    didOpen: () => {
+      formikRef?.resetForm();
+      Swal.getPopup()?.querySelector('input')?.focus();
+    },
+    preConfirm: async () => {
+      if (!formikRef) {
+        Swal.showValidationMessage('Por favor, ingrese la información.');
+        return;
+      }
+      await formikRef.submitForm();
+      if (formikRef.isValid) {
+        const values = formikRef.values;
+        formModal.fire({
+          title: '¿Esta seguro?',
+          icon: 'warning',
+          text: 'Cuando agrega existencias se suman a las existencias del producto, no se puede deshacer esta acción.',
+          showCancelButton: true,
+          confirmButtonText: 'Si, estoy seguro',
+          cancelButtonText: 'Cancelar',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const SuccessResumen = () => {
+              return (
+                <p>
+                  <b>Producto:</b> {producto.nombre}
+                  <br />
+                  <b>Existencias agregadas:</b> {values.newstock  || 0}
+                </p>
+              )
+            }
+            addStockProduct(values).then((_res) => {
+              swalert.fire({
+                title: 'Existencias agregadas.',
                 icon: 'success',
                 html:  <SuccessResumen/>,
                 didClose: () => {

@@ -25,7 +25,7 @@ export async function editarProducto(producto: Partial<ProductoInput>) {
   return result.data;
 }
 
-export async function addStockProduct(params: {newstock: number, codigo: string}) {
+export async function addStockProduct(params: StockInput) {
   const result = await axios.post(`${DIRECCION_API}add-stock`, params)
   return result.data;
 }

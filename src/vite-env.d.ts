@@ -62,3 +62,4 @@ declare type PronosticoVentas = {
 }[];
 
 declare type MermaInput = { merma: number; codigo: string };
+declare type StockInput = { newstock: number; codigo: string };
