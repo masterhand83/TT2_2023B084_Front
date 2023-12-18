@@ -814,7 +814,7 @@ export function openMarcaModal() {
           if (result.isConfirmed) {
             addMarcaToList(values.marca).then((_res) => {
               swalert.fire({
-                title: 'Existencias agregadas.',
+                title: 'Marca Agregada',
                 icon: 'success',
               });
             })
