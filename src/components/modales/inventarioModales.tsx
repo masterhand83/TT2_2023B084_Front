@@ -16,8 +16,12 @@ import withReactContent from 'sweetalert2-react-content';
 import { Form, Formik } from 'formik';
 import type { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { addProducto, addStockProduct, desactivarProducto, editarProducto, getAllMarcas, removeStock } from '../../services';
+import { addMarcaToList, addProducto, addStockProduct, desactivarProducto, editarProducto, getAllMarcas, removeStock } from '../../services';
 
+const AddMarcaValidation = Yup.object().shape({
+  marca: Yup.string()
+    .required('La marca es requerida')
+});
 const AddProductoValidation = Yup.object().shape({
   codigo: Yup.string()
     .required('El código es requerido')
@@ -712,4 +716,113 @@ export function openDeleteProductoModal(producto: Producto, reloader: () => void
       })
     }
   })
+}
+export function openMarcaModal() {
+  type MarcaInput = {
+    marca: string;
+  }
+  let defaultInput = {
+    marca: ''
+  };
+
+  let formikRef: FormikProps<MarcaInput> | null = null;
+
+  const swalert = withReactContent(formModal);
+  swalert.fire({
+    title: 'Agregar Marca',
+    allowEnterKey: false,
+    confirmButtonText: 'Agregar',
+    cancelButtonText: 'Cancelar',
+    showCancelButton: true,
+    reverseButtons: true,
+    html: (
+      <Formik<MarcaInput>
+        innerRef={(ref) => (formikRef = ref)}
+        initialValues={defaultInput}
+        validationSchema={AddMarcaValidation}
+        onSubmit={() => {}}
+        render={(props) => {
+          return (
+            <div className="my-4">
+              <Form>
+                <Stack spacing={2}>
+                  <Box>
+                    <p className='text-justify'>
+                      Aqui puede agregar una marca a la lista de marcas.
+                    </p>
+                  </Box>
+                  <Box>
+                      <TextField
+                        fullWidth
+                        id="marca"
+                        name="marca"
+                        title="Marca"
+                        label="Marca"
+                        type="text"
+                        value={props.values.marca}
+                        onChange={(e) => {
+                          //block special characters and spaces, except for backspace
+                          // allow the "ñ" character also allow accents
+                          if (
+                            !/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]*$/.test(e.target.value) &&
+                            e.target.value !== ''
+                          ) {
+                            e.preventDefault();
+                            return;
+                          }
+
+                          props.handleChange(e);
+                        }}
+                        onBlur={props.handleBlur}
+                        error={
+                          props.touched.marca && Boolean(props.errors.marca)
+                        }
+                      />
+                      {props.touched.marca && props.errors.marca && (
+                        <FormHelperText error>
+                          {props.errors.marca}
+                        </FormHelperText>
+                      )}
+                  </Box>
+                </Stack>
+              </Form>
+            </div>
+          );
+        }}></Formik>
+    ),
+    didOpen: () => {
+      formikRef?.resetForm();
+      Swal.getPopup()?.querySelector('input')?.focus();
+    },
+    preConfirm: async () => {
+      if (!formikRef) {
+        Swal.showValidationMessage('Por favor, ingrese la información.');
+        return;
+      }
+      await formikRef.submitForm();
+      if (formikRef.isValid) {
+        const values = formikRef.values;
+        formModal.fire({
+          title: '¿Esta seguro?',
+          icon: 'warning',
+          text: 'Se agregara la marca a la lista de marcas, no se puede deshacer esta acción.',
+          showCancelButton: true,
+          confirmButtonText: 'Si, estoy seguro',
+          cancelButtonText: 'Cancelar',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            addMarcaToList(values.marca).then((_res) => {
+              swalert.fire({
+                title: 'Existencias agregadas.',
+                icon: 'success',
+              });
+            })
+          }
+        })
+      } else {
+        Swal.showValidationMessage('Por favor, corrija los errores');
+      }
+    },
+  });
 }

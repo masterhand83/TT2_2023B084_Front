@@ -6,7 +6,7 @@ import { Container, Stack, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getListaProductos } from '../services';
 import AddMarcaModal from '../components/InventarioTable/AddMarcaModal';
-import { openAddProductoModal } from '../components/modales/inventarioModales';
+import { openAddProductoModal, openMarcaModal } from '../components/modales/inventarioModales';
 
 export function Inventario() {
   const [tableData, setTabledata] = useState([] as Producto[]);
@@ -42,7 +42,7 @@ export function Inventario() {
         </Tooltip>
         <Tooltip title="Agregar marca">
         <button
-          onClick={() => setAddMarcaOpen(true)}
+          onClick={() => openMarcaModal()}
           className="bg-teal-500 text-white px-4 rounded">
           <PlaylistAdd />
         </button>
