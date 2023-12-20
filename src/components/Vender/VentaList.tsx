@@ -86,7 +86,7 @@ export default function VentaList({
       onClick={() => hacerVenta(selectedList)}>
       <div className="font-bold">
         <h1 className="text-3xl">Precio</h1>
-        <h1 className="text-green-300">productos: {cantidadTotal}</h1>
+        <h1 className="text-green-300">Productos: {cantidadTotal}</h1>
       </div>
       <div className="ml-auto">
         <h1 className="text-5xl">$ {precioTotal}</h1>

@@ -515,11 +515,11 @@ export function openAddMermaModal(producto: Producto, reloader: () => void) {
       if (formikRef.isValid) {
         const values = formikRef.values;
         formModal.fire({
-          title: '¿Esta seguro?',
+          title: '¿Está seguro?',
           icon: 'warning',
-          text: 'Cuando Agrega merma se sustraen las existencias del producto, no se puede deshacer esta acción.',
+          text: 'Cuando agrega merma se sustraen las existencias del producto. No se puede deshacer esta acción.',
           showCancelButton: true,
-          confirmButtonText: 'Si, estoy seguro',
+          confirmButtonText: 'Sí, estoy seguro',
           cancelButtonText: 'Cancelar',
           reverseButtons: true
         }).then((result) => {
@@ -581,7 +581,7 @@ export function openAddStockModal(producto: Producto, reloader: () => void) {
                 <Stack spacing={2}>
                   <Box>
                     <p className='text-justify'>
-                      Aqui puede agregar existencias al producto, por ejemplo, si se
+                      Aquí puede agregar existencias al producto, por ejemplo, si se
                       recibió una nueva partida de productos o se corrigió un error
                       en el conteo.
                     </p>
@@ -645,11 +645,11 @@ export function openAddStockModal(producto: Producto, reloader: () => void) {
       if (formikRef.isValid) {
         const values = formikRef.values;
         formModal.fire({
-          title: '¿Esta seguro?',
+          title: '¿Está seguro?',
           icon: 'warning',
-          text: 'Cuando agrega existencias se suman a las existencias del producto, no se puede deshacer esta acción.',
+          text: 'Cuando agrega existencias se suman a las existencias del producto. No se puede deshacer esta acción.',
           showCancelButton: true,
-          confirmButtonText: 'Si, estoy seguro',
+          confirmButtonText: 'Sí, estoy seguro',
           cancelButtonText: 'Cancelar',
           reverseButtons: true
         }).then((result) => {
@@ -685,13 +685,13 @@ export function openAddStockModal(producto: Producto, reloader: () => void) {
 export function openDeleteProductoModal(producto: Producto, reloader: () => void) {
   const swalert = withReactContent(formModal);
   swalert.fire({
-    title: '¿Esta seguro?',
+    title: '¿Está seguro?',
     icon: 'warning',
-    text: 'Cuando elimina un producto, no se puede deshacer esta acción.',
+    text: 'Cuando elimina un producto. No se puede deshacer esta acción.',
     html: (
       <div>
         <p>
-          Cuando elimina un producto, no se puede deshacer esta acción.
+          Cuando elimina un producto. No se puede deshacer esta acción.
           Sin embargo el código sera conservado para futuras referencias.
         </p>
         <p>
@@ -700,7 +700,7 @@ export function openDeleteProductoModal(producto: Producto, reloader: () => void
       </div>
     ),
     showCancelButton: true,
-    confirmButtonText: 'Si, estoy seguro',
+    confirmButtonText: 'Sí, estoy seguro',
     cancelButtonText: 'Cancelar',
     reverseButtons: true,
   }).then((res) => {
@@ -748,7 +748,7 @@ export function openMarcaModal() {
                 <Stack spacing={2}>
                   <Box>
                     <p className='text-justify'>
-                      Aqui puede agregar una marca a la lista de marcas.
+                      Aquí puede agregar una marca a la lista de marcas.
                     </p>
                   </Box>
                   <Box>
@@ -803,25 +803,25 @@ export function openMarcaModal() {
       if (formikRef.isValid) {
         const values = formikRef.values;
         formModal.fire({
-          title: '¿Esta seguro?',
+          title: '¿Está seguro?',
           icon: 'warning',
-          text: 'Se agregara la marca a la lista de marcas, no se puede deshacer esta acción.',
+          text: 'Se agregará la marca a la lista de marcas. No se puede deshacer esta acción.',
           showCancelButton: true,
-          confirmButtonText: 'Si, estoy seguro',
+          confirmButtonText: 'Sí, estoy seguro',
           cancelButtonText: 'Cancelar',
           reverseButtons: true
         }).then((result) => {
           if (result.isConfirmed) {
             addMarcaToList(values.marca).then((_res) => {
               swalert.fire({
-                title: 'Marca Agregada',
+                title: 'Marca Agregada.',
                 icon: 'success',
               });
             })
           }
         })
       } else {
-        Swal.showValidationMessage('Por favor, corrija los errores');
+        Swal.showValidationMessage('Por favor, corrija los errores.');
       }
     },
   });

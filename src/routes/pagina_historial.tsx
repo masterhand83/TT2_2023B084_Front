@@ -64,7 +64,7 @@ function subsetDatesByWeeks(dates: DateObject[]): any[] {
     });
     // Sum up the existencias for each week
     const totalExistencias = datesInWeek.reduce(
-      (sum, curr) => sum + curr.existencias,
+      (_sum, curr) => curr.existencias,
       0
     );
     // Add weekly range to the list

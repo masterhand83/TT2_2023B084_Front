@@ -1,5 +1,6 @@
 import axios from 'axios';
 const DIRECCION_API = 'https://2023b084.azurewebsites.net/api/'
+// const DIRECCION_API = 'http://192.168.0.102:7071/api/'
 export async function getListaProductos() {
   const result = await axios.get(`${DIRECCION_API}get-lista-productos`)
   return result.data;

@@ -134,7 +134,7 @@ export default function TablaVentas(props: TablaVentasProps) {
               <span className="font-bold">Hora</span>
             </TableCell>
             <TableCell>
-              <span className="font-bold"># Productos</span>
+              <span className="font-bold">Núm. Productos</span>
               <SortButton onSortSelected={getFieldSorter('cantidad')} />
             </TableCell>
             <TableCell>
