@@ -123,7 +123,7 @@ export default function TablaVentas(props: TablaVentasProps) {
   };
   return (
     <TableContainer component={Paper}>
-      <Table>
+      <Table size='small'>
         <TableHead>
           <TableRow>
             <TableCell sortDirection={'desc'}>

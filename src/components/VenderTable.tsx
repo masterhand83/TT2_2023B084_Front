@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SearchBar from './utils/SearchBar';
 import TablaProductos from './Table/TablaProductos';
+import { Box, Typography } from '@mui/material';
 type VenderTableProps = {
   onProductoSelected: (_producto: Producto) => void;
   tableData: Producto[];
@@ -45,8 +46,18 @@ function VenderTable({
   });
   return (
     <>
+      <Box>
+        <Typography fontWeight={'bold'} variant="h4">
+          Vender
+        </Typography>
+        <Typography variant="h6">
+          Seleccione un producto para agregarlo a la venta Actual. Use el botón
+          verde para finalizar la venta.
+        </Typography>
+      </Box>
       <SearchBar onProductoSearch={setSearchData} />
       <TablaProductos
+        displayLength={12}
         loadingContent={loadingContent}
         searchData={searchData}
         onProductoSelected={onProductoSelected}

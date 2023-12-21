@@ -38,7 +38,7 @@ export function InventarioTable({
         tableData={tableData}
         loadingContent={loadingContent}
         searchData={searchParameter}
-        displayLength={5}
+        displayLength={6}
         renderActionButtons={(producto: Producto) => (
           <ProductoActionGroup
             producto={producto}

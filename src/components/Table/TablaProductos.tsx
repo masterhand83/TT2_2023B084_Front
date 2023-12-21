@@ -132,8 +132,8 @@ export default function TablaProductos(props: TablaProductosProps) {
     });
   };
   return (
-    <TableContainer component={Paper}>
-      <Table>
+    <TableContainer component={Paper} >
+      <Table size='small'>
         <TableHead>
           <TableRow>
             <TableCell sortDirection={'desc'}>

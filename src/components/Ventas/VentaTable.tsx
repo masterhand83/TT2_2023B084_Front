@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { DatePicker } from 'antd';
 import { formatNumber } from '../../utils/utilities';
 import TablaVentas from '../Table/TablaVentas';
+import { Typography } from '@mui/material';
 
 type VentaTableProps = {
   isLoading: boolean;
@@ -29,8 +30,16 @@ export function VentaTable({
     return ventaDate.isAfter(lowerLimit) && ventaDate.isBefore(upperLimit);
   };
   return (
-    <div className="flex flex-col items-center w-[100%] space-y-3">
-      <div className="flex space-x-2 items-center">
+    <div className="flex flex-col w-[100%] space-y-3">
+       <div>
+        <Typography fontWeight={'bold'} variant="h4">
+          Ventas
+        </Typography>
+        <Typography variant="h6">
+          Seleccione un rango de fechas para visualizar las ventas realizadas en ese periodo.
+        </Typography>
+       </div>
+      <div className="flex space-x-2 justify-center">
         <div>De:</div>
         <div>
           <DatePicker
@@ -48,7 +57,7 @@ export function VentaTable({
           />
         </div>
       </div>
-       <div className="flex items-center space-x-2">
+       <div className="flex items-center space-x-2 justify-center">
          <span>Suma total: </span>
          <div className="bg-green-500 text-white px-6 py-[0.1rem] rounded">
            $&nbsp;
@@ -60,6 +69,11 @@ export function VentaTable({
                }
            </span>
          </div>
+       </div>
+       <div>
+        <Typography variant="h6" component="h6">
+          Seleccione una venta para ver su detalle:
+        </Typography>
        </div>
       <TablaVentas
         upperLimit={upperLimit}

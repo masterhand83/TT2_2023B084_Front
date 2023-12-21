@@ -8,6 +8,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Typography,
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
@@ -46,7 +47,7 @@ export function PerdidaTable(_props: PerdidaTableProps) {
   const [lowerLimit, setLowerLimit] = useState<dayjs.Dayjs | null>(
     firstDateOfYear
   );
-  const rowsPerPage = 8;
+  const rowsPerPage = 5;
   const isInDateRange = (perdida: Perdida) => {
     if (!lowerLimit || !upperLimit) return false;
     const perdidaDate = dayjs(perdida.fecha);
@@ -60,13 +61,22 @@ export function PerdidaTable(_props: PerdidaTableProps) {
   };
   useEffect(() => {
     getMermas().then((mermas) => {
-      console.log(mermas)
+      console.log(mermas);
       setTabledata(mermas);
-    })
-  }, [])
+    });
+  }, []);
   return (
-    <div className="flex flex-col items-center w-[100%] space-y-3">
-      <div className="flex space-x-2 items-center">
+    <div className="flex flex-col w-[100%] space-y-3">
+      <div>
+        <Typography fontWeight={'bold'} variant="h4">
+          Pérdidas
+        </Typography>
+        <Typography variant="h6">
+          Seleccione un rango de fechas para visualizar la lista de merma de
+          productos que contribuyen a pérdidas de ese periodo.
+        </Typography>
+      </div>
+      <div className="flex space-x-2 items-center justify-center">
         <div>De:</div>
         <div>
           <DatePicker
@@ -84,11 +94,11 @@ export function PerdidaTable(_props: PerdidaTableProps) {
           />
         </div>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center justify-center space-x-2">
         <span>Pérdidas totales: </span>
         <div className="bg-red-500 text-white px-6 py-[0.1rem] rounded">
-          $&nbsp;<span>
-
+          $&nbsp;
+          <span>
             {tableData
               .filter(isInDateRange)
               .map((perdida) => perdida.total)
@@ -97,8 +107,13 @@ export function PerdidaTable(_props: PerdidaTableProps) {
           </span>
         </div>
       </div>
+       <div>
+        <Typography variant="h6" component="h6">
+          Lista de mermas para el periodo seleccionado:
+        </Typography>
+       </div>
       <TableContainer component={Paper}>
-        <Table>
+        <Table size='small'>
           <TableHead>
             <TableRow>
               <TableCell>
@@ -120,8 +135,8 @@ export function PerdidaTable(_props: PerdidaTableProps) {
           </TableHead>
           <TableBody>
             {tableData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .filter(isInDateRange)
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .sort((a, b) => {
                 const dateA = new Date(a.fecha);
                 const dateB = new Date(b.fecha);
@@ -129,15 +144,12 @@ export function PerdidaTable(_props: PerdidaTableProps) {
               })
               .map((perdida) => {
                 return (
-                  <TableRow
-                    className="hover:bg-blue-50"
-                    key={perdida.id}
-                    >
+                  <TableRow className="hover:bg-blue-50" key={perdida.id}>
                     <TableCell>{getFormatedFecha(perdida.fecha)}</TableCell>
                     <TableCell>{getFechaHours(perdida.fecha)}</TableCell>
                     <TableCell>{perdida.producto.nombre}</TableCell>
                     <TableCell>{perdida.cantidad}</TableCell>
-                    <TableCell>$ {(perdida.total).toFixed(2)}</TableCell>
+                    <TableCell>$ {perdida.total.toFixed(2)}</TableCell>
                   </TableRow>
                 );
               })}

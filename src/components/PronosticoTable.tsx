@@ -5,6 +5,7 @@ import { getListaProductos } from '../services';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './utils/SearchBar';
 import TablaProductos from './Table/TablaProductos';
+import { Box, Typography } from '@mui/material';
 //const dataSource: readonly Producto[] = productosData;
 
 export function PronosticoTable() {
@@ -43,6 +44,16 @@ export function PronosticoTable() {
   const navigate = useNavigate();
   return (
     <div className="w-[75%] space-y-2">
+      <Box sx={{mb:1}}>
+        <Typography fontWeight={'bold'} variant="h4">
+          Pronóstico
+        </Typography>
+        <Typography variant="h6" textAlign={'justify'}>
+          De la lista de productos en inventario, seleccione una acción para ver
+          el historial de existencias de un producto o para generar su pronóstico de
+          ventas.
+        </Typography>
+      </Box>
       <div className="flex space-x-2 items-center">
         <SearchBar onProductoSearch={onProductoSearch} />
       </div>
