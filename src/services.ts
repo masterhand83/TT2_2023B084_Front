@@ -1,8 +1,8 @@
 import axios from 'axios';
-console.log(import.meta.env)
-const DIRECCION_API = import.meta.env.VITE_SERVER_URL || 'httphttps://2023b084.azurewebsites.net/api/'
-console.log(DIRECCION_API)
-// const DIRECCION_API = 'http://192.168.0.102:7071/api/'
+// console.log(import.meta.env)
+// const DIRECCION_API = import.meta.env.VITE_SERVER_URL || 'https://2023b084.azurewebsites.net/api/'
+// console.log(DIRECCION_API)
+const DIRECCION_API = 'https://2023b084.azurewebsites.net/api/'
 export async function getListaProductos() {
   const result = await axios.get(`${DIRECCION_API}get-lista-productos`)
   return result.data;
