@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { getExistencias } from '../services';
 import { HistorialTable } from '../components/PronosticoTable/HistorialTable';
 import { Box, Card, Grid, Stack, Typography } from '@mui/material';
+import { sortBy } from 'lodash';
 const dataSource: PronosticoVentas = [
   {
     periodoInicio: '2023-02-12',
@@ -63,10 +64,9 @@ function subsetDatesByWeeks(dates: DateObject[]): any[] {
       return date <= startOfWeek && date > endOfWeek;
     });
     // Sum up the existencias for each week
-    const totalExistencias = datesInWeek.reduce(
-      (_sum, curr) => curr.existencias,
-      0
-    );
+    const sortedExistencias = sortBy(datesInWeek, [{field: 'fecha', direction: 'asc'}]);
+    console.log(sortedExistencias);
+    const totalExistencias = datesInWeek[0]?.existencias || 0;
     // Add weekly range to the list
     weeklyRanges.push({
       week: i + 1,
