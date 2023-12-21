@@ -222,7 +222,7 @@ export function PaginaPronostico() {
                   fontSize={'1.1rem'}
                   className="text-slate-700">
                   Es el pronóstico de las ventas en razón de unidades del
-                  producto que tendrá el usuario en las siguientes 4 semanas.
+                  producto que tendrá el usuario en las siguientes 5 semanas.
                 </Typography>
               </Card>
               <HistorialTable

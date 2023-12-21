@@ -68,10 +68,10 @@ export function PerdidaTable(_props: PerdidaTableProps) {
   return (
     <div className="flex flex-col w-[100%] space-y-3">
       <div>
-        <Typography fontWeight={'bold'} variant="h4">
+        <Typography fontWeight={'bold'} variant="h4" fontSize={'1.5rem'}>
           Pérdidas
         </Typography>
-        <Typography variant="h6">
+        <Typography variant="h6" fontSize={'0.875rem'}>
           Seleccione un rango de fechas para visualizar la lista de merma de
           productos que contribuyen a pérdidas de ese periodo.
         </Typography>
@@ -108,7 +108,7 @@ export function PerdidaTable(_props: PerdidaTableProps) {
         </div>
       </div>
        <div>
-        <Typography variant="h6" component="h6">
+        <Typography variant="h6" component="h6" fontSize={'0.875rem'}>
           Lista de mermas para el periodo seleccionado:
         </Typography>
        </div>

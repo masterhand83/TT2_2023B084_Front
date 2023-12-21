@@ -32,10 +32,10 @@ export function VentaTable({
   return (
     <div className="flex flex-col w-[100%] space-y-3">
        <div>
-        <Typography fontWeight={'bold'} variant="h4">
+        <Typography fontWeight={'bold'} variant="h4" fontSize={'1.5rem'}>
           Ventas
         </Typography>
-        <Typography variant="h6">
+        <Typography variant="h6" fontSize={'0.875rem'}>
           Seleccione un rango de fechas para visualizar las ventas realizadas en ese periodo.
         </Typography>
        </div>
@@ -71,7 +71,7 @@ export function VentaTable({
          </div>
        </div>
        <div>
-        <Typography variant="h6" component="h6">
+        <Typography variant="h6" component="h6" fontSize={'0.875rem'}>
           Seleccione una venta para ver su detalle:
         </Typography>
        </div>

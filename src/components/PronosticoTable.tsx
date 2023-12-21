@@ -45,10 +45,10 @@ export function PronosticoTable() {
   return (
     <div className="w-[75%] space-y-2">
       <Box sx={{mb:1}}>
-        <Typography fontWeight={'bold'} variant="h4">
+        <Typography fontWeight={'bold'} variant="h4" fontSize={'1.5rem'}>
           Pronóstico
         </Typography>
-        <Typography variant="h6" textAlign={'justify'}>
+        <Typography variant="h6" textAlign={'justify'} fontSize={'0.875rem'}>
           De la lista de productos en inventario, seleccione una acción para ver
           el historial de existencias de un producto o para generar su pronóstico de
           ventas.

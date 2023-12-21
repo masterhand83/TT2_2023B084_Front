@@ -30,10 +30,10 @@ export function Inventario() {
   return (
     <Container sx={{ marginTop: '5rem' }}>
       <Box sx={{mb:1}}>
-        <Typography fontWeight={'bold'} variant="h4">
+        <Typography fontWeight={'bold'} variant="h4" fontSize={'1.5rem'}>
           Inventario
         </Typography>
-        <Typography variant="h6" textAlign={'justify'}>
+        <Typography variant="h6" textAlign={'justify'} fontSize={'0.875rem'}>
           Lista de productos registrados en su inventario. Para modificar la
           información de algún producto seleccione alguno de los botones en la
           columna "Acciones".

@@ -47,10 +47,10 @@ function VenderTable({
   return (
     <>
       <Box>
-        <Typography fontWeight={'bold'} variant="h4">
+        <Typography fontWeight={'bold'} variant="h4" fontSize={'1.5rem'}>
           Vender
         </Typography>
-        <Typography variant="h6">
+        <Typography variant="h6" fontSize={'0.875rem'}>
           Seleccione un producto para agregarlo a la venta Actual. Use el botón
           verde para finalizar la venta.
         </Typography>
