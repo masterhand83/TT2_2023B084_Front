@@ -51,7 +51,7 @@ function VenderTable({
           Vender
         </Typography>
         <Typography variant="h6" fontSize={'0.875rem'}>
-          Seleccione un producto para agregarlo a la venta Actual. Use el botón
+          Seleccione un producto para agregarlo a la venta actual. Use el botón
           verde para finalizar la venta.
         </Typography>
       </Box>
